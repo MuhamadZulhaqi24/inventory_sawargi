@@ -61,9 +61,6 @@ class ProductForm extends Component
         $this->reset(['sku', 'name', 'category_id', 'unit_id', 'purchase_price', 'selling_price', 'quantity', 'min_stock', 'description', 'notes', 'product', 'isEditing']);
         $this->is_active = true;
 
-        // Reload options to ensure freshness
-        $this->loadOptions();
-
         $this->dispatch('open-modal', name: 'product-form-modal');
     }
 
@@ -84,9 +81,6 @@ class ProductForm extends Component
         $this->notes = $product->notes ?? '';
 
         $this->isEditing = true;
-
-        // Reload options
-        $this->loadOptions();
 
         $this->dispatch('open-modal', name: 'product-form-modal');
     }

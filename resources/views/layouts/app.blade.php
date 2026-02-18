@@ -22,6 +22,8 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <link rel="stylesheet" href="https://unpkg.com/nprogress@0.2.0/nprogress.css">
+        <script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
         @livewireStyles
     </head>
     <body class="font-sans antialiased bg-background text-foreground">
@@ -50,6 +52,24 @@
         @livewireScripts
         <script>
             document.addEventListener('livewire:initialized', () => {
+                NProgress.configure({ showSpinner: false });
+
+                Livewire.hook('request', ({ respond, succeed, fail }) => {
+                    NProgress.start();
+
+                    respond(() => {
+                        NProgress.done();
+                    });
+
+                    succeed(() => {
+                        NProgress.done();
+                    });
+
+                    fail(() => {
+                        NProgress.done();
+                    });
+                });
+
                 Livewire.on('open-print-window', (event) => {
                     let url = event.url;
                     if (url) {
