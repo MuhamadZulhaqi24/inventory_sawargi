@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\User;
 use App\DTOs\UserData;
 use App\Models\Purchase;
+use App\Models\FinanceTransaction;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -19,7 +20,7 @@ class UserService
                 'name' => $data->name,
                 'username' => $data->username,
                 'email' => $data->email,
-                'password' => Hash::make($data->password),
+                'password' => $data->password,
             ]);
         });
     }
@@ -34,7 +35,7 @@ class UserService
             ];
 
             if ($data->password) {
-                $updateData['password'] = Hash::make($data->password);
+                $updateData['password'] = $data->password;
             }
 
             $user->update($updateData);

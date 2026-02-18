@@ -34,7 +34,7 @@ class UserForm extends Component
     public function handleOpenModal($name): void
     {
         if ($name === 'user-form-modal' && !$this->isEditing) {
-            $this->create(); // Ensure we reset if opening for create
+            $this->reset(['user', 'isEditing', 'name', 'username', 'email', 'password', 'password_confirmation']);
         }
     }
 
