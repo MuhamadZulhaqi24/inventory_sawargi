@@ -108,7 +108,27 @@
             </div>
 
             <!-- User Auth Buttons -->
-            <div class="flex gap-2">
+            <div class="flex items-center gap-4">
+                <button
+                    x-data="{
+                        theme: localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'),
+                        toggleTheme() {
+                            this.theme = this.theme === 'dark' ? 'light' : 'dark';
+                            localStorage.setItem('theme', this.theme);
+                            if (this.theme === 'dark') {
+                                document.documentElement.classList.add('dark');
+                            } else {
+                                document.documentElement.classList.remove('dark');
+                            }
+                        }
+                    }"
+                    @click="toggleTheme()"
+                    class="rounded-md p-2 text-muted-foreground hover:bg-muted hover:text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                >
+                    <x-heroicon-o-sun x-show="theme === 'dark'" class="h-5 w-5" style="display: none;" />
+                    <x-heroicon-o-moon x-show="theme === 'light'" class="h-5 w-5" />
+                </button>
+
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 gap-2">
