@@ -90,7 +90,7 @@
                     <x-input-label for="purchase_price" value="Purchase Price (Rp)" />
                     <x-currency-input
                         id="purchase_price"
-                        wire:model.live.debounce.500ms="purchase_price"
+                        wire:model.blur="purchase_price"
                         placeholder="0"
                         required
                     />
@@ -102,7 +102,7 @@
                     <x-input-label for="selling_price" value="Selling Price (Rp)" />
                     <x-currency-input
                         id="selling_price"
-                        wire:model.live.debounce.500ms="selling_price"
+                        wire:model.blur="selling_price"
                         placeholder="0"
                         required
                     />
