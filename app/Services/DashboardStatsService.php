@@ -19,6 +19,7 @@ class DashboardStatsService
     public function getSalesStats(Carbon $startDate, Carbon $endDate, string $periodKey): array
     {
         $cacheKey = "dashboard_sales_{$periodKey}_{$startDate->format('Ymd')}_{$endDate->format('Ymd')}";
+        DashboardCacheService::trackKey($cacheKey);
 
         return Cache::remember($cacheKey, now()->addMinutes(15), function () use ($startDate, $endDate) {
             $sales = Sale::whereBetween('sale_date', [$startDate, $endDate])
@@ -53,6 +54,7 @@ class DashboardStatsService
     public function getCashFlowStats(Carbon $startDate, Carbon $endDate, string $periodKey): array
     {
         $cacheKey = "dashboard_cashflow_{$periodKey}_{$startDate->format('Ymd')}_{$endDate->format('Ymd')}";
+        DashboardCacheService::trackKey($cacheKey);
 
         return Cache::remember($cacheKey, now()->addMinutes(15), function () use ($startDate, $endDate) {
             // Calculate Income and Expense based on Transaction Category type.
@@ -96,6 +98,7 @@ class DashboardStatsService
     public function getTopProducts(Carbon $startDate, Carbon $endDate, int $limit = 5): array
     {
          $cacheKey = "dashboard_top_products_{$startDate->format('Ymd')}_{$endDate->format('Ymd')}";
+         DashboardCacheService::trackKey($cacheKey);
 
          return Cache::remember($cacheKey, now()->addMinutes(30), function () use ($startDate, $endDate, $limit) {
             return SaleItem::select('product_id', DB::raw('SUM(quantity) as total_qty'))
@@ -139,6 +142,7 @@ class DashboardStatsService
     public function getSalesTrend(Carbon $startDate, Carbon $endDate): array
     {
          $cacheKey = "dashboard_sales_trend_{$startDate->format('Ymd')}_{$endDate->format('Ymd')}";
+         DashboardCacheService::trackKey($cacheKey);
 
          return Cache::remember($cacheKey, now()->addMinutes(30), function () use ($startDate, $endDate) {
             $data = Sale::selectRaw('DATE(sale_date) as date, SUM(total) as total')
@@ -169,6 +173,7 @@ class DashboardStatsService
     public function getCashFlowTrend(Carbon $startDate, Carbon $endDate): array
     {
          $cacheKey = "dashboard_cashflow_trend_{$startDate->format('Ymd')}_{$endDate->format('Ymd')}";
+         DashboardCacheService::trackKey($cacheKey);
 
          return Cache::remember($cacheKey, now()->addMinutes(30), function () use ($startDate, $endDate) {
             $transactions = FinanceTransaction::with('category')

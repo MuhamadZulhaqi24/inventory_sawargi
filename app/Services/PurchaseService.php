@@ -15,7 +15,8 @@ use App\Exceptions\PurchaseException;
 class PurchaseService
 {
     public function __construct(
-        protected FinanceTransactionService $financeService
+        protected FinanceTransactionService $financeService,
+        protected DashboardCacheService $dashboardCacheService
     ) {
     }
 
@@ -44,6 +45,8 @@ class PurchaseService
                 ]);
 
                 $this->syncItems($purchase, $data->items);
+
+                $this->dashboardCacheService->clearDashboardCache();
 
                 return $purchase;
 
@@ -82,6 +85,8 @@ class PurchaseService
                 $purchase->items()->delete();
                 $this->syncItems($purchase, $data->items);
 
+                $this->dashboardCacheService->clearDashboardCache();
+
                 return $purchase->refresh();
 
             } catch (Exception $e) {
@@ -115,6 +120,8 @@ class PurchaseService
                 $purchase->items()->delete();
                 $purchase->delete();
 
+                $this->dashboardCacheService->clearDashboardCache();
+
             } catch (Exception $e) {
                 if ($e instanceof PurchaseException)
                     throw $e;
@@ -140,6 +147,7 @@ class PurchaseService
             }
 
             $purchase->update(['status' => PurchaseStatus::ORDERED]);
+            $this->dashboardCacheService->clearDashboardCache();
         });
     }
 
@@ -209,6 +217,7 @@ class PurchaseService
             }
 
             $purchase->update(['status' => PurchaseStatus::RECEIVED]);
+            $this->dashboardCacheService->clearDashboardCache();
         });
     }
 
@@ -236,6 +245,7 @@ class PurchaseService
             $purchase->update(['status' => PurchaseStatus::PAID]);
 
             $this->financeService->recordExpenseFromPurchase($purchase);
+            $this->dashboardCacheService->clearDashboardCache();
         });
     }
 
@@ -254,6 +264,7 @@ class PurchaseService
             $purchase->update(['status' => PurchaseStatus::CANCELLED]);
 
             $this->financeService->voidTransaction($purchase);
+            $this->dashboardCacheService->clearDashboardCache();
         });
     }
 
@@ -270,6 +281,7 @@ class PurchaseService
             }
 
             $purchase->update(['status' => PurchaseStatus::DRAFT]);
+            $this->dashboardCacheService->clearDashboardCache();
         });
     }
 

@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\DB;
 class SaleService
 {
     public function __construct(
-        protected FinanceTransactionService $financeService
+        protected FinanceTransactionService $financeService,
+        protected DashboardCacheService $dashboardCacheService
     ) {
     }
 
@@ -99,6 +100,8 @@ class SaleService
                     $this->financeService->recordIncomeFromSale($sale);
                 }
 
+                $this->dashboardCacheService->clearDashboardCache();
+
                 return $sale;
 
             } catch (Exception $e) {
@@ -142,6 +145,8 @@ class SaleService
                 // Void Finance
                 $this->financeService->voidTransaction($sale);
 
+                $this->dashboardCacheService->clearDashboardCache();
+
                 return $sale;
 
             } catch (Exception $e) {
@@ -173,6 +178,8 @@ class SaleService
 
             // Sync Finance
             $this->financeService->recordIncomeFromSale($sale);
+
+            $this->dashboardCacheService->clearDashboardCache();
 
             return $sale;
         });
@@ -212,6 +219,8 @@ class SaleService
             // Restore to PENDING
             $sale->update(['status' => SaleStatus::PENDING]);
 
+            $this->dashboardCacheService->clearDashboardCache();
+
             // No Finance Sync needed as it goes to PENDING
 
             return $sale;
@@ -238,6 +247,8 @@ class SaleService
             // Manually delete items first due to restrictOnDelete constraint
             $sale->items()->delete();
             $sale->delete();
+
+            $this->dashboardCacheService->clearDashboardCache();
         });
     }
 
