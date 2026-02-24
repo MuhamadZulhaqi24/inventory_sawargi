@@ -160,9 +160,9 @@
                                     CASH
                                 </button>
                                 <button
-                                    @click="payment.method = 'credit'"
+                                    @click="payment.method = 'transfer'"
                                     class="px-4 py-2 text-sm font-medium rounded-md border"
-                                    :class="payment.method === 'credit' ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'"
+                                    :class="payment.method === 'transfer' ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'"
                                 >
                                     TRANSFER
                                 </button>
