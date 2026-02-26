@@ -17,7 +17,7 @@
                         <!-- Dashboard Link -->
                         <a href="{{ route('dashboard') }}" class="group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-50 {{ request()->routeIs('dashboard') ? 'bg-accent/50 text-accent-foreground' : 'bg-background' }}">
                             <x-heroicon-o-squares-2x2 class="mr-2 h-4 w-4" />
-                            Dashboard
+                            {{ __('messages.dashboard') }}
                         </a>
 
                         <!-- Sales Dropdown -->
@@ -109,6 +109,21 @@
 
             <!-- User Auth Buttons -->
             <div class="flex items-center gap-4">
+                <!-- Language Switcher -->
+                <div class="flex items-center">
+                    @if(app()->getLocale() == 'en')
+                        <a href="{{ route('language.switch', 'id') }}" class="text-xs font-bold px-2 py-1 rounded-md hover:bg-muted text-muted-foreground flex items-center gap-1">
+                            <span class="text-foreground">EN</span>
+                            <span class="opacity-50">ID</span>
+                        </a>
+                    @else
+                        <a href="{{ route('language.switch', 'en') }}" class="text-xs font-bold px-2 py-1 rounded-md hover:bg-muted text-muted-foreground flex items-center gap-1">
+                            <span class="opacity-50">EN</span>
+                            <span class="text-foreground">ID</span>
+                        </a>
+                    @endif
+                </div>
+
                 <button
                     x-data="{
                         theme: localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'),
@@ -204,6 +219,20 @@
                             <x-application-logo class="w-8 h-8 fill-current text-foreground" />
                             <span class="text-lg font-semibold">{{ config('app.name') }}</span>
                         </a>
+
+                        <div class="flex items-center gap-2 mr-2">
+                            <!-- Language Switcher Mobile -->
+                             @if(app()->getLocale() == 'en')
+                                <a href="{{ route('language.switch', 'id') }}" class="text-xs font-bold px-2 py-1 rounded-md bg-muted text-muted-foreground">
+                                    <span class="text-foreground">EN</span> / <span class="opacity-50">ID</span>
+                                </a>
+                            @else
+                                <a href="{{ route('language.switch', 'en') }}" class="text-xs font-bold px-2 py-1 rounded-md bg-muted text-muted-foreground">
+                                    <span class="opacity-50">EN</span> / <span class="text-foreground">ID</span>
+                                </a>
+                            @endif
+                        </div>
+
                         <button @click="mobileMenuOpen = false" class="rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
                             <span class="sr-only">Close</span>
                             <x-heroicon-o-x-mark class="h-4 w-4" />
@@ -211,7 +240,7 @@
                     </div>
 
                     <div class="flex w-full flex-col gap-4">
-                        <a href="{{ route('dashboard') }}" class="text-md font-semibold hover:underline {{ request()->routeIs('dashboard') ? 'text-primary' : '' }}">Dashboard</a>
+                        <a href="{{ route('dashboard') }}" class="text-md font-semibold hover:underline {{ request()->routeIs('dashboard') ? 'text-primary' : '' }}">{{ __('messages.dashboard') }}</a>
 
                         <!-- Mobile Sales Accordion -->
                         <div x-data="{ expanded: {{ request()->routeIs(['sales.*', 'customers.*']) ? 'true' : 'false' }} }" class="border-b-0">

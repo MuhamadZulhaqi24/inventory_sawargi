@@ -12,6 +12,13 @@ Route::get('/', function () {
     return redirect()->route('dashboard');
 });
 
+Route::get('language/{locale}', function ($locale) {
+    if (in_array($locale, ['id', 'en'])) {
+        session()->put('locale', $locale);
+    }
+    return redirect()->back();
+})->name('language.switch');
+
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
