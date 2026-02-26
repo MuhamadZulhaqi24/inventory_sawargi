@@ -2,8 +2,8 @@
     <!-- Filter Section -->
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-card p-4 rounded-lg border border-border shadow-sm">
         <div>
-            <h2 class="text-lg font-semibold text-foreground">Overview</h2>
-            <p class="text-sm text-muted-foreground">Monitor your business performance at a glance.</p>
+            <h2 class="text-lg font-semibold text-foreground">{{ __('messages.overview') }}</h2>
+            <p class="text-sm text-muted-foreground">{{ __('messages.overview_subtitle') }}</p>
         </div>
         <div class="flex flex-wrap items-center gap-2">
             <!-- Period Selector -->
@@ -34,7 +34,7 @@
                      }
                  }"
             >
-                <input x-ref="picker" type="text" class="h-9 w-[240px] rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring" placeholder="Select date range...">
+                <input x-ref="picker" type="text" class="h-9 w-[240px] rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring" placeholder="{{ __('messages.select_date_range') }}">
             </div>
 
              <!-- Refresh Button -->
@@ -49,7 +49,7 @@
         <!-- Total Sales -->
         <div class="rounded-xl border bg-card text-card-foreground shadow-sm">
             <div class="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
-                <h3 class="tracking-tight text-sm font-medium">Total Sales</h3>
+                <h3 class="tracking-tight text-sm font-medium">{{ __('messages.total_sales') }}</h3>
                 <x-heroicon-o-banknotes class="h-4 w-4 text-muted-foreground" />
             </div>
             <div class="p-6 pt-0">
@@ -57,7 +57,7 @@
                     {{ 'Rp ' . number_format($stats['total_sales'] ?? 0, 0, ',', '.') }}
                 </div>
                 <p class="text-xs text-muted-foreground">
-                    {{ $stats['sales_count'] ?? 0 }} transactions
+                    {{ $stats['sales_count'] ?? 0 }} {{ __('messages.transactions') }}
                 </p>
             </div>
         </div>
@@ -65,7 +65,7 @@
         <!-- Gross Profit -->
         <div class="rounded-xl border bg-card text-card-foreground shadow-sm">
             <div class="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
-                <h3 class="tracking-tight text-sm font-medium">Gross Profit</h3>
+                <h3 class="tracking-tight text-sm font-medium">{{ __('messages.gross_profit') }}</h3>
                 <x-heroicon-o-arrow-trending-up class="h-4 w-4 text-muted-foreground" />
             </div>
             <div class="p-6 pt-0">
@@ -73,7 +73,7 @@
                     {{ 'Rp ' . number_format($stats['gross_profit'] ?? 0, 0, ',', '.') }}
                 </div>
                 <p class="text-xs text-muted-foreground">
-                    Estimated based on COGS
+                    {{ __('messages.estimated_cogs') }}
                 </p>
             </div>
         </div>
@@ -81,7 +81,7 @@
         <!-- Net Cash Flow -->
         <div class="rounded-xl border bg-card text-card-foreground shadow-sm">
             <div class="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
-                <h3 class="tracking-tight text-sm font-medium">Net Cash Flow</h3>
+                <h3 class="tracking-tight text-sm font-medium">{{ __('messages.net_cash_flow') }}</h3>
                  <x-heroicon-o-currency-dollar class="h-4 w-4 text-muted-foreground" />
             </div>
             <div class="p-6 pt-0">
@@ -102,7 +102,7 @@
          <!-- Low Stock Alert -->
          <div class="rounded-xl border bg-card text-card-foreground shadow-sm">
             <div class="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
-                <h3 class="tracking-tight text-sm font-medium">Low Stock Alert</h3>
+                <h3 class="tracking-tight text-sm font-medium">{{ __('messages.low_stock_alert') }}</h3>
                 <x-heroicon-o-exclamation-triangle class="h-4 w-4 text-orange-500" />
             </div>
             <div class="p-6 pt-0">
@@ -110,19 +110,19 @@
                     {{ count($lowStockProducts) }}
                 </div>
                 <p class="text-xs text-muted-foreground">
-                    Items below minimum stock
+                    {{ __('messages.below_min_stock') }}
                 </p>
             </div>
         </div>
     </div>
 
     <!-- Charts Section -->
-    <div class="grid gap-4 md:grid-cols-1 lg:grid-cols-3">
+    <div class="grid gap-4 grid-cols-1 lg:grid-cols-3">
         <!-- Sales Trend -->
-        <div class="col-span-2 rounded-xl border bg-card text-card-foreground shadow-sm">
+        <div class="lg:col-span-2 rounded-xl border bg-card text-card-foreground shadow-sm">
             <div class="p-6 flex flex-col space-y-1.5 pb-2">
-                <h3 class="font-semibold leading-none tracking-tight">Sales Trend</h3>
-                <p class="text-sm text-muted-foreground">Daily sales performance over the selected period.</p>
+                <h3 class="font-semibold leading-none tracking-tight">{{ __('messages.sales_trend') }}</h3>
+                <p class="text-sm text-muted-foreground">{{ __('messages.sales_trend_subtitle') }}</p>
             </div>
             <div class="p-6 pt-0" wire:ignore>
                 <div id="salesChart" class="w-full h-[300px]"></div>
@@ -132,8 +132,8 @@
         <!-- Cash Flow -->
         <div class="rounded-xl border bg-card text-card-foreground shadow-sm">
             <div class="p-6 flex flex-col space-y-1.5 pb-2">
-                <h3 class="font-semibold leading-none tracking-tight">Income vs Expense</h3>
-                <p class="text-sm text-muted-foreground">Financial overview.</p>
+                <h3 class="font-semibold leading-none tracking-tight">{{ __('messages.income_vs_expense') }}</h3>
+                <p class="text-sm text-muted-foreground">{{ __('messages.financial_overview') }}</p>
             </div>
             <div class="p-6 pt-0" wire:ignore>
                 <div id="cashFlowChart" class="w-full h-[300px]"></div>
@@ -141,21 +141,21 @@
         </div>
     </div>
 
-    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+    <div class="grid gap-4 grid-cols-1 lg:grid-cols-7">
         <!-- Recent Sales -->
-        <div class="col-span-4 rounded-xl border bg-card text-card-foreground shadow-sm">
+        <div class="lg:col-span-4 rounded-xl border bg-card text-card-foreground shadow-sm">
             <div class="p-6 flex flex-col space-y-1.5">
-                <h3 class="font-semibold leading-none tracking-tight">Recent Sales</h3>
-                <p class="text-sm text-muted-foreground">Latest transactions.</p>
+                <h3 class="font-semibold leading-none tracking-tight">{{ __('messages.recent_sales') }}</h3>
+                <p class="text-sm text-muted-foreground">{{ __('messages.latest_transactions') }}</p>
             </div>
             <div class="p-6 pt-0">
                 <div class="relative w-full overflow-auto">
                     <table class="w-full caption-bottom text-sm">
                         <thead class="[&_tr]:border-b">
                             <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
-                                <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Invoice</th>
-                                <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Customer</th>
-                                <th class="h-12 px-4 text-right align-middle font-medium text-muted-foreground">Amount</th>
+                                <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground">{{ __('messages.invoice') }}</th>
+                                <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground">{{ __('messages.customer') }}</th>
+                                <th class="h-12 px-4 text-right align-middle font-medium text-muted-foreground">{{ __('messages.amount') }}</th>
                             </tr>
                         </thead>
                         <tbody class="[&_tr:last-child]:border-0">
@@ -167,7 +167,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="3" class="p-4 text-center text-muted-foreground">No recent sales.</td>
+                                    <td colspan="3" class="p-4 text-center text-muted-foreground">{{ __('messages.no_recent_sales') }}</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -177,10 +177,10 @@
         </div>
 
         <!-- Top Selling Products -->
-        <div class="col-span-3 rounded-xl border bg-card text-card-foreground shadow-sm">
+        <div class="lg:col-span-3 rounded-xl border bg-card text-card-foreground shadow-sm">
             <div class="p-6 flex flex-col space-y-1.5">
-                <h3 class="font-semibold leading-none tracking-tight">Top Products</h3>
-                <p class="text-sm text-muted-foreground">Best selling items this period.</p>
+                <h3 class="font-semibold leading-none tracking-tight">{{ __('messages.top_products') }}</h3>
+                <p class="text-sm text-muted-foreground">{{ __('messages.best_selling_items') }}</p>
             </div>
              <div class="p-6 pt-0">
                 <div class="space-y-4">
@@ -191,11 +191,11 @@
                                 <p class="text-xs text-muted-foreground">{{ $product['sku'] }}</p>
                             </div>
                             <div class="font-medium">
-                                {{ $product['total_sold'] }} sold
+                                {{ $product['total_sold'] }} {{ __('messages.sold') }}
                             </div>
                         </div>
                     @empty
-                         <p class="text-sm text-muted-foreground text-center">No sales data.</p>
+                         <p class="text-sm text-muted-foreground text-center">{{ __('messages.no_sales_data') }}</p>
                     @endforelse
                 </div>
             </div>
@@ -213,7 +213,7 @@
             // Sales Chart
             const salesOptions = {
                 series: [{
-                    name: 'Sales',
+                    name: "{{ __('messages.sales') }}",
                     data: data.sales.data
                 }],
                 chart: {
@@ -266,10 +266,10 @@
             // Cash Flow Chart
             const cashFlowOptions = {
                 series: [{
-                    name: 'Income',
+                    name: "{{ __('messages.income') }} (In)",
                     data: data.cashFlow.income
                 }, {
-                    name: 'Expense',
+                    name: "{{ __('messages.expense') }} (Out)",
                     data: data.cashFlow.expense
                 }],
                 chart: {

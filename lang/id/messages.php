@@ -1,0 +1,47 @@
+<?php
+
+return [
+    'dashboard' => 'Dasbor',
+    'sales' => 'Penjualan',
+    'purchases' => 'Pembelian',
+    'finance' => 'Keuangan',
+    'users' => 'Pengguna',
+    'products' => 'Produk',
+    'settings' => 'Pengaturan',
+    'profile' => 'Profil',
+    'logout' => 'Keluar',
+
+    // Periods
+    'today' => 'Hari Ini',
+    'yesterday' => 'Kemarin',
+    'this_week' => 'Minggu Ini',
+    'this_month' => 'Bulan Ini',
+    'last_month' => 'Bulan Lalu',
+    'custom_period' => 'Periode Kustom',
+
+    // Dashboard specific
+    'overview' => 'Ikhtisar',
+    'overview_subtitle' => 'Pantau kinerja bisnis Anda secara sekilas.',
+    'total_sales' => 'Total Penjualan',
+    'gross_profit' => 'Laba Kotor',
+    'net_cash_flow' => 'Arus Kas Bersih',
+    'low_stock_alert' => 'Peringatan Stok Rendah',
+    'sales_trend' => 'Tren Penjualan',
+    'sales_trend_subtitle' => 'Kinerja penjualan harian selama periode yang dipilih.',
+    'income_vs_expense' => 'Pendapatan vs Pengeluaran',
+    'financial_overview' => 'Ikhtisar keuangan.',
+    'recent_sales' => 'Penjualan Terbaru',
+    'latest_transactions' => 'Transaksi terakhir.',
+    'top_products' => 'Produk Terlaris',
+    'best_selling_items' => 'Item terlaris periode ini.',
+    'transactions' => 'transaksi',
+    'estimated_cogs' => 'Estimasi berdasarkan HPP',
+    'below_min_stock' => 'Item di bawah stok minimum',
+    'invoice' => 'Faktur',
+    'customer' => 'Pelanggan',
+    'amount' => 'Jumlah',
+    'no_recent_sales' => 'Tidak ada penjualan terbaru.',
+    'no_sales_data' => 'Tidak ada data penjualan.',
+    'sold' => 'terjual',
+    'select_date_range' => 'Pilih rentang tanggal...',
+];
