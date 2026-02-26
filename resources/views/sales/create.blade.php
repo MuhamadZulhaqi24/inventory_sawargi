@@ -15,7 +15,7 @@
                 <div class="relative z-20 mb-2">
                     <select
                         x-ref="productSelect"
-                        placeholder="Search Products (Name or SKU) [F1]..."
+                        placeholder="{{ __('messages.search_products') }}"
                         autocomplete="off"
                     ></select>
                 </div>
@@ -26,13 +26,13 @@
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50 sticky top-0 z-10">
                                 <tr>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
-                                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
-                                    <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Qty</th>
-                                    <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Unit</th>
-                                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Discount</th>
-                                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
-                                    <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('messages.product') }}</th>
+                                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('messages.price') }}</th>
+                                    <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('messages.qty') }}</th>
+                                    <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('messages.unit') }}</th>
+                                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('messages.discount') }}</th>
+                                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('messages.total') }}</th>
+                                    <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('messages.action') }}</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
@@ -80,8 +80,8 @@
                                         <td colspan="7" class="px-6 py-20 text-center text-gray-500">
                                             <div class="flex flex-col items-center justify-center">
                                                 <svg class="w-12 h-12 text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                                                <p class="text-base font-medium">Cart is empty</p>
-                                                <p class="text-sm text-gray-400">Search products above to start transaction</p>
+                                                <p class="text-base font-medium">{{ __('messages.cart_empty') }}</p>
+                                                <p class="text-sm text-gray-400">{{ __('messages.start_transaction') }}</p>
                                             </div>
                                         </td>
                                     </tr>
@@ -96,16 +96,16 @@
             <div class="w-full lg:w-[30%] flex flex-col bg-white rounded-lg shadow border border-gray-200 h-full">
                 <!-- Header -->
                 <div class="p-4 border-b border-gray-200 bg-gray-50 rounded-t-lg">
-                    <h2 class="text-xs font-bold text-gray-500 uppercase tracking-wide">Payment Details</h2>
+                    <h2 class="text-xs font-bold text-gray-500 uppercase tracking-wide">{{ __('messages.payment_details') }}</h2>
                 </div>
 
                 <div class="p-4 space-y-6 flex-1 overflow-y-auto">
                     <!-- Customer Section -->
                     <div class="bg-indigo-50 rounded-lg p-4 border border-indigo-100 relative group">
                         <div class="flex justify-between items-start mb-2">
-                            <span class="text-xs font-bold text-indigo-500 uppercase">Customer</span>
+                            <span class="text-xs font-bold text-indigo-500 uppercase">{{ __('messages.customer') }}</span>
                             <button @click="openCustomerModal()" class="text-[10px] font-semibold text-indigo-600 hover:text-white hover:bg-indigo-600 border border-indigo-200 bg-white px-2 py-1 rounded transition-colors flex items-center">
-                                + New (F4)
+                                + {{ __('messages.new_customer') }} (F4)
                             </button>
                         </div>
 
@@ -114,7 +114,7 @@
                                 <div class="flex justify-between items-center">
                                     <div>
                                         <h3 class="font-bold text-lg text-gray-900" x-text="selectedCustomer.name"></h3>
-                                        <p class="text-sm text-gray-600" x-text="selectedCustomer.phone || 'No Phone'"></p>
+                                        <p class="text-sm text-gray-600" x-text="selectedCustomer.phone || '{{ __('messages.no_phone') }}'"></p>
                                     </div>
                                     <button @click="resetCustomer()" class="text-gray-400 hover:text-red-500">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -124,7 +124,7 @@
                             <div x-show="!selectedCustomer">
                                 <select
                                     x-ref="customerSelect"
-                                    placeholder="Search Customer [F2]..."
+                                    placeholder="{{ __('messages.search_customers') }}"
                                     autocomplete="off"
                                 ></select>
                             </div>
@@ -134,15 +134,15 @@
                     <!-- Totals Section -->
                     <div class="space-y-3">
                         <div class="flex justify-between text-gray-600 text-sm font-medium">
-                            <span>Subtotal</span>
+                            <span>{{ __('messages.subtotal') }}</span>
                             <span x-text="formatCurrency(subtotal)"></span>
                         </div>
                         <div class="flex justify-between text-red-500 text-sm" x-show="totalDiscount > 0">
-                            <span>Total Discount</span>
+                            <span>{{ __('messages.total_discount') }}</span>
                             <span x-text="'- ' + formatCurrency(totalDiscount)"></span>
                         </div>
                         <div class="flex justify-between items-center pt-4 border-t border-gray-100">
-                            <span class="text-lg font-bold text-gray-800">TOTAL</span>
+                            <span class="text-lg font-bold text-gray-800">{{ __('messages.total') }}</span>
                             <span class="text-2xl font-extrabold text-blue-600" x-text="formatCurrency(total)"></span>
                         </div>
                     </div>
@@ -150,28 +150,28 @@
                     <!-- Payment Input -->
                     <div class="space-y-4 pt-4 border-t border-gray-200">
                         <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Payment Method</label>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">{{ __('messages.payment_method') }}</label>
                             <div class="grid grid-cols-2 gap-2">
                                 <button
                                     @click="payment.method = 'cash'"
                                     class="px-4 py-2 text-sm font-medium rounded-md border"
                                     :class="payment.method === 'cash' ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'"
                                 >
-                                    CASH
+                                    {{ __('messages.cash') }}
                                 </button>
                                 <button
                                     @click="payment.method = 'transfer'"
                                     class="px-4 py-2 text-sm font-medium rounded-md border"
                                     :class="payment.method === 'transfer' ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'"
                                 >
-                                    TRANSFER
+                                    {{ __('messages.transfer') }}
                                 </button>
                             </div>
                         </div>
 
                         <template x-if="payment.method === 'cash'">
                             <div>
-                                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Cash Received</label>
+                                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">{{ __('messages.cash_received') }}</label>
                                 <div class="relative">
                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                         <span class="text-gray-500 font-bold">Rp</span>
@@ -188,7 +188,7 @@
                                 <!-- Quick Cash Buttons -->
                                 <div class="grid grid-cols-4 gap-2 mt-2">
                                     <button @click="payment.cash_received = total" class="px-2 py-2 bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded text-xs font-bold text-gray-700">
-                                        EXACT
+                                        {{ __('messages.exact_amount') }}
                                     </button>
                                     <button @click="payment.cash_received = (parseInt(payment.cash_received) || 0) + 100000" class="px-2 py-2 bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded text-xs font-bold text-gray-700">
                                         +100K
@@ -214,7 +214,7 @@
                                 </div>
                                 <div class="bg-green-50 p-3 rounded-md border border-green-100 flex justify-between items-center mt-2"
                                      :class="change < 0 ? 'bg-red-50 border-red-100 text-red-800' : 'bg-green-50 border-green-100 text-green-800'">
-                                    <span class="text-sm font-medium uppercase" x-text="change < 0 ? 'Due' : 'Change'"></span>
+                                    <span class="text-sm font-medium uppercase" x-text="change < 0 ? '{{ __('messages.due') }}' : '{{ __('messages.change') }}'"></span>
                                     <span class="text-xl font-bold"
                                           :class="change < 0 ? 'text-red-700' : 'text-green-700'"
                                           x-text="formatCurrency(Math.abs(change))"></span>
@@ -227,7 +227,7 @@
                                 x-model="payment.notes"
                                 rows="3"
                                 class="block w-full text-sm border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 placeholder-gray-400 py-2"
-                                placeholder="Transaction Notes / Address..."
+                                placeholder="{{ __('messages.notes_placeholder') }}"
                             ></textarea>
                         </div>
                     </div>
@@ -240,7 +240,7 @@
                         class="w-1/3 py-3 text-sm font-bold text-red-600 hover:text-white bg-white border border-red-200 hover:bg-red-600 rounded-lg flex items-center justify-center transition-colors shadow-sm"
                     >
                         <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                        CANCEL
+                        {{ __('messages.cancel') }}
                     </button>
 
                     <button
@@ -251,7 +251,7 @@
                         <template x-if="isSubmitting">
                             <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                         </template>
-                        <span x-text="isSubmitting ? 'Processing...' : 'PAY (F3)'"></span>
+                        <span x-text="isSubmitting ? '{{ __('messages.processing') }}' : '{{ __('messages.pay') }}'"></span>
                     </button>
                 </div>
             </div>
@@ -432,7 +432,7 @@
                             if (existing.quantity < product.quantity) {
                                 existing.quantity++;
                             } else {
-                                this.$dispatch('toast', { message: 'Insufficient stock!', type: 'error' });
+                                this.$dispatch('toast', { message: "{{ __('messages.insufficient_stock') }}", type: 'error' });
                             }
                         } else {
                             if (product.quantity > 0) {
@@ -447,7 +447,7 @@
                                     discount: 0
                                 });
                             } else {
-                                this.$dispatch('toast', { message: 'Out of Stock!', type: 'error' });
+                                this.$dispatch('toast', { message: "{{ __('messages.out_of_stock') }}", type: 'error' });
                             }
                         }
                     },
@@ -456,7 +456,7 @@
                         const item = this.cart[index];
                         if (item.quantity > item.max_stock) {
                             item.quantity = item.max_stock;
-                            this.$dispatch('toast', { message: 'Maksimum stok tercapai', type: 'warning' });
+                            this.$dispatch('toast', { message: "{{ __('messages.max_stock_reached') }}", type: 'warning' });
                         }
                         if (item.quantity < 1) item.quantity = 1;
                     },
@@ -511,7 +511,7 @@
                     openConfirmation() {
                         if (this.cart.length === 0) return;
                         if (this.payment.method === 'cash' && this.payment.cash_received < this.total) {
-                            this.$dispatch('toast', { message: 'Insufficient payment!', type: 'error' });
+                            this.$dispatch('toast', { message: "{{ __('messages.insufficient_payment') }}", type: 'error' });
                             return;
                         }
 
@@ -558,7 +558,7 @@
                                 this.resetForm();
 
                                 // Optional: Show success notification or toast here
-                                this.$dispatch('toast', { message: 'Transaction Successful!', type: 'success' });
+                                this.$dispatch('toast', { message: "{{ __('messages.transaction_success') }}", type: 'success' });
 
                             } else {
                                 this.$dispatch('toast', { message: data.message || 'Error occurred', type: 'error' });
@@ -594,38 +594,38 @@
                 <!-- Header -->
                 <div class="mb-6 space-y-1.5 text-center sm:text-left border-b border-gray-200 pb-4">
                     <h3 class="text-lg font-semibold leading-none tracking-tight text-foreground">
-                        Payment Confirmation
+                        {{ __('messages.payment_confirmation') }}
                     </h3>
                     <p class="text-sm text-muted-foreground">
-                        Please review transaction details before processing.
+                        {{ __('messages.review_transaction') }}
                     </p>
                 </div>
 
                 <!-- Summary Grid -->
                 <div class="grid gap-4 py-4">
                     <div class="flex items-center justify-between">
-                        <span class="text-sm font-medium text-gray-500">Total Items</span>
+                        <span class="text-sm font-medium text-gray-500">{{ __('messages.total_items') }}</span>
                         <span class="font-semibold" x-text="cart.reduce((sum, item) => sum + item.quantity, 0)"></span>
                     </div>
                     <div class="flex items-center justify-between">
-                        <span class="text-sm font-medium text-gray-500">Subtotal</span>
+                        <span class="text-sm font-medium text-gray-500">{{ __('messages.subtotal') }}</span>
                         <span class="font-semibold" x-text="formatCurrency(subtotal)"></span>
                     </div>
                     <div class="flex items-center justify-between text-red-600" x-show="totalDiscount > 0">
-                        <span class="text-sm font-medium">Discount</span>
+                        <span class="text-sm font-medium">{{ __('messages.discount') }}</span>
                         <span class="font-semibold" x-text="'- ' + formatCurrency(totalDiscount)"></span>
                     </div>
                     <div class="flex items-center justify-between border-t border-gray-100 pt-2 mt-2">
-                        <span class="text-lg font-bold">Total Bill</span>
+                        <span class="text-lg font-bold">{{ __('messages.total_bill') }}</span>
                         <span class="text-lg font-bold text-blue-600" x-text="formatCurrency(total)"></span>
                     </div>
 
                     <div class="flex items-center justify-between border-t border-gray-100 pt-2 mt-2" x-show="payment.method === 'cash'">
-                        <span class="text-sm font-medium text-gray-500">Cash Received</span>
+                        <span class="text-sm font-medium text-gray-500">{{ __('messages.cash_received') }}</span>
                         <span class="font-semibold" x-text="formatCurrency(payment.cash_received)"></span>
                     </div>
                     <div class="flex items-center justify-between" x-show="payment.method === 'cash'">
-                        <span class="text-sm font-medium text-gray-500">Change</span>
+                        <span class="text-sm font-medium text-gray-500">{{ __('messages.change') }}</span>
                         <span class="font-bold text-green-600" x-text="formatCurrency(change)"></span>
                     </div>
                 </div>
@@ -634,7 +634,7 @@
                 <div class="mt-6 border-t border-gray-200 pt-4 space-y-4">
                     <!-- Status Selection -->
                     <div>
-                        <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Sale Status</label>
+                        <label class="block text-xs font-bold text-gray-500 uppercase mb-2">{{ __('messages.sale_status') }}</label>
                         <div class="grid grid-cols-2 gap-2">
                             <button
                                 @click="saleStatus = 'completed'"
@@ -642,7 +642,7 @@
                                 :class="saleStatus === 'completed' ? 'bg-green-600 text-white border-green-600 shadow-sm' : 'bg-white text-gray-700 border-gray-300 hover:bg-green-50'"
                             >
                                 <svg x-show="saleStatus === 'completed'" class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                COMPLETED
+                                {{ __('messages.completed') }}
                             </button>
                             <button
                                 @click="saleStatus = 'pending'"
@@ -650,7 +650,7 @@
                                 :class="saleStatus === 'pending' ? 'bg-yellow-500 text-white border-yellow-500 shadow-sm' : 'bg-white text-gray-700 border-gray-300 hover:bg-yellow-50'"
                             >
                                 <svg x-show="saleStatus === 'pending'" class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                PENDING
+                                {{ __('messages.pending') }}
                             </button>
                         </div>
                     </div>
@@ -665,14 +665,14 @@
                             <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                         </template>
                         <svg x-show="!isSubmitting" class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                        <span x-text="isSubmitting ? 'Processing...' : 'PROCESS SALE'"></span>
+                        <span x-text="isSubmitting ? '{{ __('messages.processing') }}' : '{{ __('messages.process_sale') }}'"></span>
                     </button>
 
                     <button
                         @click="$dispatch('close-modal', { name: 'confirmation-modal' })"
                         class="w-full flex justify-center items-center py-2 px-4 text-sm font-medium text-gray-500 hover:text-gray-700"
                     >
-                        Back
+                        {{ __('messages.back') }}
                     </button>
                 </div>
             </div>
@@ -729,10 +729,10 @@
                 <!-- Header -->
                 <div class="mb-6 space-y-1.5 text-center sm:text-left border-b border-gray-200 pb-4">
                     <h3 class="text-lg font-semibold leading-none tracking-tight text-foreground">
-                        {{ __('Create New Customer') }}
+                        {{ __('messages.create_new_customer') }}
                     </h3>
                     <p class="text-sm text-muted-foreground">
-                        {{ __('Add a new customer to your records for this sale.') }}
+                        {{ __('messages.add_customer_record') }}
                     </p>
                 </div>
 
@@ -741,7 +741,7 @@
                     <div>
                         <x-form-input
                             name="new_name"
-                            label="Full Name"
+                            :label="__('messages.full_name')"
                             x-model="newCust.name"
                             x-ref="nameInput"
                             required
@@ -754,7 +754,7 @@
                         <div class="w-full sm:w-1/2">
                             <x-form-input
                                 name="new_email"
-                                label="Email"
+                                :label="__('messages.email')"
                                 type="email"
                                 x-model="newCust.email"
                             />
@@ -763,7 +763,7 @@
                         <div class="w-full sm:w-1/2">
                             <x-form-input
                                 name="new_phone"
-                                label="Phone"
+                                :label="__('messages.phone')"
                                 x-model="newCust.phone"
                             />
                             <p x-show="errors.phone" x-text="errors.phone" class="text-sm font-medium text-red-600 mt-1" style="display: none;"></p>
@@ -772,26 +772,26 @@
 
                     <!-- Address -->
                     <div class="space-y-2">
-                        <x-input-label for="new_address" :value="__('Address')" />
+                        <x-input-label for="new_address" :value="__('messages.address')" />
                         <textarea
                             id="new_address"
                             x-model="newCust.address"
                             rows="3"
                             class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            placeholder="Full Address"
+                            placeholder="{{ __('messages.address') }}"
                         ></textarea>
                         <p x-show="errors.address" x-text="errors.address" class="text-sm font-medium text-red-600 mt-1" style="display: none;"></p>
                     </div>
 
                     <!-- Notes -->
                     <div class="space-y-2">
-                        <x-input-label for="new_notes" :value="__('Notes')" />
+                        <x-input-label for="new_notes" :value="__('messages.notes')" />
                         <textarea
                             id="new_notes"
                             x-model="newCust.notes"
                             rows="3"
                             class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            placeholder="Additional notes..."
+                            placeholder="{{ __('messages.notes') }}..."
                         ></textarea>
                         <p x-show="errors.notes" x-text="errors.notes" class="text-sm font-medium text-red-600 mt-1" style="display: none;"></p>
                     </div>
@@ -799,7 +799,7 @@
                     <!-- Actions -->
                     <div class="mt-6 flex justify-end gap-3 border-t border-gray-200 pt-4">
                         <x-secondary-button type="button" x-on:click="$dispatch('close-modal', { name: 'customer-modal' })">
-                            {{ __('Cancel') }}
+                            {{ __('messages.back') }}
                         </x-secondary-button>
 
                         <x-primary-button type="button" @click="save()" x-bind:disabled="loading">
@@ -809,7 +809,7 @@
                                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                 </svg>
                             </template>
-                            <span x-text="loading ? 'Saving...' : 'Save Customer'"></span>
+                            <span x-text="loading ? '{{ __('messages.saving') }}' : '{{ __('messages.save_customer') }}'"></span>
                         </x-primary-button>
                     </div>
                 </div>
@@ -827,26 +827,26 @@
                     </div>
                     <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                         <h3 class="text-lg font-semibold leading-6 text-gray-900" id="modal-title">
-                            Cancel Transaction?
+                            {{ __('messages.cancel_transaction_q') }}
                         </h3>
                         <div class="mt-2">
                             <p class="text-sm text-gray-500">
-                                Are you sure you want to cancel? All current items and selections will be lost.
+                                {{ __('messages.cancel_confirmation') }}
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 gap-2">
-                <x-danger-button @click="resetForm(); clearStorage(); $dispatch('close-modal', { name: 'cancel-modal' }); $dispatch('toast', { message: 'Transaction Cancelled', type: 'info' })" class="w-full sm:w-auto justify-center">
-                    {{ __('Yes, Cancel Transaction') }}
+                <x-danger-button @click="resetForm(); clearStorage(); $dispatch('close-modal', { name: 'cancel-modal' }); $dispatch('toast', { message: '{{ __('messages.transaction_cancelled') }}', type: 'info' })" class="w-full sm:w-auto justify-center">
+                    {{ __('messages.yes_cancel') }}
                 </x-danger-button>
                 <button
                     type="button"
                     @click="$dispatch('close-modal', { name: 'cancel-modal' })"
                     class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto transition-colors"
                 >
-                    {{ __('No, Return') }}
+                    {{ __('messages.no_return') }}
                 </button>
             </div>
         </x-modal>

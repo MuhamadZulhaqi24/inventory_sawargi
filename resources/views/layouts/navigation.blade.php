@@ -26,17 +26,17 @@
                                 <x-heroicon-o-banknotes class="mr-2 h-4 w-4" />
                             </x-slot>
                             <x-slot name="trigger">
-                                Sales
+                                {{ __('messages.sales') }}
                             </x-slot>
                             <x-slot name="content">
                                 <x-dropdown-link :href="route('sales.create')" :active="request()->routeIs('sales.create')">
-                                    POS
+                                    {{ __('messages.pos') }}
                                 </x-dropdown-link>
                                 <x-dropdown-link :href="route('sales.index')" :active="request()->routeIs(['sales.index', 'sales.show'])">
-                                    Sales
+                                    {{ __('messages.sales_list') }}
                                 </x-dropdown-link>
                                 <x-dropdown-link :href="route('customers.index')" :active="request()->routeIs('customers.*')">
-                                    Customers
+                                    {{ __('messages.customers') }}
                                 </x-dropdown-link>
                             </x-slot>
                         </x-nav-dropdown>
@@ -245,14 +245,14 @@
                         <!-- Mobile Sales Accordion -->
                         <div x-data="{ expanded: {{ request()->routeIs(['sales.*', 'customers.*']) ? 'true' : 'false' }} }" class="border-b-0">
                             <button @click="expanded = !expanded" class="flex flex-1 items-center justify-between py-0 font-semibold transition-all hover:underline [&[data-state=open]>svg]:rotate-180 w-full text-left text-md {{ request()->routeIs(['sales.*', 'customers.*']) ? 'text-primary' : '' }}">
-                                Sales
+                                {{ __('messages.sales') }}
                                 <x-heroicon-o-chevron-down :class="{'rotate-180': expanded}" class="h-4 w-4 shrink-0 transition-transform duration-200" />
                             </button>
                             <div x-show="expanded" x-collapse>
                                 <div class="mt-2 flex flex-col gap-2 pl-4 border-l border-border ml-2">
-                                    <a class="text-sm font-medium hover:underline py-1 {{ request()->routeIs(['sales.index', 'sales.show']) ? 'text-primary' : '' }}" href="{{ route('sales.index') }}">Sales</a>
-                                    <a class="text-sm font-medium hover:underline py-1 {{ request()->routeIs('sales.create') ? 'text-primary' : '' }}" href="{{ route('sales.create') }}">POS</a>
-                                    <a class="text-sm font-medium hover:underline py-1 {{ request()->routeIs('customers.index') ? 'text-primary' : '' }}" href="{{ route('customers.index') }}">Customers</a>
+                                    <a class="text-sm font-medium hover:underline py-1 {{ request()->routeIs(['sales.index', 'sales.show']) ? 'text-primary' : '' }}" href="{{ route('sales.index') }}">{{ __('messages.sales_list') }}</a>
+                                    <a class="text-sm font-medium hover:underline py-1 {{ request()->routeIs('sales.create') ? 'text-primary' : '' }}" href="{{ route('sales.create') }}">{{ __('messages.pos') }}</a>
+                                    <a class="text-sm font-medium hover:underline py-1 {{ request()->routeIs('customers.index') ? 'text-primary' : '' }}" href="{{ route('customers.index') }}">{{ __('messages.customers') }}</a>
                                 </div>
                             </div>
                         </div>
