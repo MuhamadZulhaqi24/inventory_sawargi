@@ -1,59 +1,190 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# ✨ System Inventory Sawargi
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A robust Inventory Management System built with **Laravel 11** and **MySQL**, designed to streamline your inventory tracking, sales, and purchasing processes.
 
-## About Laravel
+## 🌟 Key Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+-   **POS (Point of Sale)**
+-   **Orders**
+    -   Pending Orders
+    -   Complete Orders
+    -   Pending Payments
+-   **Purchases**
+    -   All Purchases
+    -   Approval Process
+    -   Purchase Reports
+-   **Products Management**
+-   **Customer Records**
+-   **Supplier Management**
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🚀 Quick Start
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Follow these steps to set up the project locally:
 
-## Learning Laravel
+1. **Clone the repository:**
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+    ```bash
+    git clone https://github.com/MuhamadZulhaqi24/inventory_sawargi.git
+    ```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+2. **Navigate to the project folder:**
 
-## Laravel Sponsors
+    ```bash
+    cd inventory-sawargi
+    ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+3. **Install PHP dependencies:**
 
-### Premium Partners
+    ```bash
+    composer install
+    ```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+4. **Copy `.env` configuration:**
 
-## Contributing
+    ```bash
+    cp .env.example .env
+    ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+5. **Generate application key:**
 
-## Code of Conduct
+    ```bash
+    php artisan key:generate
+    ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+6. **Configure the database in the `.env` file** with your local credentials.
 
-## Security Vulnerabilities
+7. **Run database migrations and seed sample data:**
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+    ```bash
+    php artisan migrate:fresh --seed
+    ```
 
-## License
+8. **Link storage for media files:**
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+    ```bash
+    php artisan storage:link
+    ```
+
+9. **Install JavaScript and CSS dependencies:**
+
+    ```bash
+    npm install && npm run dev
+    ```
+
+10. **Start the Laravel development server:**
+
+    ```bash
+    php artisan serve
+    ```
+
+11. **Login using the default admin credentials:**
+
+    - **Email:** `admin@admin.com`
+    - **Password:** `password`
+
+## 🐋 Docker set up
+
+With Docker, you can easily start both the app and MySQL database without needing to install anything locally.
+
+In the _docker-compose.yml_ file, you’ll find the configuration for MySQL.
+
+_Note: The app uses the environment variables from .env.example.docker. If you want to change any configurations in this environment file, create a new .env file, make your changes, and then rebuild the Docker image._
+
+**To pull and run the Docker images:**
+
+This command will pull the _mysql:5.7_ and _inert/laravel-app_ images and start the containers:
+
+_Note: You don't need to have the repository on your local machine, you just need the docker-compose.yml file and run:_
+
+```bash
+docker-compose up -d
+```
+
+Once the containers are up, the app will be available at http://localhost:8000/.
+
+**To build the Docker image after code changes:**
+
+If you’ve made changes to the code and want to update the Docker image, use the following command:
+
+_Note: This command will reset your database. Make sure to back it up._
+
+```bash
+docker build -t inert/laravel-app .
+```
+
+**To tag the Docker image:**
+
+```bash
+docker tag inert/laravel-app inert/laravel-app:"tagname"
+```
+
+**To push the Docker image:**
+
+```bash
+docker push inert/laravel-app:"tagname"
+```
+
+## 💾 Backup the Database to a Safe Location
+
+"In case you delete the MySQL Docker container by mistake"
+
+**To export the database from the Docker container and save it to your desktop:**
+
+Note: Change the path to your own.
+
+powershell
+
+```bash
+docker exec mysql-db mysqldump -u root -p'examplepassword' inventory_management_system > "C:\Users\User\Desktop\backup.sql"
+```
+
+**To import the database from the desktop back into the Docker container:**
+
+powershell
+
+```bash
+Get-Content "C:\Users\User\Desktop\backup.sql" | docker exec -i mysql-db mysql -u root -p'examplepassword' inventory_management_system
+```
+
+⚡ **To clean the database, remove example data, and create a new admin with a fresh database, run:**
+
+```bash
+docker exec -it laravel-app bash
+```
+
+```bash
+php artisan migrate:fresh
+```
+
+```bash
+php artisan tinker
+```
+
+```bash
+use App\Models\User;
+User::create([
+    'name' => 'Super Admin',                // edit this
+    'username' => 'name',
+    'email' => 'email@email.al',            // edit this
+    'password' => bcrypt('password'),       // edit this
+    'role' => 'admin',
+]);
+```
+
+## 🔧 Configuration
+
+### Configuring Cart Settings:
+
+-   To customize tax rates, number formatting, and more, open `./config/cart.php`.
+-   For more details, check out the [hardevine/shoppingcart](https://packagist.org/packages/hardevine/shoppingcart) package.
+
+## 💡 Contributing
+
+Have ideas to improve the system? Feel free to:
+
+-   Submit a **Pull Request (PR)**
+-   Create an **Issue** for feature requests or bugs
+
+## 📄 License
+
+Licensed under the [MIT License](LICENSE).
