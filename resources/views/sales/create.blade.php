@@ -21,55 +21,55 @@
                 </div>
 
                 <!-- Cart Table -->
-                <div class="flex-1 bg-white rounded-lg shadow border border-gray-200 overflow-hidden flex flex-col">
+                <div class="flex-1 bg-white dark:bg-card rounded-lg shadow border border-gray-200 dark:border-border overflow-hidden flex flex-col">
                     <div class="overflow-x-auto flex-1">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50 sticky top-0 z-10">
+                        <table class="min-w-full divide-y divide-gray-200 dark:divide-border">
+                            <thead class="bg-gray-50 dark:bg-muted sticky top-0 z-10">
                                 <tr>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('messages.product') }}</th>
-                                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('messages.price') }}</th>
-                                    <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('messages.qty') }}</th>
-                                    <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('messages.unit') }}</th>
-                                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('messages.discount') }}</th>
-                                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('messages.total') }}</th>
-                                    <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('messages.action') }}</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-muted-foreground uppercase tracking-wider">{{ __('messages.product') }}</th>
+                                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-muted-foreground uppercase tracking-wider">{{ __('messages.price') }}</th>
+                                    <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-muted-foreground uppercase tracking-wider">{{ __('messages.qty') }}</th>
+                                    <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-muted-foreground uppercase tracking-wider">{{ __('messages.unit') }}</th>
+                                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-muted-foreground uppercase tracking-wider">{{ __('messages.discount') }}</th>
+                                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-muted-foreground uppercase tracking-wider">{{ __('messages.total') }}</th>
+                                    <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-muted-foreground uppercase tracking-wider">{{ __('messages.action') }}</th>
                                 </tr>
                             </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
+                            <tbody class="bg-white dark:bg-card divide-y divide-gray-200 dark:divide-border">
                                 <template x-for="(item, index) in cart" :key="item.id">
-                                    <tr :class="index % 2 === 0 ? 'bg-white' : 'bg-gray-50'" class="hover:bg-indigo-50 transition-colors">
+                                    <tr :class="index % 2 === 0 ? 'bg-white dark:bg-card' : 'bg-gray-50 dark:bg-muted/30'" class="hover:bg-indigo-50 dark:hover:bg-accent transition-colors">
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm font-medium text-gray-900" x-text="item.name"></div>
-                                            <div class="text-xs text-gray-500" x-text="item.sku"></div>
+                                            <div class="text-sm font-medium text-gray-900 dark:text-foreground" x-text="item.name"></div>
+                                            <div class="text-xs text-gray-500 dark:text-muted-foreground" x-text="item.sku"></div>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-500" x-text="formatCurrency(item.price)"></td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-500 dark:text-muted-foreground" x-text="formatCurrency(item.price)"></td>
                                         <td class="px-6 py-4 whitespace-nowrap text-center">
                                             <input
                                                 type="number"
                                                 x-model.number="item.quantity"
                                                 @change="validateQty(index)"
-                                                class="w-16 text-center border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 text-sm py-1"
+                                                class="w-16 text-center border-gray-300 dark:border-input bg-white dark:bg-background text-foreground rounded-md focus:ring-indigo-500 focus:border-indigo-500 text-sm py-1"
                                                 min="1"
                                             >
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500" x-text="item.unit"></td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500 dark:text-muted-foreground" x-text="item.unit"></td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right">
                                             <div class="relative rounded-md shadow-sm w-32 ml-auto">
                                                 <div class="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
-                                                    <span class="text-gray-500 sm:text-xs">Rp</span>
+                                                    <span class="text-gray-500 dark:text-muted-foreground sm:text-xs">Rp</span>
                                                 </div>
                                                 <input
                                                     type="text"
                                                     :value="formatNumber(item.discount)"
                                                     @input="item.discount = unformatNumber($event.target.value)"
-                                                    class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-8 pr-2 sm:text-sm border-gray-300 rounded-md text-right"
+                                                    class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-8 pr-2 sm:text-sm border-gray-300 dark:border-input bg-white dark:bg-background text-foreground rounded-md text-right"
                                                     placeholder="0"
                                                 >
                                             </div>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-bold text-gray-900" x-text="formatCurrency((item.price * item.quantity) - item.discount)"></td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-bold text-gray-900 dark:text-foreground" x-text="formatCurrency((item.price * item.quantity) - item.discount)"></td>
                                         <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-                                            <button @click="removeFromCart(index)" class="flex items-center justify-center w-8 h-8 rounded-full bg-red-100 text-red-600 hover:bg-red-200 focus:outline-none transition-colors mx-auto">
+                                            <button @click="removeFromCart(index)" class="flex items-center justify-center w-8 h-8 rounded-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-900/50 focus:outline-none transition-colors mx-auto">
                                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                             </button>
                                         </td>
@@ -77,11 +77,11 @@
                                 </template>
                                 <template x-if="cart.length === 0">
                                     <tr>
-                                        <td colspan="7" class="px-6 py-20 text-center text-gray-500">
+                                        <td colspan="7" class="px-6 py-20 text-center text-gray-500 dark:text-muted-foreground">
                                             <div class="flex flex-col items-center justify-center">
-                                                <svg class="w-12 h-12 text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                                                <svg class="w-12 h-12 text-gray-300 dark:text-gray-700 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                                                 <p class="text-base font-medium">{{ __('messages.cart_empty') }}</p>
-                                                <p class="text-sm text-gray-400">{{ __('messages.start_transaction') }}</p>
+                                                <p class="text-sm text-gray-400 dark:text-gray-600">{{ __('messages.start_transaction') }}</p>
                                             </div>
                                         </td>
                                     </tr>
@@ -93,18 +93,18 @@
             </div>
 
             <!-- Right Side: Payment Details (30%) -->
-            <div class="w-full lg:w-[30%] flex flex-col bg-white rounded-lg shadow border border-gray-200 h-full">
+            <div class="w-full lg:w-[30%] flex flex-col bg-white dark:bg-card rounded-lg shadow border border-gray-200 dark:border-border h-full">
                 <!-- Header -->
-                <div class="p-4 border-b border-gray-200 bg-gray-50 rounded-t-lg">
-                    <h2 class="text-xs font-bold text-gray-500 uppercase tracking-wide">{{ __('messages.payment_details') }}</h2>
+                <div class="p-4 border-b border-gray-200 dark:border-border bg-gray-50 dark:bg-muted rounded-t-lg">
+                    <h2 class="text-xs font-bold text-gray-500 dark:text-muted-foreground uppercase tracking-wide">{{ __('messages.payment_details') }}</h2>
                 </div>
 
                 <div class="p-4 space-y-6 flex-1 overflow-y-auto">
                     <!-- Customer Section -->
-                    <div class="bg-indigo-50 rounded-lg p-4 border border-indigo-100 relative group">
+                    <div class="bg-indigo-50 dark:bg-indigo-950/20 rounded-lg p-4 border border-indigo-100 dark:border-indigo-900/50 relative group">
                         <div class="flex justify-between items-start mb-2">
-                            <span class="text-xs font-bold text-indigo-500 uppercase">{{ __('messages.customer') }}</span>
-                            <button @click="openCustomerModal()" class="text-[10px] font-semibold text-indigo-600 hover:text-white hover:bg-indigo-600 border border-indigo-200 bg-white px-2 py-1 rounded transition-colors flex items-center">
+                            <span class="text-xs font-bold text-indigo-500 dark:text-indigo-400 uppercase">{{ __('messages.customer') }}</span>
+                            <button @click="openCustomerModal()" class="text-[10px] font-semibold text-indigo-600 dark:text-indigo-400 hover:text-white hover:bg-indigo-600 dark:hover:bg-indigo-600 border border-indigo-200 dark:border-indigo-800 bg-white dark:bg-background px-2 py-1 rounded transition-colors flex items-center">
                                 + {{ __('messages.new_customer') }} (F4)
                             </button>
                         </div>
@@ -113,8 +113,8 @@
                             <template x-if="selectedCustomer">
                                 <div class="flex justify-between items-center">
                                     <div>
-                                        <h3 class="font-bold text-lg text-gray-900" x-text="selectedCustomer.name"></h3>
-                                        <p class="text-sm text-gray-600" x-text="selectedCustomer.phone || '{{ __('messages.no_phone') }}'"></p>
+                                        <h3 class="font-bold text-lg text-gray-900 dark:text-foreground" x-text="selectedCustomer.name"></h3>
+                                        <p class="text-sm text-gray-600 dark:text-muted-foreground" x-text="selectedCustomer.phone || '{{ __('messages.no_phone') }}'"></p>
                                     </div>
                                     <button @click="resetCustomer()" class="text-gray-400 hover:text-red-500">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -133,36 +133,36 @@
 
                     <!-- Totals Section -->
                     <div class="space-y-3">
-                        <div class="flex justify-between text-gray-600 text-sm font-medium">
+                        <div class="flex justify-between text-gray-600 dark:text-muted-foreground text-sm font-medium">
                             <span>{{ __('messages.subtotal') }}</span>
                             <span x-text="formatCurrency(subtotal)"></span>
                         </div>
-                        <div class="flex justify-between text-red-500 text-sm" x-show="totalDiscount > 0">
+                        <div class="flex justify-between text-red-500 dark:text-red-400 text-sm" x-show="totalDiscount > 0">
                             <span>{{ __('messages.total_discount') }}</span>
                             <span x-text="'- ' + formatCurrency(totalDiscount)"></span>
                         </div>
-                        <div class="flex justify-between items-center pt-4 border-t border-gray-100">
-                            <span class="text-lg font-bold text-gray-800">{{ __('messages.total') }}</span>
-                            <span class="text-2xl font-extrabold text-blue-600" x-text="formatCurrency(total)"></span>
+                        <div class="flex justify-between items-center pt-4 border-t border-gray-100 dark:border-border">
+                            <span class="text-lg font-bold text-gray-800 dark:text-foreground">{{ __('messages.total') }}</span>
+                            <span class="text-2xl font-extrabold text-blue-600 dark:text-blue-400" x-text="formatCurrency(total)"></span>
                         </div>
                     </div>
 
                     <!-- Payment Input -->
-                    <div class="space-y-4 pt-4 border-t border-gray-200">
+                    <div class="space-y-4 pt-4 border-t border-gray-200 dark:border-border">
                         <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">{{ __('messages.payment_method') }}</label>
+                            <label class="block text-xs font-bold text-gray-500 dark:text-muted-foreground uppercase mb-2">{{ __('messages.payment_method') }}</label>
                             <div class="grid grid-cols-2 gap-2">
                                 <button
                                     @click="payment.method = 'cash'"
                                     class="px-4 py-2 text-sm font-medium rounded-md border"
-                                    :class="payment.method === 'cash' ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'"
+                                    :class="payment.method === 'cash' ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm' : 'bg-white dark:bg-background text-gray-700 dark:text-muted-foreground border-gray-300 dark:border-input hover:bg-gray-50 dark:hover:bg-accent'"
                                 >
                                     {{ __('messages.cash') }}
                                 </button>
                                 <button
                                     @click="payment.method = 'transfer'"
                                     class="px-4 py-2 text-sm font-medium rounded-md border"
-                                    :class="payment.method === 'transfer' ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'"
+                                    :class="payment.method === 'transfer' ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm' : 'bg-white dark:bg-background text-gray-700 dark:text-muted-foreground border-gray-300 dark:border-input hover:bg-gray-50 dark:hover:bg-accent'"
                                 >
                                     {{ __('messages.transfer') }}
                                 </button>
@@ -171,52 +171,52 @@
 
                         <template x-if="payment.method === 'cash'">
                             <div>
-                                <label class="block text-xs font-bold text-gray-500 uppercase mb-1">{{ __('messages.cash_received') }}</label>
+                                <label class="block text-xs font-bold text-gray-500 dark:text-muted-foreground uppercase mb-1">{{ __('messages.cash_received') }}</label>
                                 <div class="relative">
                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <span class="text-gray-500 font-bold">Rp</span>
+                                        <span class="text-gray-500 dark:text-muted-foreground font-bold">Rp</span>
                                     </div>
                                     <input
                                         type="text"
                                         :value="formatNumber(payment.cash_received)"
                                         @input="payment.cash_received = unformatNumber($event.target.value)"
-                                        class="block w-full pl-10 pr-3 py-3 text-lg font-bold text-gray-900 border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                                        class="block w-full pl-10 pr-3 py-3 text-lg font-bold text-gray-900 dark:text-foreground border-gray-300 dark:border-input bg-white dark:bg-background rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                                         placeholder="0"
                                     >
                                 </div>
 
                                 <!-- Quick Cash Buttons -->
                                 <div class="grid grid-cols-4 gap-2 mt-2">
-                                    <button @click="payment.cash_received = total" class="px-2 py-2 bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded text-xs font-bold text-gray-700">
+                                    <button @click="payment.cash_received = total" class="px-2 py-2 bg-gray-100 dark:bg-muted hover:bg-gray-200 dark:hover:bg-accent border border-gray-300 dark:border-input rounded text-xs font-bold text-gray-700 dark:text-muted-foreground">
                                         {{ __('messages.exact_amount') }}
                                     </button>
-                                    <button @click="payment.cash_received = (parseInt(payment.cash_received) || 0) + 100000" class="px-2 py-2 bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded text-xs font-bold text-gray-700">
+                                    <button @click="payment.cash_received = (parseInt(payment.cash_received) || 0) + 100000" class="px-2 py-2 bg-gray-100 dark:bg-muted hover:bg-gray-200 dark:hover:bg-accent border border-gray-300 dark:border-input rounded text-xs font-bold text-gray-700 dark:text-muted-foreground">
                                         +100K
                                     </button>
-                                    <button @click="payment.cash_received = (parseInt(payment.cash_received) || 0) + 50000" class="px-2 py-2 bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded text-xs font-bold text-gray-700">
+                                    <button @click="payment.cash_received = (parseInt(payment.cash_received) || 0) + 50000" class="px-2 py-2 bg-gray-100 dark:bg-muted hover:bg-gray-200 dark:hover:bg-accent border border-gray-300 dark:border-input rounded text-xs font-bold text-gray-700 dark:text-muted-foreground">
                                         +50K
                                     </button>
-                                    <button @click="payment.cash_received = (parseInt(payment.cash_received) || 0) + 20000" class="px-2 py-2 bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded text-xs font-bold text-gray-700">
+                                    <button @click="payment.cash_received = (parseInt(payment.cash_received) || 0) + 20000" class="px-2 py-2 bg-gray-100 dark:bg-muted hover:bg-gray-200 dark:hover:bg-accent border border-gray-300 dark:border-input rounded text-xs font-bold text-gray-700 dark:text-muted-foreground">
                                         +20K
                                     </button>
-                                    <button @click="payment.cash_received = (parseInt(payment.cash_received) || 0) + 10000" class="px-2 py-2 bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded text-xs font-bold text-gray-700">
+                                    <button @click="payment.cash_received = (parseInt(payment.cash_received) || 0) + 10000" class="px-2 py-2 bg-gray-100 dark:bg-muted hover:bg-gray-200 dark:hover:bg-accent border border-gray-300 dark:border-input rounded text-xs font-bold text-gray-700 dark:text-muted-foreground">
                                         +10K
                                     </button>
-                                    <button @click="payment.cash_received = (parseInt(payment.cash_received) || 0) + 5000" class="px-2 py-2 bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded text-xs font-bold text-gray-700">
+                                    <button @click="payment.cash_received = (parseInt(payment.cash_received) || 0) + 5000" class="px-2 py-2 bg-gray-100 dark:bg-muted hover:bg-gray-200 dark:hover:bg-accent border border-gray-300 dark:border-input rounded text-xs font-bold text-gray-700 dark:text-muted-foreground">
                                         +5K
                                     </button>
-                                    <button @click="payment.cash_received = (parseInt(payment.cash_received) || 0) + 2000" class="px-2 py-2 bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded text-xs font-bold text-gray-700">
+                                    <button @click="payment.cash_received = (parseInt(payment.cash_received) || 0) + 2000" class="px-2 py-2 bg-gray-100 dark:bg-muted hover:bg-gray-200 dark:hover:bg-accent border border-gray-300 dark:border-input rounded text-xs font-bold text-gray-700 dark:text-muted-foreground">
                                         +2K
                                     </button>
-                                    <button @click="payment.cash_received = (parseInt(payment.cash_received) || 0) + 1000" class="px-2 py-2 bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded text-xs font-bold text-gray-700">
+                                    <button @click="payment.cash_received = (parseInt(payment.cash_received) || 0) + 1000" class="px-2 py-2 bg-gray-100 dark:bg-muted hover:bg-gray-200 dark:hover:bg-accent border border-gray-300 dark:border-input rounded text-xs font-bold text-gray-700 dark:text-muted-foreground">
                                         +1K
                                     </button>
                                 </div>
-                                <div class="bg-green-50 p-3 rounded-md border border-green-100 flex justify-between items-center mt-2"
-                                     :class="change < 0 ? 'bg-red-50 border-red-100 text-red-800' : 'bg-green-50 border-green-100 text-green-800'">
+                                <div class="p-3 rounded-md border flex justify-between items-center mt-2"
+                                     :class="change < 0 ? 'bg-red-50 dark:bg-red-900/20 border-red-100 dark:border-red-900/50 text-red-800 dark:text-red-400' : 'bg-green-50 dark:bg-green-900/20 border-green-100 dark:border-green-900/50 text-green-800 dark:text-green-400'">
                                     <span class="text-sm font-medium uppercase" x-text="change < 0 ? '{{ __('messages.due') }}' : '{{ __('messages.change') }}'"></span>
                                     <span class="text-xl font-bold"
-                                          :class="change < 0 ? 'text-red-700' : 'text-green-700'"
+                                          :class="change < 0 ? 'text-red-700 dark:text-red-400' : 'text-green-700 dark:text-green-400'"
                                           x-text="formatCurrency(Math.abs(change))"></span>
                                 </div>
                             </div>
@@ -226,7 +226,7 @@
                             <textarea
                                 x-model="payment.notes"
                                 rows="3"
-                                class="block w-full text-sm border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 placeholder-gray-400 py-2"
+                                class="block w-full text-sm border-gray-300 dark:border-input bg-white dark:bg-background text-foreground rounded-md focus:ring-indigo-500 focus:border-indigo-500 placeholder-gray-400 dark:placeholder-gray-600 py-2"
                                 placeholder="{{ __('messages.notes_placeholder') }}"
                             ></textarea>
                         </div>
@@ -234,10 +234,10 @@
                 </div>
 
                 <!-- Footer Actions -->
-                <div class="p-4 border-t border-gray-200 bg-gray-50 flex gap-3">
+                <div class="p-4 border-t border-gray-200 dark:border-border bg-gray-50 dark:bg-muted flex gap-3">
                     <button
                         @click="$dispatch('open-modal', { name: 'cancel-modal' })"
-                        class="w-1/3 py-3 text-sm font-bold text-red-600 hover:text-white bg-white border border-red-200 hover:bg-red-600 rounded-lg flex items-center justify-center transition-colors shadow-sm"
+                        class="w-1/3 py-3 text-sm font-bold text-red-600 dark:text-red-400 hover:text-white bg-white dark:bg-background border border-red-200 dark:border-red-900/50 hover:bg-red-600 dark:hover:bg-red-600 rounded-lg flex items-center justify-center transition-colors shadow-sm"
                     >
                         <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                         {{ __('messages.cancel') }}
@@ -325,15 +325,15 @@
                             render: {
                                 option: (item, escape) => {
                                     return `
-                                        <div class="py-2 px-3 border-b border-gray-100">
+                                        <div class="py-2 px-3 border-b border-gray-100 dark:border-border bg-white dark:bg-card">
                                             <div class="flex justify-between items-center">
                                                 <div>
-                                                    <div class="font-medium text-gray-900">${escape(item.name)}</div>
-                                                    <div class="text-xs text-gray-500">${escape(item.sku)}</div>
+                                                    <div class="font-medium text-gray-900 dark:text-foreground">${escape(item.name)}</div>
+                                                    <div class="text-xs text-gray-500 dark:text-muted-foreground">${escape(item.sku)}</div>
                                                 </div>
                                                 <div class="text-right">
-                                                    <div class="font-bold text-indigo-600">${this.formatCurrency(item.selling_price)}</div>
-                                                    <div class="text-xs ${item.quantity > 0 ? 'text-green-600' : 'text-red-600'}">
+                                                    <div class="font-bold text-indigo-600 dark:text-indigo-400">${this.formatCurrency(item.selling_price)}</div>
+                                                    <div class="text-xs ${item.quantity > 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}">
                                                         Stock: ${escape(item.quantity)} ${escape(item.unit?.symbol || '')}
                                                     </div>
                                                 </div>
@@ -342,7 +342,7 @@
                                     `;
                                 },
                                 item: (item, escape) => {
-                                    return `<div>${escape(item.name)}</div>`;
+                                    return `<div class="dark:text-foreground">${escape(item.name)}</div>`;
                                 }
                             },
                             onChange: (value) => {
@@ -391,9 +391,9 @@
                             render: {
                                 option: (item, escape) => {
                                     return `
-                                        <div class="py-2 px-3 hover:bg-indigo-50">
-                                            <div class="font-medium text-gray-900">${escape(item.name)}</div>
-                                            <div class="text-xs text-gray-500">${escape(item.phone || 'No Phone')}</div>
+                                        <div class="py-2 px-3 hover:bg-indigo-50 dark:hover:bg-accent bg-white dark:bg-card">
+                                            <div class="font-medium text-gray-900 dark:text-foreground">${escape(item.name)}</div>
+                                            <div class="text-xs text-gray-500 dark:text-muted-foreground">${escape(item.phone || '{{ __('messages.no_phone') }}')}</div>
                                         </div>
                                     `;
                                 }
