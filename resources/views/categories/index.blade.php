@@ -1,12 +1,12 @@
-<x-app-layout title="Categories">
+<x-app-layout :title="__('messages.categories')">
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-semibold text-xl text-foreground leading-tight">
-                {{ __('Categories') }}
+                {{ __('messages.categories') }}
             </h2>
             <x-primary-button x-data x-on:click="$dispatch('create-category')">
                 <x-heroicon-o-plus class="w-4 h-4 mr-2" />
-                {{ __('Create Category') }}
+                {{ __('messages.add_category') }}
             </x-primary-button>
         </div>
     </x-slot>

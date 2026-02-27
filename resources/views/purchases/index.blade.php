@@ -1,15 +1,15 @@
-<x-app-layout title="Purchases">
+<x-app-layout :title="__('messages.purchase_list')">
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-semibold text-xl text-foreground leading-tight">
-                {{ __('Purchases') }}
+                {{ __('messages.purchase_list') }}
             </h2>
             <x-primary-button
                 x-data
                 x-on:click="window.location.href = '{{ route('purchases.create') }}'"
             >
                 <x-heroicon-o-plus class="w-4 h-4 mr-2" />
-                {{ __('Create Purchase') }}
+                {{ __('messages.add_purchase') }}
             </x-primary-button>
         </div>
     </x-slot>
