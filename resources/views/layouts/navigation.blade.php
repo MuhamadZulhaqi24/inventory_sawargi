@@ -65,14 +65,14 @@
                                 <x-heroicon-o-currency-dollar class="mr-2 h-4 w-4" />
                             </x-slot>
                             <x-slot name="trigger">
-                                Finance
+                                {{ __('messages.finance') }}
                             </x-slot>
                             <x-slot name="content">
                                 <x-dropdown-link :href="route('finance.transactions.index')" :active="request()->routeIs('finance.transactions.index')">
-                                    Transactions
+                                    {{ __('messages.transactions') }}
                                 </x-dropdown-link>
                                 <x-dropdown-link :href="route('finance.categories.index')" :active="request()->routeIs('finance.categories.index')">
-                                    Categories
+                                    {{ __('messages.categories') }}
                                 </x-dropdown-link>
                             </x-slot>
                         </x-nav-dropdown>
@@ -274,13 +274,13 @@
                         <!-- Mobile Finance Accordion -->
                         <div x-data="{ expanded: {{ request()->routeIs(['finance.*']) ? 'true' : 'false' }} }" class="border-b-0">
                             <button @click="expanded = !expanded" class="flex flex-1 items-center justify-between py-0 font-semibold transition-all hover:underline [&[data-state=open]>svg]:rotate-180 w-full text-left text-md {{ request()->routeIs(['finance.*']) ? 'text-primary' : '' }}">
-                                Finance
+                                {{ __('messages.finance') }}
                                 <x-heroicon-o-chevron-down :class="{'rotate-180': expanded}" class="h-4 w-4 shrink-0 transition-transform duration-200" />
                             </button>
                             <div x-show="expanded" x-collapse>
                                 <div class="mt-2 flex flex-col gap-2 pl-4 border-l border-border ml-2">
-                                    <a class="text-sm font-medium hover:underline py-1 {{ request()->routeIs('finance.transactions.index') ? 'text-primary' : '' }}" href="{{ route('finance.transactions.index') }}">Transactions</a>
-                                    <a class="text-sm font-medium hover:underline py-1 {{ request()->routeIs('finance.categories.index') ? 'text-primary' : '' }}" href="{{ route('finance.categories.index') }}">Categories</a>
+                                    <a class="text-sm font-medium hover:underline py-1 {{ request()->routeIs('finance.transactions.index') ? 'text-primary' : '' }}" href="{{ route('finance.transactions.index') }}">{{ __('messages.transactions') }}</a>
+                                    <a class="text-sm font-medium hover:underline py-1 {{ request()->routeIs('finance.categories.index') ? 'text-primary' : '' }}" href="{{ route('finance.categories.index') }}">{{ __('messages.categories') }}</a>
                                 </div>
                             </div>
                         </div>

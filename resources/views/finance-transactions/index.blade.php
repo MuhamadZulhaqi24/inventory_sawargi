@@ -1,12 +1,12 @@
-<x-app-layout title="Finance Transactions">
+<x-app-layout :title="__('messages.transactions')">
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-semibold text-xl text-foreground leading-tight">
-                {{ __('Finance Transactions') }}
+                {{ __('messages.transactions') }}
             </h2>
             <x-primary-button x-data x-on:click="$dispatch('create-finance-transaction')">
                 <x-heroicon-o-plus class="w-4 h-4 mr-2" />
-                {{ __('Create Transaction') }}
+                {{ __('messages.add_transaction') }}
             </x-primary-button>
         </div>
     </x-slot>

@@ -75,10 +75,10 @@ class FinanceCategoryForm extends Component
         try {
             if ($this->isEditing && $this->category) {
                 $service->updateCategory($this->category, $data);
-                $message = 'Finance Category updated successfully.';
+                $message = __('messages.finance_category_updated');
             } else {
                 $service->createCategory($data);
-                $message = 'Finance Category created successfully.';
+                $message = __('messages.finance_category_created');
             }
 
             $this->dispatch('close-modal', name: 'finance-category-form-modal');
@@ -87,7 +87,7 @@ class FinanceCategoryForm extends Component
         } catch (FinanceCategoryException $e) {
             $this->dispatch('toast', message: $e->getMessage(), type: 'error');
         } catch (\Throwable $e) {
-            $this->dispatch('toast', message: 'An unexpected error occurred.', type: 'error');
+            $this->dispatch('toast', message: __('messages.unexpected_error'), type: 'error');
         }
     }
 }

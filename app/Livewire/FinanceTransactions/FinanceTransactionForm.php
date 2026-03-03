@@ -77,7 +77,7 @@ class FinanceTransactionForm extends Component
     public function edit(FinanceTransaction $transaction): void
     {
         if ($transaction->reference_type) {
-            $this->dispatch('toast', message: 'System transactions (Sales/Purchases) cannot be edited.', type: 'error');
+            $this->dispatch('toast', message: __('messages.system_transaction_no_edit'), type: 'error');
             return;
         }
 
@@ -112,10 +112,10 @@ class FinanceTransactionForm extends Component
         try {
             if ($this->isEditing && $this->transaction) {
                 $service->updateTransaction($this->transaction, $data);
-                $message = 'Transaction updated successfully.';
+                $message = __('messages.transaction_updated');
             } else {
                 $service->createTransaction($data);
-                $message = 'Transaction recorded successfully.';
+                $message = __('messages.transaction_recorded');
             }
 
             $this->dispatch('close-modal', name: 'finance-transaction-form-modal');

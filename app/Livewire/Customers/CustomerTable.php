@@ -113,7 +113,7 @@ final class CustomerTable extends PowerGridComponent
                     'method' => 'delete',
                     'params' => ['rowId' => $row->id],
                     'title' => __('messages.delete_customer') . '?',
-                    'description' => "Are you sure you want to delete customer '{$row->name}'? This action cannot be undone.",
+                    'description' => __('messages.delete_customer_confirmation', ['name' => $row->name]),
                 ])
                 ->tooltip(__('messages.delete_customer')),
         ];
