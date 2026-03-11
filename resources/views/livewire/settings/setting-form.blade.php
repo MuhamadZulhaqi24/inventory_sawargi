@@ -1,19 +1,19 @@
 <x-modal name="setting-form-modal" :title="''" maxWidth="2xl">
     <div class="p-6">
         <!-- Custom Header -->
-        <div class="mb-6 space-y-1.5 text-center sm:text-left border-b border-gray-200 pb-4">
+        <div class="mb-6 space-y-1.5 text-center sm:text-left border-b border-border pb-4">
             <h3 class="text-lg font-semibold leading-none tracking-tight text-foreground">
-                {{ __('Edit Setting') }}
+                {{ __('messages.edit_setting') }}
             </h3>
             <p class="text-sm text-muted-foreground">
-                {{ __('Update the value of this setting.') }}
+                {{ __('messages.update_setting_subtitle') }}
             </p>
         </div>
 
         <form wire:submit="save" class="space-y-4">
             <!-- Label (Readonly) -->
             <div class="space-y-2">
-                <x-input-label for="key" :value="__('Setting Name')" />
+                <x-input-label for="key" :value="__('messages.setting_name')" />
                 <div class="px-3 py-2 text-sm font-medium border rounded-md border-input bg-muted/50 text-foreground">
                     {{ $label }}
                 </div>
@@ -21,21 +21,21 @@
 
             <!-- Value -->
             <div class="space-y-2">
-                <x-input-label for="value" :value="__('Value')" />
+                <x-input-label for="value" :value="__('messages.amount')" />
                 <textarea
                     id="value"
                     wire:model="value"
                     rows="4"
-                    class="block w-full rounded-md border-input bg-background shadow-sm focus:border-ring focus:ring-ring sm:text-sm"
-                    placeholder="Enter value..."
+                    class="block w-full rounded-md border-input bg-background text-foreground shadow-sm focus:border-ring focus:ring-ring sm:text-sm"
+                    placeholder="..."
                 ></textarea>
                 <x-input-error :messages="$errors->get('value')" />
             </div>
 
             <!-- Actions -->
-            <div class="mt-6 flex justify-end gap-3 border-t border-gray-200 pt-4">
+            <div class="mt-6 flex justify-end gap-3 border-t border-border pt-4">
                 <x-secondary-button type="button" x-on:click="$dispatch('close-modal', { name: 'setting-form-modal' })">
-                    {{ __('Cancel') }}
+                    {{ __('messages.cancel') }}
                 </x-secondary-button>
 
                 <x-primary-button type="submit" wire:loading.attr="disabled">
@@ -44,7 +44,7 @@
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
                     <x-heroicon-o-check wire:loading.remove wire:target="save" class="w-4 h-4 mr-2" />
-                    {{ __('Save Changes') }}
+                    {{ __('messages.save_changes') }}
                 </x-primary-button>
             </div>
         </form>

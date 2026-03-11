@@ -3,10 +3,10 @@
         <!-- Custom Header -->
         <div class="mb-6 space-y-1.5 text-center sm:text-left border-b border-gray-200 pb-4">
             <h3 class="text-lg font-semibold leading-none tracking-tight text-foreground">
-                {{ $isEditing ? 'Edit User' : 'Create User' }}
+                {{ $isEditing ? __('messages.edit_user') : __('messages.create_new_user') }}
             </h3>
             <p class="text-sm text-muted-foreground">
-                {{ $isEditing ? 'Update user information.' : 'Add a new user to the system.' }}
+                {{ $isEditing ? __('messages.edit_user_subtitle') : __('messages.add_user_record') }}
             </p>
         </div>
 
@@ -14,27 +14,27 @@
             <!-- Name -->
             <x-form-input
                 name="name"
-                label="Name"
+                :label="__('messages.name')"
                 type="text"
                 wire:model="name"
                 required
-                placeholder="Full Name"
+                :placeholder="__('messages.full_name')"
             />
 
             <!-- Username -->
             <x-form-input
                 name="username"
-                label="Username"
+                :label="__('messages.username')"
                 type="text"
                 wire:model="username"
                 required
-                placeholder="Unique username"
+                :placeholder="__('messages.unique_username')"
             />
 
             <!-- Email -->
             <x-form-input
                 name="email"
-                label="Email"
+                :label="__('messages.email')"
                 type="email"
                 wire:model="email"
                 required
@@ -44,7 +44,7 @@
             <!-- Password -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="space-y-2">
-                    <x-input-label for="password" :value="__('Password')" />
+                    <x-input-label for="password" :value="__('messages.password')" />
                     <x-text-input
                         id="password"
                         name="password"
@@ -52,13 +52,13 @@
                         wire:model="password"
                         :required="!$isEditing"
                         autocomplete="new-password"
-                        placeholder="{{ $isEditing ? 'Leave blank to keep current' : 'Min 8 chars' }}"
+                        placeholder="{{ $isEditing ? __('messages.leave_blank_to_keep') : __('messages.min_8_chars') }}"
                     />
                     <x-input-error :messages="$errors->get('password')" />
                 </div>
 
                 <div class="space-y-2">
-                    <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+                    <x-input-label for="password_confirmation" :value="__('messages.confirm_password')" />
                     <x-text-input
                         id="password_confirmation"
                         name="password_confirmation"
@@ -73,7 +73,7 @@
             <!-- Actions -->
             <div class="mt-6 flex justify-end gap-3 border-t border-gray-200 pt-4">
                 <x-secondary-button type="button" x-on:click="$dispatch('close-modal', { name: 'user-form-modal' })">
-                    {{ __('Cancel') }}
+                    {{ __('messages.cancel') }}
                 </x-secondary-button>
 
                 <x-primary-button type="submit" wire:loading.attr="disabled">
@@ -82,7 +82,7 @@
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
                     <x-heroicon-o-check wire:loading.remove wire:target="save" class="w-4 h-4 mr-2" />
-                    {{ $isEditing ? __('Save Changes') : __('Create User') }}
+                    {{ $isEditing ? __('messages.save_changes') : __('messages.add_user') }}
                 </x-primary-button>
             </div>
         </form>

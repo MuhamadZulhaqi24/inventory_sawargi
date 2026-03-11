@@ -1,7 +1,7 @@
-<x-app-layout title="Settings">
+<x-app-layout :title="__('messages.settings')">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-foreground leading-tight">
-            {{ __('Settings') }}
+            {{ __('messages.settings') }}
         </h2>
     </x-slot>
 

@@ -1,11 +1,11 @@
-<x-app-layout title="Profile">
+<x-app-layout :title="__('messages.profile')">
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-semibold text-xl text-foreground leading-tight">
-                {{ __('Profile') }}
+                {{ __('messages.profile') }}
             </h2>
             <x-secondary-button href="{{ route('dashboard') }}" wire:navigate>
-                &larr; {{ __('Back to Dashboard') }}
+                &larr; {{ __('messages.back_to_dashboard') }}
             </x-secondary-button>
         </div>
     </x-slot>
