@@ -47,14 +47,14 @@
                                 <x-heroicon-o-shopping-cart class="mr-2 h-4 w-4" />
                             </x-slot>
                             <x-slot name="trigger">
-                                Purchases
+                                {{ __('messages.purchases') }}
                             </x-slot>
                             <x-slot name="content">
                                 <x-dropdown-link :href="route('purchases.index')" :active="request()->routeIs('purchases.*')">
-                                    Purchases
+                                    {{ __('messages.purchase_list') }}
                                 </x-dropdown-link>
                                 <x-dropdown-link :href="route('suppliers.index')" :active="request()->routeIs('suppliers.*')">
-                                    Suppliers
+                                    {{ __('messages.suppliers') }}
                                 </x-dropdown-link>
                             </x-slot>
                         </x-nav-dropdown>
@@ -65,14 +65,14 @@
                                 <x-heroicon-o-currency-dollar class="mr-2 h-4 w-4" />
                             </x-slot>
                             <x-slot name="trigger">
-                                Finance
+                                {{ __('messages.finance') }}
                             </x-slot>
                             <x-slot name="content">
                                 <x-dropdown-link :href="route('finance.transactions.index')" :active="request()->routeIs('finance.transactions.index')">
-                                    Transactions
+                                    {{ __('messages.transactions') }}
                                 </x-dropdown-link>
                                 <x-dropdown-link :href="route('finance.categories.index')" :active="request()->routeIs('finance.categories.index')">
-                                    Categories
+                                    {{ __('messages.categories') }}
                                 </x-dropdown-link>
                             </x-slot>
                         </x-nav-dropdown>
@@ -89,17 +89,17 @@
                                 <x-heroicon-o-cube class="mr-2 h-4 w-4" />
                             </x-slot>
                             <x-slot name="trigger">
-                                Products
+                                {{ __('messages.products') }}
                             </x-slot>
                             <x-slot name="content">
                                 <x-dropdown-link :href="route('products.index')" :active="request()->routeIs('products.*')">
-                                    Products
+                                    {{ __('messages.product_list') }}
                                 </x-dropdown-link>
                                 <x-dropdown-link :href="route('categories.index')" :active="request()->routeIs('categories.*')">
-                                    Categories
+                                    {{ __('messages.categories') }}
                                 </x-dropdown-link>
                                 <x-dropdown-link :href="route('units.index')" :active="request()->routeIs('units.*')">
-                                    Units
+                                    {{ __('messages.units') }}
                                 </x-dropdown-link>
                             </x-slot>
                         </x-nav-dropdown>
@@ -260,13 +260,13 @@
                         <!-- Mobile Purchases Accordion -->
                         <div x-data="{ expanded: {{ request()->routeIs(['purchases.*', 'suppliers.*']) ? 'true' : 'false' }} }" class="border-b-0">
                             <button @click="expanded = !expanded" class="flex flex-1 items-center justify-between py-0 font-semibold transition-all hover:underline [&[data-state=open]>svg]:rotate-180 w-full text-left text-md {{ request()->routeIs(['purchases.*', 'suppliers.*']) ? 'text-primary' : '' }}">
-                                Purchases
+                                {{ __('messages.purchases') }}
                                 <x-heroicon-o-chevron-down :class="{'rotate-180': expanded}" class="h-4 w-4 shrink-0 transition-transform duration-200" />
                             </button>
                             <div x-show="expanded" x-collapse>
                                 <div class="mt-2 flex flex-col gap-2 pl-4 border-l border-border ml-2">
-                                    <a class="text-sm font-medium hover:underline py-1 {{ request()->routeIs('purchases.index') ? 'text-primary' : '' }}" href="{{ route('purchases.index') }}">Purchases</a>
-                                    <a class="text-sm font-medium hover:underline py-1 {{ request()->routeIs('suppliers.index') ? 'text-primary' : '' }}" href="{{ route('suppliers.index') }}">Suppliers</a>
+                                    <a class="text-sm font-medium hover:underline py-1 {{ request()->routeIs('purchases.index') ? 'text-primary' : '' }}" href="{{ route('purchases.index') }}">{{ __('messages.purchase_list') }}</a>
+                                    <a class="text-sm font-medium hover:underline py-1 {{ request()->routeIs('suppliers.index') ? 'text-primary' : '' }}" href="{{ route('suppliers.index') }}">{{ __('messages.suppliers') }}</a>
                                 </div>
                             </div>
                         </div>
@@ -274,13 +274,13 @@
                         <!-- Mobile Finance Accordion -->
                         <div x-data="{ expanded: {{ request()->routeIs(['finance.*']) ? 'true' : 'false' }} }" class="border-b-0">
                             <button @click="expanded = !expanded" class="flex flex-1 items-center justify-between py-0 font-semibold transition-all hover:underline [&[data-state=open]>svg]:rotate-180 w-full text-left text-md {{ request()->routeIs(['finance.*']) ? 'text-primary' : '' }}">
-                                Finance
+                                {{ __('messages.finance') }}
                                 <x-heroicon-o-chevron-down :class="{'rotate-180': expanded}" class="h-4 w-4 shrink-0 transition-transform duration-200" />
                             </button>
                             <div x-show="expanded" x-collapse>
                                 <div class="mt-2 flex flex-col gap-2 pl-4 border-l border-border ml-2">
-                                    <a class="text-sm font-medium hover:underline py-1 {{ request()->routeIs('finance.transactions.index') ? 'text-primary' : '' }}" href="{{ route('finance.transactions.index') }}">Transactions</a>
-                                    <a class="text-sm font-medium hover:underline py-1 {{ request()->routeIs('finance.categories.index') ? 'text-primary' : '' }}" href="{{ route('finance.categories.index') }}">Categories</a>
+                                    <a class="text-sm font-medium hover:underline py-1 {{ request()->routeIs('finance.transactions.index') ? 'text-primary' : '' }}" href="{{ route('finance.transactions.index') }}">{{ __('messages.transactions') }}</a>
+                                    <a class="text-sm font-medium hover:underline py-1 {{ request()->routeIs('finance.categories.index') ? 'text-primary' : '' }}" href="{{ route('finance.categories.index') }}">{{ __('messages.categories') }}</a>
                                 </div>
                             </div>
                         </div>
@@ -291,14 +291,14 @@
                         <!-- Mobile Products Accordion -->
                         <div x-data="{ expanded: {{ request()->routeIs(['products.*', 'categories.*', 'units.*']) ? 'true' : 'false' }} }" class="border-b-0">
                             <button @click="expanded = !expanded" class="flex flex-1 items-center justify-between py-0 font-semibold transition-all hover:underline [&[data-state=open]>svg]:rotate-180 w-full text-left text-md {{ request()->routeIs(['products.*', 'categories.*', 'units.*']) ? 'text-primary' : '' }}">
-                                Products
+                                {{ __('messages.products') }}
                                 <x-heroicon-o-chevron-down :class="{'rotate-180': expanded}" class="h-4 w-4 shrink-0 transition-transform duration-200" />
                             </button>
                             <div x-show="expanded" x-collapse>
                                 <div class="mt-2 flex flex-col gap-2 pl-4 border-l border-border ml-2">
-                                    <a class="text-sm font-medium hover:underline py-1 {{ request()->routeIs('products.index') ? 'text-primary' : '' }}" href="{{ route('products.index') }}">Products</a>
-                                    <a class="text-sm font-medium hover:underline py-1 {{ request()->routeIs('categories.index') ? 'text-primary' : '' }}" href="{{ route('categories.index') }}">Categories</a>
-                                    <a class="text-sm font-medium hover:underline py-1 {{ request()->routeIs('units.index') ? 'text-primary' : '' }}" href="{{ route('units.index') }}">Units</a>
+                                    <a class="text-sm font-medium hover:underline py-1 {{ request()->routeIs('products.index') ? 'text-primary' : '' }}" href="{{ route('products.index') }}">{{ __('messages.product_list') }}</a>
+                                    <a class="text-sm font-medium hover:underline py-1 {{ request()->routeIs('categories.index') ? 'text-primary' : '' }}" href="{{ route('categories.index') }}">{{ __('messages.categories') }}</a>
+                                    <a class="text-sm font-medium hover:underline py-1 {{ request()->routeIs('units.index') ? 'text-primary' : '' }}" href="{{ route('units.index') }}">{{ __('messages.units') }}</a>
                                 </div>
                             </div>
                         </div>

@@ -7,17 +7,17 @@
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
-                <span class="text-sm font-medium text-foreground">Loading data...</span>
+                <span class="text-sm font-medium text-foreground">{{ __('messages.loading_data') }}</span>
             </div>
         </div>
 
         <!-- Custom Header -->
-        <div class="mb-6 space-y-1.5 text-center sm:text-left border-b border-gray-200 pb-4">
+        <div class="mb-6 space-y-1.5 text-center sm:text-left border-b border-gray-200 dark:border-border pb-4">
             <h3 class="text-lg font-semibold leading-none tracking-tight text-foreground">
-                {{ $isEditing ? 'Edit Product' : 'Create Product' }}
+                {{ $isEditing ? __('messages.edit_product') : __('messages.add_product') }}
             </h3>
             <p class="text-sm text-muted-foreground">
-                {{ $isEditing ? 'Make changes to your product here. Click save when you\'re done.' : 'Add a new product to your inventory.' }}
+                {{ $isEditing ? __('messages.edit_product_subtitle') : __('messages.create_product_subtitle') }}
             </p>
         </div>
 
@@ -28,7 +28,7 @@
                 @if($isEditing)
                     <x-form-input
                         name="sku"
-                        label="SKU (Stock Keeping Unit)"
+                        :label="__('messages.sku')"
                         type="text"
                         wire:model="sku"
                         readonly
@@ -45,7 +45,7 @@
                 <!-- Name -->
                 <x-form-input
                     name="name"
-                    label="Product Name"
+                    :label="__('messages.product_name')"
                     placeholder="e.g. Wireless Mouse"
                     type="text"
                     wire:model="name"
@@ -61,10 +61,10 @@
                     <x-searchable-select
                         id="category_id"
                         name="category_id"
-                        label="Category"
+                        :label="__('messages.category')"
                         wire:model="category_id"
                         :options="$categoryOptions"
-                        placeholder="Select Category"
+                        :placeholder="__('messages.select_category')"
                         required
                     />
                 </div>
@@ -74,10 +74,10 @@
                     <x-searchable-select
                         id="unit_id"
                         name="unit_id"
-                        label="Unit"
+                        :label="__('messages.unit')"
                         wire:model="unit_id"
                         :options="$unitOptions"
-                        placeholder="Select Unit"
+                        :placeholder="__('messages.select_unit')"
                         required
                     />
                 </div>
@@ -87,7 +87,7 @@
             <div class="flex flex-col sm:flex-row gap-6">
                 <!-- Purchase Price -->
                 <div class="w-full sm:w-1/2 space-y-2">
-                    <x-input-label for="purchase_price" value="Purchase Price (Rp)" />
+                    <x-input-label for="purchase_price" :value="__('messages.purchase_price') . ' (Rp)'" />
                     <x-currency-input
                         id="purchase_price"
                         wire:model.blur="purchase_price"
@@ -99,7 +99,7 @@
 
                 <!-- Selling Price -->
                 <div class="w-full sm:w-1/2 space-y-2">
-                    <x-input-label for="selling_price" value="Selling Price (Rp)" />
+                    <x-input-label for="selling_price" :value="__('messages.selling_price') . ' (Rp)'" />
                     <x-currency-input
                         id="selling_price"
                         wire:model.blur="selling_price"
@@ -115,7 +115,7 @@
                 <!-- Quantity -->
                 <x-form-input
                     name="quantity"
-                    label="Quantity"
+                    :label="__('messages.qty')"
                     type="number"
                     wire:model="quantity"
                     min="0"
@@ -126,7 +126,7 @@
                 <!-- Min Stock -->
                 <x-form-input
                     name="min_stock"
-                    label="Min Stock Alert"
+                    :label="__('messages.min_stock')"
                     type="number"
                     wire:model="min_stock"
                     min="0"
@@ -143,7 +143,7 @@
                             class="w-6 h-6 rounded-full border-2 border-primary text-primary focus:ring-primary/20"
                         >
                         <span class="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300">
-                            {{ __('Active') }}
+                            {{ __('messages.active') }}
                         </span>
                     </label>
                 </div>
@@ -151,26 +151,26 @@
 
             <!-- Description -->
             <div class="space-y-2">
-                <x-input-label for="description" value="Description" />
+                <x-input-label for="description" :value="__('messages.description')" />
                 <textarea
                     id="description"
                     wire:model="description"
                     rows="3"
                     class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                    placeholder="Optional description..."
+                    placeholder="{{ __('messages.optional_description') }}"
                 ></textarea>
                 <x-input-error :messages="$errors->get('description')" />
             </div>
 
             <!-- Notes -->
             <div class="space-y-2">
-                <x-input-label for="notes" value="Internal Notes" />
+                <x-input-label for="notes" :value="__('messages.internal_notes')" />
                 <textarea
                     id="notes"
                     wire:model="notes"
                     rows="3"
                     class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                    placeholder="Internal pricing history & notes..."
+                    placeholder="{{ __('messages.pricing_history_placeholder') }}"
                 ></textarea>
                 <x-input-error :messages="$errors->get('notes')" />
             </div>
@@ -178,7 +178,7 @@
             <!-- Actions -->
             <div class="mt-6 flex justify-end gap-3 border-t pt-4 border-gray-200">
                 <x-secondary-button type="button" x-on:click="$dispatch('close-modal', { name: 'product-form-modal' })">
-                    {{ __('Cancel') }}
+                    {{ __('messages.back') }}
                 </x-secondary-button>
 
                 <x-primary-button type="submit" wire:loading.attr="disabled">
@@ -187,7 +187,7 @@
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
                     <x-heroicon-o-check wire:loading.remove wire:target="save" class="w-4 h-4 mr-2" />
-                    {{ $isEditing ? __('Save Changes') : __('Create Product') }}
+                    {{ $isEditing ? __('messages.save_changes') : __('messages.add_product') }}
                 </x-primary-button>
             </div>
         </form>
