@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Livewire\Catalog\Home;
+use App\Livewire\Catalog\About;
+use App\Livewire\Catalog\Contact;
+use App\Livewire\Catalog\ProductCatalog;
 use App\Http\Controllers\Api\PosController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\SearchController;
@@ -8,9 +12,10 @@ use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FinanceReportController;
 
-Route::get('/', function () {
-    return redirect()->route('dashboard');
-});
+Route::get('/', Home::class)->name('home');
+Route::get('/catalog', ProductCatalog::class)->name('catalog');
+Route::get('/about', About::class)->name('about');
+Route::get('/contact', Contact::class)->name('contact');
 
 Route::get('language/{locale}', function ($locale) {
     if (in_array($locale, ['id', 'en'])) {

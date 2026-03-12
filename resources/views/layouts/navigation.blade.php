@@ -20,6 +20,12 @@
                             {{ __('messages.dashboard') }}
                         </a>
 
+                        <!-- Catalog Link -->
+                        <a href="{{ route('catalog') }}" class="group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-50 {{ request()->routeIs('catalog') ? 'bg-accent/50 text-accent-foreground' : 'bg-background' }}">
+                            <x-heroicon-o-book-open class="mr-2 h-4 w-4" />
+                            {{ __('messages.catalog') }}
+                        </a>
+
                         <!-- Sales Dropdown -->
                         <x-nav-dropdown active="{{ request()->routeIs(['sales.*', 'customers.*']) }}">
                             <x-slot name="icon">
@@ -241,6 +247,7 @@
 
                     <div class="flex w-full flex-col gap-4">
                         <a href="{{ route('dashboard') }}" class="text-md font-semibold hover:underline {{ request()->routeIs('dashboard') ? 'text-primary' : '' }}">{{ __('messages.dashboard') }}</a>
+                        <a href="{{ route('catalog') }}" class="text-md font-semibold hover:underline {{ request()->routeIs('catalog') ? 'text-primary' : '' }}">{{ __('messages.catalog') }}</a>
 
                         <!-- Mobile Sales Accordion -->
                         <div x-data="{ expanded: {{ request()->routeIs(['sales.*', 'customers.*']) ? 'true' : 'false' }} }" class="border-b-0">
