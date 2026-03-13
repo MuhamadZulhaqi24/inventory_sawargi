@@ -69,10 +69,14 @@
                 </div>
 
                 <!-- Simple Map Placeholder -->
-                <div class="h-64 rounded-2xl bg-muted border border-border overflow-hidden relative flex items-center justify-center">
-                    <x-heroicon-o-map class="w-16 h-16 text-primary/20" />
-                    <div class="absolute inset-0 flex items-center justify-center bg-background/20 backdrop-blur-[2px]">
-                        <p class="text-sm font-semibold text-foreground bg-background px-4 py-2 rounded-full shadow-lg border border-border">{{ __('Lokasi Pamijahan, Cirebon') }}</p>
+                <div 
+                    class="h-64 rounded-2xl bg-muted border border-border overflow-hidden relative flex items-center justify-center group"
+                >
+                    <img src="{{ asset('images/map-sawargi.png') }}" alt="Map Sawargi" class="w-full h-full object-cover" />
+                    <div class="absolute inset-0 flex items-center justify-center bg-background/20 transition-all duration-300 backdrop-blur-[2px] group-hover:backdrop-blur-0">
+                        <p class="text-sm font-semibold text-foreground bg-background px-4 py-2 rounded-full shadow-lg border border-border group-hover:opacity-0 transition-opacity duration-300">
+                            {{ __('Kertasari, Kec. Ciamis') }}
+                        </p>
                     </div>
                 </div>
             </div>
