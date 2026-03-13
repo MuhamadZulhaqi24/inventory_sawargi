@@ -27,7 +27,7 @@
     <body class="font-sans antialiased bg-background text-foreground">
         <div class="min-h-screen bg-background flex flex-col">
             <!-- Customer Header -->
-            <header class="py-4 bg-background border-b border-border sticky top-0 z-40 backdrop-blur-sm bg-background/80" x-data="{ mobileMenuOpen: false }">
+            <header class="py-4 {{ request()->routeIs('home') ? 'bg-gray-100 dark:bg-background' : 'bg-background' }} border-b border-border sticky top-0 z-40 backdrop-blur-sm {{ request()->routeIs('home') ? 'bg-gray-100/80 dark:bg-background/80' : 'bg-background/80' }}" x-data="{ mobileMenuOpen: false }">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex items-center justify-between">
                         <!-- Logo -->
@@ -137,7 +137,7 @@
                                 <span class="text-xl font-black tracking-tighter">{{ \App\Models\Setting::get('store_name', config('app.name')) }}</span>
                             </div>
                             <p class="text-sm text-muted-foreground leading-relaxed">
-                                {{ __('Sistem manajemen inventori dan katalog produk modern untuk kemudahan bisnis Anda.') }}
+                                {{ __('Menyediakan bahan bangunan berkualitas tinggi dengan harga yang jujur, memberikan kemudahan dalam mencari bahan bangunan yang Anda butuhkan.') }}
                             </p>
                         </div>
 
@@ -147,15 +147,15 @@
                             <ul class="space-y-4">
                                 <li class="flex items-start gap-3 text-sm text-muted-foreground">
                                     <x-heroicon-o-map-pin class="w-5 h-5 text-primary shrink-0" />
-                                    <span>{{ \App\Models\Setting::get('store_address', 'Alamat belum diatur') }}</span>
+                                    <span>{{ \App\Models\Setting::get('store_address', 'Jl. Koperasi No.1B, Kertasari, Kec. Ciamis, Kabupaten Ciamis, Jawa Barat 46213') }}</span>
                                 </li>
                                 <li class="flex items-center gap-3 text-sm text-muted-foreground">
                                     <x-heroicon-o-phone class="w-5 h-5 text-primary shrink-0" />
-                                    <span>{{ \App\Models\Setting::get('store_phone', '-') }}</span>
+                                    <span>{{ \App\Models\Setting::get('store_phone', '0265426243') }}</span>
                                 </li>
                                 <li class="flex items-center gap-3 text-sm text-muted-foreground">
                                     <x-heroicon-o-envelope class="w-5 h-5 text-primary shrink-0" />
-                                    <span>{{ __('info@tokoanda.com') }}</span>
+                                    <span>{{ __('sawargijaya@gmail.com') }}</span>
                                 </li>
                             </ul>
                         </div>

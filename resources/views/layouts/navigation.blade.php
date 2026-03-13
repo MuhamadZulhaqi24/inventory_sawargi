@@ -15,15 +15,9 @@
                 <div class="flex items-center">
                     <div class="flex flex-row gap-1">
                         <!-- Dashboard Link -->
-                        <a href="{{ route('dashboard') }}" class="group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-50 {{ request()->routeIs('dashboard') ? 'bg-accent/50 text-accent-foreground' : 'bg-background' }}">
+                        <a href="{{ route('dashboard') }}" class="group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-primary hover:text-white disabled:pointer-events-none disabled:opacity-50 {{ request()->routeIs('dashboard') ? 'bg-transparent text-primary' : 'bg-background text-foreground' }}">
                             <x-heroicon-o-squares-2x2 class="mr-2 h-4 w-4" />
                             {{ __('messages.dashboard') }}
-                        </a>
-
-                        <!-- Catalog Link -->
-                        <a href="{{ route('catalog') }}" class="group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-50 {{ request()->routeIs('catalog') ? 'bg-accent/50 text-accent-foreground' : 'bg-background' }}">
-                            <x-heroicon-o-book-open class="mr-2 h-4 w-4" />
-                            {{ __('messages.catalog') }}
                         </a>
 
                         <!-- Sales Dropdown -->
@@ -84,7 +78,7 @@
                         </x-nav-dropdown>
 
                         <!-- Users Link -->
-                        <a href="{{ route('users.index') }}" class="group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-50 {{ request()->routeIs('users.*') ? 'bg-accent/50 text-accent-foreground' : 'bg-background' }}">
+                        <a href="{{ route('users.index') }}" class="group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-primary hover:text-white disabled:pointer-events-none disabled:opacity-50 {{ request()->routeIs('users.*') ? 'bg-transparent text-primary' : 'bg-background text-foreground' }}">
                             <x-heroicon-o-users class="mr-2 h-4 w-4" />
                             {{ __('messages.users') }}
                         </a>
@@ -246,8 +240,7 @@
                     </div>
 
                     <div class="flex w-full flex-col gap-4">
-                        <a href="{{ route('dashboard') }}" class="text-md font-semibold hover:underline {{ request()->routeIs('dashboard') ? 'text-primary' : '' }}">{{ __('messages.dashboard') }}</a>
-                        <a href="{{ route('catalog') }}" class="text-md font-semibold hover:underline {{ request()->routeIs('catalog') ? 'text-primary' : '' }}">{{ __('messages.catalog') }}</a>
+                        <a href="{{ route('dashboard') }}" class="text-md font-semibold hover:text-primary {{ request()->routeIs('dashboard') ? 'text-primary' : '' }}">{{ __('messages.dashboard') }}</a>
 
                         <!-- Mobile Sales Accordion -->
                         <div x-data="{ expanded: {{ request()->routeIs(['sales.*', 'customers.*']) ? 'true' : 'false' }} }" class="border-b-0">
@@ -293,7 +286,7 @@
                         </div>
 
                         <!-- Mobile Users Link -->
-                        <a href="{{ route('users.index') }}" class="text-md font-semibold hover:underline border-b pb-4 {{ request()->routeIs('users.*') ? 'text-primary' : '' }}">{{ __('messages.users') }}</a>
+                        <a href="{{ route('users.index') }}" class="text-md font-semibold hover:text-primary border-b pb-4 {{ request()->routeIs('users.*') ? 'text-primary' : '' }}">{{ __('messages.users') }}</a>
 
                         <!-- Mobile Products Accordion -->
                         <div x-data="{ expanded: {{ request()->routeIs(['products.*', 'categories.*', 'units.*']) ? 'true' : 'false' }} }" class="border-b-0">
