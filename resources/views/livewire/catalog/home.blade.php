@@ -42,13 +42,35 @@
             </div>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
                 @foreach($featuredCategories as $category)
+                    @php
+                        $imageName = match($category->id) {
+                            1 => 'matrial.png',
+                            2 => 'kayu-atap.png',
+                            4 => 'lantai.png',
+                            6 => 'paku-alat.png',
+                            default => null
+                        };
+                    @endphp
                     <a href="{{ route('catalog', ['category_id' => $category->id]) }}" class="group block">
-                        <div class="relative overflow-hidden rounded-2xl bg-card border border-border p-8 text-center transition-all hover:shadow-lg hover:-translate-y-1">
-                            <div class="mx-auto h-12 w-12 text-primary group-hover:scale-110 transition-transform">
-                                <x-heroicon-o-tag />
+                        <div class="relative overflow-hidden rounded-2xl bg-card border border-border transition-all hover:shadow-2xl hover:-translate-y-2">
+                            <!-- Category Image -->
+                            <div class="aspect-[4/3] w-full overflow-hidden bg-muted">
+                                @if($imageName)
+                                    <img src="{{ asset('images/' . $imageName) }}" alt="{{ $category->name }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                                @else
+                                    <div class="w-full h-full flex items-center justify-center">
+                                        <x-heroicon-o-photo class="w-12 h-12 text-muted-foreground/20" />
+                                    </div>
+                                @endif
+                                <!-- Overlay -->
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                             </div>
-                            <h3 class="mt-4 text-lg font-bold text-foreground uppercase">{{ $category->name }}</h3>
-                            <p class="mt-1 text-sm text-muted-foreground">{{ $category->products_count }} {{ __('messages.products_count_label') }}</p>
+                            
+                            <!-- Category Info (Positioned over image) -->
+                            <div class="absolute bottom-0 left-0 right-0 p-6">
+                                <h3 class="text-lg font-black text-white uppercase tracking-tight">{{ $category->name }}</h3>
+                                <p class="text-xs font-bold text-primary-foreground/80 uppercase tracking-widest mt-1">{{ $category->products_count }} {{ __('messages.products_count_label') }}</p>
+                            </div>
                         </div>
                     </a>
                 @endforeach
