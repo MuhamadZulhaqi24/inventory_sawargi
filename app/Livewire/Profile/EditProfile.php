@@ -45,7 +45,7 @@ class EditProfile extends Component
             ]);
 
             $this->dispatch('profile-updated', name: $user->name);
-            $this->dispatch('toast', message: 'Profile updated successfully.', type: 'success');
+            $this->dispatch('toast', message: __('messages.profile_updated'), type: 'success');
         } catch (\Exception $e) {
             $this->dispatch('toast', message: $e->getMessage(), type: 'error');
         }

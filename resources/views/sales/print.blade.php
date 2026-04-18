@@ -258,7 +258,7 @@
                 </div>
                 <div class="header-row">
                     <span class="header-label">Kepada Yth,</span>
-                    <span class="header-value">{{ $sale->customer->name ?? 'Guest' }}</span>
+                    <span class="header-value">{{ $sale->customer->name ?? 'Tamu' }}</span>
                 </div>
             </div>
         </div>

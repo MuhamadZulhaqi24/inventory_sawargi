@@ -42,9 +42,9 @@ class SettingForm extends Component
 
             $this->dispatch('close-modal', name: 'setting-form-modal');
             $this->dispatch('pg:eventRefresh-setting-table');
-            $this->dispatch('toast', message: 'Setting updated successfully.', type: 'success');
+            $this->dispatch('toast', message: __('messages.setting_updated'), type: 'success');
         } catch (\Exception $e) {
-            $this->dispatch('toast', message: 'Failed to update setting: ' . $e->getMessage(), type: 'error');
+            $this->dispatch('toast', message: __('messages.failed_to_update_setting') . ' ' . $e->getMessage(), type: 'error');
         }
     }
 

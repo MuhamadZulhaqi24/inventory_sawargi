@@ -17,11 +17,7 @@
         @livewireStyles
     </head>
     <body class="font-sans text-foreground antialiased bg-background">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0">
-            <div class="w-full sm:max-w-md mt-6 px-6 py-4 text-foreground overflow-hidden">
-                {{ $slot }}
-            </div>
-        </div>
+        {{ $slot }}
         @livewireScripts
     </body>
 </html>

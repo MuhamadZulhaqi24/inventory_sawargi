@@ -73,10 +73,10 @@ class UserForm extends Component
         try {
             if ($this->isEditing && $this->user) {
                 $service->updateUser($this->user, $data);
-                $message = 'User updated successfully.';
+                $message = __('messages.user_updated');
             } else {
                 $service->createUser($data);
-                $message = 'User created successfully.';
+                $message = __('messages.user_created');
             }
 
             $this->dispatch('close-modal', name: 'user-form-modal');

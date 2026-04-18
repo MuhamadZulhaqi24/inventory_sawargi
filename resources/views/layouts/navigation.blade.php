@@ -15,7 +15,7 @@
                 <div class="flex items-center">
                     <div class="flex flex-row gap-1">
                         <!-- Dashboard Link -->
-                        <a href="{{ route('dashboard') }}" class="group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-50 {{ request()->routeIs('dashboard') ? 'bg-accent/50 text-accent-foreground' : 'bg-background' }}">
+                        <a href="{{ route('dashboard') }}" class="group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-primary hover:text-white disabled:pointer-events-none disabled:opacity-50 {{ request()->routeIs('dashboard') ? 'bg-transparent text-primary' : 'bg-background text-foreground' }}">
                             <x-heroicon-o-squares-2x2 class="mr-2 h-4 w-4" />
                             {{ __('messages.dashboard') }}
                         </a>
@@ -78,9 +78,9 @@
                         </x-nav-dropdown>
 
                         <!-- Users Link -->
-                        <a href="{{ route('users.index') }}" class="group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-50 {{ request()->routeIs('users.*') ? 'bg-accent/50 text-accent-foreground' : 'bg-background' }}">
+                        <a href="{{ route('users.index') }}" class="group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-primary hover:text-white disabled:pointer-events-none disabled:opacity-50 {{ request()->routeIs('users.*') ? 'bg-transparent text-primary' : 'bg-background text-foreground' }}">
                             <x-heroicon-o-users class="mr-2 h-4 w-4" />
-                            Users
+                            {{ __('messages.users') }}
                         </a>
 
                         <!-- Products Dropdown -->
@@ -154,11 +154,11 @@
 
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.index')" :active="request()->routeIs('profile.*')">
-                            {{ __('Profile') }}
+                            {{ __('messages.profile') }}
                         </x-dropdown-link>
 
                         <x-dropdown-link :href="route('settings.index')" :active="request()->routeIs('settings.*')">
-                            {{ __('Settings') }}
+                            {{ __('messages.settings') }}
                         </x-dropdown-link>
 
                         <!-- Authentication -->
@@ -168,7 +168,7 @@
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                {{ __('messages.logout') }}
                             </x-dropdown-link>
                         </form>
                     </x-slot>
@@ -240,7 +240,7 @@
                     </div>
 
                     <div class="flex w-full flex-col gap-4">
-                        <a href="{{ route('dashboard') }}" class="text-md font-semibold hover:underline {{ request()->routeIs('dashboard') ? 'text-primary' : '' }}">{{ __('messages.dashboard') }}</a>
+                        <a href="{{ route('dashboard') }}" class="text-md font-semibold hover:text-primary {{ request()->routeIs('dashboard') ? 'text-primary' : '' }}">{{ __('messages.dashboard') }}</a>
 
                         <!-- Mobile Sales Accordion -->
                         <div x-data="{ expanded: {{ request()->routeIs(['sales.*', 'customers.*']) ? 'true' : 'false' }} }" class="border-b-0">
@@ -286,7 +286,7 @@
                         </div>
 
                         <!-- Mobile Users Link -->
-                        <a href="{{ route('users.index') }}" class="text-md font-semibold hover:underline border-b pb-4 {{ request()->routeIs('users.*') ? 'text-primary' : '' }}">Users</a>
+                        <a href="{{ route('users.index') }}" class="text-md font-semibold hover:text-primary border-b pb-4 {{ request()->routeIs('users.*') ? 'text-primary' : '' }}">{{ __('messages.users') }}</a>
 
                         <!-- Mobile Products Accordion -->
                         <div x-data="{ expanded: {{ request()->routeIs(['products.*', 'categories.*', 'units.*']) ? 'true' : 'false' }} }" class="border-b-0">
@@ -309,15 +309,15 @@
                             <div class="font-medium text-base text-foreground mb-2">{{ Auth::user()->name }}</div>
                             <div class="flex flex-col gap-3">
                                 <a href="{{ route('profile.index') }}" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input h-9 px-4 py-2 w-full {{ request()->routeIs('profile.*') ? 'bg-accent text-accent-foreground' : 'bg-background hover:bg-accent hover:text-accent-foreground' }}">
-                                    Profile
+                                    {{ __('messages.profile') }}
                                 </a>
                                 <a href="{{ route('settings.index') }}" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input h-9 px-4 py-2 w-full {{ request()->routeIs('settings.*') ? 'bg-accent text-accent-foreground' : 'bg-background hover:bg-accent hover:text-accent-foreground' }}">
-                                    Settings
+                                    {{ __('messages.settings') }}
                                 </a>
                                 <form method="POST" action="{{ route('logout') }}" class="w-full">
                                     @csrf
                                     <button type="submit" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 w-full">
-                                        Log Out
+                                        {{ __('messages.logout') }}
                                     </button>
                                 </form>
                             </div>
