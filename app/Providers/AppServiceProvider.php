@@ -19,6 +19,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        if (!function_exists('t_label')) {
+            function t_label(string $key): string {
+                return \App\Helpers\TenantHelper::getLabel($key);
+            }
+        }
     }
 }

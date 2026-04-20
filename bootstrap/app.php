@@ -14,6 +14,11 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             \App\Http\Middleware\SetLocale::class,
         ]);
+
+        $middleware->alias([
+            'super_admin' => \App\Http\Middleware\SuperAdminOnly::class,
+            'has_company' => \App\Http\Middleware\EnsureUserHasCompany::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

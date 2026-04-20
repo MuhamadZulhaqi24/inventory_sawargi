@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\BelongsToCompany;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -16,7 +17,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class Unit extends Model
 {
-    use HasFactory;
+    use HasFactory, BelongsToCompany;
 
     /**
      * The table associated with the model.

@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\BelongsToCompany;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 
 class Setting extends Model
 {
+    use BelongsToCompany;
+
     protected $primaryKey = 'key';
     public $incrementing = false;
     protected $keyType = 'string';
