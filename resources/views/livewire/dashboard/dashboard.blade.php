@@ -49,7 +49,7 @@
         <!-- Total Sales -->
         <div class="rounded-xl border bg-card text-card-foreground shadow-sm">
             <div class="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
-                <h3 class="tracking-tight text-sm font-medium">{{ __('messages.total_sales') }}</h3>
+                <h3 class="tracking-tight text-sm font-medium">Total {{ t_label('sale') }}</h3>
                 <x-heroicon-o-banknotes class="h-4 w-4 text-muted-foreground" />
             </div>
             <div class="p-6 pt-0">
@@ -121,7 +121,7 @@
         <!-- Sales Trend -->
         <div class="lg:col-span-2 rounded-xl border bg-card text-card-foreground shadow-sm">
             <div class="p-6 flex flex-col space-y-1.5 pb-2">
-                <h3 class="font-semibold leading-none tracking-tight">{{ __('messages.sales_trend') }}</h3>
+                <h3 class="font-semibold leading-none tracking-tight">Tren {{ t_label('sale') }}</h3>
                 <p class="text-sm text-muted-foreground">{{ __('messages.sales_trend_subtitle') }}</p>
             </div>
             <div class="p-6 pt-0" wire:ignore>
@@ -154,7 +154,7 @@
                         <thead class="[&_tr]:border-b">
                             <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
                                 <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground">{{ __('messages.invoice') }}</th>
-                                <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground">{{ __('messages.customer') }}</th>
+                                <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground">{{ t_label('customer') }}</th>
                                 <th class="h-12 px-4 text-right align-middle font-medium text-muted-foreground">{{ __('messages.amount') }}</th>
                             </tr>
                         </thead>
@@ -179,7 +179,7 @@
         <!-- Top Selling Products -->
         <div class="lg:col-span-3 rounded-xl border bg-card text-card-foreground shadow-sm">
             <div class="p-6 flex flex-col space-y-1.5">
-                <h3 class="font-semibold leading-none tracking-tight">{{ __('messages.top_products') }}</h3>
+                <h3 class="font-semibold leading-none tracking-tight">{{ t_label('product') }} Terlaris</h3>
                 <p class="text-sm text-muted-foreground">{{ __('messages.best_selling_items') }}</p>
             </div>
              <div class="p-6 pt-0">

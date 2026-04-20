@@ -22,24 +22,51 @@
             />
 
             <!-- Username -->
-            <x-form-input
-                name="username"
-                :label="__('messages.username')"
-                type="text"
-                wire:model="username"
-                required
-                :placeholder="__('messages.unique_username')"
-            />
+            <div class="grid grid-cols-1 {{ auth()->user()->is_super_admin ? 'md:grid-cols-2' : '' }} gap-4">
+                <x-form-input
+                    name="username"
+                    :label="__('messages.username')"
+                    type="text"
+                    wire:model="username"
+                    required
+                    :placeholder="__('messages.unique_username')"
+                />
+
+                @if(auth()->user()->is_super_admin)
+                <div class="space-y-2">
+                    <x-input-label for="company_id" value="Company" />
+                    <select wire:model="company_id" id="company_id" class="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
+                        <option value="">Select Company</option>
+                        @foreach(\App\Models\Company::all() as $company)
+                            <option value="{{ $company->id }}">{{ $company->name }}</option>
+                        @endforeach
+                    </select>
+                    <x-input-error :messages="$errors->get('company_id')" />
+                </div>
+                @endif
+            </div>
 
             <!-- Email -->
-            <x-form-input
-                name="email"
-                :label="__('messages.email')"
-                type="email"
-                wire:model="email"
-                required
-                placeholder="email@example.com"
-            />
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <x-form-input
+                    name="email"
+                    :label="__('messages.email')"
+                    type="email"
+                    wire:model="email"
+                    required
+                    placeholder="email@example.com"
+                />
+
+                <div class="space-y-2">
+                    <x-input-label for="role" value="Role" />
+                    <select wire:model="role" id="role" class="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
+                        <option value="owner">Owner / Admin</option>
+                        <option value="manager">Manager</option>
+                        <option value="staff">Staff / Kasir</option>
+                    </select>
+                    <x-input-error :messages="$errors->get('role')" />
+                </div>
+            </div>
 
             <!-- Password -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">

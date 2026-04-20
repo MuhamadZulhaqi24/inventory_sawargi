@@ -73,3 +73,8 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+// Super Admin Routes
+Route::middleware(['auth', 'super_admin'])->group(function () {
+    Route::get('/companies', \App\Livewire\Companies\CompanyIndex::class)->name('companies.index');
+});

@@ -20,6 +20,7 @@ class UserService
                 'name' => $data->name,
                 'username' => $data->username,
                 'email' => $data->email,
+                'role' => $data->role,
                 'password' => $data->password,
             ]);
         });
@@ -32,6 +33,7 @@ class UserService
                 'name' => $data->name,
                 'username' => $data->username,
                 'email' => $data->email,
+                'role' => $data->role,
             ];
 
             if ($data->password) {

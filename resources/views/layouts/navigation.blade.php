@@ -20,13 +20,27 @@
                             {{ __('messages.dashboard') }}
                         </a>
 
+                        <!-- Super Admin: Companies Management -->
+                        @if(Auth::user()->is_super_admin)
+                        <a href="{{ route('companies.index') }}" class="group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-primary hover:text-white disabled:pointer-events-none disabled:opacity-50 {{ request()->routeIs('companies.*') ? 'bg-transparent text-primary' : 'bg-background text-foreground' }}">
+                            <x-heroicon-o-building-office-2 class="mr-2 h-4 w-4" />
+                            Tenants
+                        </a>
+
+                        <a href="{{ route('users.index') }}" class="group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-primary hover:text-white disabled:pointer-events-none disabled:opacity-50 {{ request()->routeIs('users.*') ? 'bg-transparent text-primary' : 'bg-background text-foreground' }}">
+                            <x-heroicon-o-users class="mr-2 h-4 w-4" />
+                            {{ __('messages.users') }}
+                        </a>
+                        @endif
+
                         <!-- Sales Dropdown -->
+                        @if(!Auth::user()->is_super_admin)
                         <x-nav-dropdown active="{{ request()->routeIs(['sales.*', 'customers.*']) }}">
                             <x-slot name="icon">
                                 <x-heroicon-o-banknotes class="mr-2 h-4 w-4" />
                             </x-slot>
                             <x-slot name="trigger">
-                                {{ __('messages.sales') }}
+                                {{ t_label('sale') }}
                             </x-slot>
                             <x-slot name="content">
                                 <x-dropdown-link :href="route('sales.create')" :active="request()->routeIs('sales.create')">
@@ -36,7 +50,7 @@
                                     {{ __('messages.sales_list') }}
                                 </x-dropdown-link>
                                 <x-dropdown-link :href="route('customers.index')" :active="request()->routeIs('customers.*')">
-                                    {{ __('messages.customers') }}
+                                    {{ t_label('customer') }}
                                 </x-dropdown-link>
                             </x-slot>
                         </x-nav-dropdown>
@@ -54,7 +68,7 @@
                                     {{ __('messages.purchase_list') }}
                                 </x-dropdown-link>
                                 <x-dropdown-link :href="route('suppliers.index')" :active="request()->routeIs('suppliers.*')">
-                                    {{ __('messages.suppliers') }}
+                                    {{ t_label('supplier') }}
                                 </x-dropdown-link>
                             </x-slot>
                         </x-nav-dropdown>
@@ -89,7 +103,7 @@
                                 <x-heroicon-o-cube class="mr-2 h-4 w-4" />
                             </x-slot>
                             <x-slot name="trigger">
-                                {{ __('messages.products') }}
+                                {{ t_label('product') }}
                             </x-slot>
                             <x-slot name="content">
                                 <x-dropdown-link :href="route('products.index')" :active="request()->routeIs('products.*')">
@@ -103,6 +117,7 @@
                                 </x-dropdown-link>
                             </x-slot>
                         </x-nav-dropdown>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -144,15 +159,24 @@
                     <x-heroicon-o-moon x-show="theme === 'light'" class="h-5 w-5" />
                 </button>
 
-                <x-dropdown align="right" width="48">
+                <x-dropdown align="right" width="56">
                     <x-slot name="trigger">
-                        <button class="inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 gap-2">
-                            <span class="hidden md:inline-flex">{{ Auth::user()->name }}</span>
+                        <button class="inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:opacity-80 transition-opacity">
                             <x-avatar :name="Auth::user()->name" />
                         </button>
                     </x-slot>
 
                     <x-slot name="content">
+                        <div class="px-4 py-3 border-b border-border mb-1 bg-muted/30">
+                            <p class="text-sm text-center font-semibold text-foreground truncate">{{ Auth::user()->name }}</p>
+                            <p class="text-xs text-muted-foreground truncate">{{ Auth::user()->email }}</p>
+                            @if(Auth::user()->is_super_admin)
+                                <span class="mt-1 inline-flex items-center rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-medium text-primary">Platform Admin</span>
+                            @else
+                                <span class="mt-1 inline-flex items-center rounded-full bg-muted px-2 py-0.5 text-[10px] font-medium text-muted-foreground uppercase">{{ Auth::user()->company->name }}</span>
+                            @endif
+                        </div>
+
                         <x-dropdown-link :href="route('profile.index')" :active="request()->routeIs('profile.*')">
                             {{ __('messages.profile') }}
                         </x-dropdown-link>

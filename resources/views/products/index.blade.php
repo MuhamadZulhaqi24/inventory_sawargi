@@ -1,8 +1,8 @@
-<x-app-layout :title="__('messages.product_list')">
+<x-app-layout :title="'Daftar ' . t_label('product')">
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-semibold text-xl text-foreground leading-tight">
-                {{ __('messages.product_list') }}
+                Daftar {{ t_label('product') }}
             </h2>
             <x-primary-button x-data x-on:click="$dispatch('create-product')">
                 <x-heroicon-o-plus class="w-4 h-4 mr-2" />

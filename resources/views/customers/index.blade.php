@@ -1,8 +1,8 @@
-<x-app-layout :title="__('messages.customers')">
+<x-app-layout :title="t_label('customer')">
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-semibold text-xl text-foreground leading-tight">
-                {{ __('messages.customers') }}
+                {{ t_label('customer') }}
             </h2>
             <x-primary-button x-data x-on:click="$dispatch('create-customer')">
                 <x-heroicon-o-plus class="w-4 h-4 mr-2" />

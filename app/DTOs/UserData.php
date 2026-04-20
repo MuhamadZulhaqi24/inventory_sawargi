@@ -8,6 +8,7 @@ class UserData
         public readonly string $name,
         public readonly string $username,
         public readonly string $email,
+        public readonly string $role = 'staff',
         public readonly ?string $password = null,
     ) {}
 
@@ -17,6 +18,7 @@ class UserData
             name: $data['name'],
             username: $data['username'],
             email: $data['email'],
+            role: $data['role'] ?? 'staff',
             password: $data['password'] ?? null,
         );
     }
@@ -27,6 +29,7 @@ class UserData
             'name' => $this->name,
             'username' => $this->username,
             'email' => $this->email,
+            'role' => $this->role,
             'password' => $this->password,
         ];
     }

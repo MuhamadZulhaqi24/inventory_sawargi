@@ -28,6 +28,7 @@ class User extends Authenticatable
         'password',
         'company_id',
         'is_super_admin',
+        'role',
     ];
 
     /**

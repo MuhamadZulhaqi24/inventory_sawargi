@@ -386,4 +386,25 @@ return [
     'send_message' => 'Send Message',
     'subject' => 'Subject',
     'message' => 'Message',
+
+    'business' => [
+        'retail' => [
+            'customer' => 'Customer',
+            'product' => 'Product',
+            'sale' => 'Sale',
+            'supplier' => 'Supplier',
+        ],
+        'health' => [
+            'customer' => 'Patient',
+            'product' => 'Medicine/Service',
+            'sale' => 'Medical Record/Transaction',
+            'supplier' => 'Pharma Distributor',
+        ],
+        'library' => [
+            'customer' => 'Member',
+            'product' => 'Book',
+            'sale' => 'Borrowing',
+            'supplier' => 'Publisher',
+        ],
+    ],
 ];

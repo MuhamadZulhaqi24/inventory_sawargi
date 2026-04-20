@@ -4,7 +4,7 @@
             &copy; {{ date('Y') }} <span class="font-medium text-foreground">{{ config('app.name') }}</span>. All rights reserved.
         </p>
         <div class="flex items-center gap-4 text-sm text-muted-foreground">
-            <span>v1.7.0</span>
+            <span>v3.0.0</span>
         </div>
     </div>
 </footer>

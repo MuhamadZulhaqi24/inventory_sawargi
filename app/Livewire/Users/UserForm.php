@@ -17,6 +17,8 @@ class UserForm extends Component
     public $name;
     public $username;
     public $email;
+    public $role = 'staff';
+    public $company_id;
     public $password;
     public $password_confirmation;
 
@@ -26,6 +28,8 @@ class UserForm extends Component
             'name' => ['required', 'string', 'max:255'],
             'username' => ['required', 'string', 'max:255', Rule::unique('users', 'username')->ignore($this->user?->id)],
             'email' => ['required', 'email', 'max:255', Rule::unique('users', 'email')->ignore($this->user?->id)],
+            'role' => ['required', 'in:owner,manager,staff'],
+            'company_id' => [auth()->user()->is_super_admin ? 'required' : 'nullable', 'exists:companies,id'],
             'password' => [$this->isEditing ? 'nullable' : 'required', 'string', 'min:8', 'confirmed'],
         ];
     }
@@ -34,13 +38,15 @@ class UserForm extends Component
     public function handleOpenModal($name): void
     {
         if ($name === 'user-form-modal' && !$this->isEditing) {
-            $this->reset(['user', 'isEditing', 'name', 'username', 'email', 'password', 'password_confirmation']);
+            $this->reset(['user', 'isEditing', 'name', 'username', 'email', 'role', 'company_id', 'password', 'password_confirmation']);
+            $this->company_id = auth()->user()->company_id;
         }
     }
 
     public function create(): void
     {
-        $this->reset(['user', 'isEditing', 'name', 'username', 'email', 'password', 'password_confirmation']);
+        $this->reset(['user', 'isEditing', 'name', 'username', 'email', 'role', 'company_id', 'password', 'password_confirmation']);
+        $this->company_id = auth()->user()->company_id;
         $this->dispatch('open-modal', name: 'user-form-modal');
     }
 
@@ -53,6 +59,8 @@ class UserForm extends Component
         $this->name = $user->name;
         $this->username = $user->username;
         $this->email = $user->email;
+        $this->role = $user->role;
+        $this->company_id = $user->company_id;
         $this->password = '';
         $this->password_confirmation = '';
 
@@ -67,15 +75,27 @@ class UserForm extends Component
             name: $this->name,
             username: $this->username,
             email: $this->email,
+            role: $this->role,
             password: $this->password ?: null, // Pass null if empty in edit mode
         );
 
         try {
             if ($this->isEditing && $this->user) {
+                // Manually handle company update for super admin if needed
+                if (auth()->user()->is_super_admin) {
+                    $this->user->company_id = $this->company_id;
+                }
                 $service->updateUser($this->user, $data);
                 $message = __('messages.user_updated');
             } else {
-                $service->createUser($data);
+                // For creation, if super admin, we need to pass company_id to service
+                // But the service currently uses Auth::user()->company_id via Trait if not specified.
+                // Better to handle it explicitly in Service or here.
+                $newUser = $service->createUser($data);
+                if (auth()->user()->is_super_admin) {
+                    $newUser->company_id = $this->company_id;
+                    $newUser->save();
+                }
                 $message = __('messages.user_created');
             }
 

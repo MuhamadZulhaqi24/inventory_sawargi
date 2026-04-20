@@ -386,4 +386,25 @@ return [
     'send_message' => 'Kirim Pesan',
     'subject' => 'Subjek',
     'message' => 'Pesan',
+
+    'business' => [
+        'retail' => [
+            'customer' => 'Pelanggan',
+            'product' => 'Produk',
+            'sale' => 'Penjualan',
+            'supplier' => 'Pemasok',
+        ],
+        'health' => [
+            'customer' => 'Pasien',
+            'product' => 'Obat/Layanan',
+            'sale' => 'Rekam Medis/Transaksi',
+            'supplier' => 'Distributor Farmasi',
+        ],
+        'library' => [
+            'customer' => 'Anggota',
+            'product' => 'Buku',
+            'sale' => 'Peminjaman',
+            'supplier' => 'Penerbit',
+        ],
+    ],
 ];

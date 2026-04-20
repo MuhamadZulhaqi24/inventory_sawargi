@@ -2,7 +2,6 @@
 
 namespace App\Helpers;
 
-use App\Enums\BusinessType;
 use Illuminate\Support\Facades\Auth;
 
 class TenantHelper
@@ -10,13 +9,20 @@ class TenantHelper
     public static function getLabel(string $key): string
     {
         $user = Auth::user();
-        if (!$user || !$user->company_id) {
-            // Default to RETAIL labels for super admin or unassigned users
-            return BusinessType::RETAIL->labels()[$key] ?? $key;
+        $businessType = 'retail';
+
+        if ($user && $user->company_id) {
+            $businessType = $user->company->business_type;
         }
 
-        $businessType = BusinessType::from($user->company->business_type);
-        return $businessType->labels()[$key] ?? $key;
+        // Memanggil file lang/messages.php bagian business.[tipe].[key]
+        // Contoh: messages.business.health.customer
+        $langKey = "messages.business.{$businessType}.{$key}";
+        
+        // Cek apakah translasi ada, jika tidak gunakan default key
+        $label = __($langKey);
+
+        return $label === $langKey ? $key : $label;
     }
 
     public static function getBusinessType(): string
