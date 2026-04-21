@@ -71,31 +71,40 @@ class UserForm extends Component
     {
         $this->validate();
 
+        // 1. Tentukan Company ID (Otomatis jika bukan Super Admin)
+        $targetCompanyId = auth()->user()->is_super_admin ? $this->company_id : auth()->user()->company_id;
+        
+        // 2. Keamanan Role: Cegah tenant admin membuat 'Owner' baru
+        if (!auth()->user()->is_super_admin && strtolower($this->role) === 'owner') {
+             throw new \Exception('Maaf, Anda tidak memiliki izin untuk membuat atau mengedit user dengan role Owner.');
+        }
+
+        // 3. Cari Role ID yang sesuai
+        $roleModel = \App\Models\Role::where('company_id', $targetCompanyId)
+            ->where('name', 'like', $this->role)
+            ->first();
+
         $data = new UserData(
             name: $this->name,
             username: $this->username,
             email: $this->email,
             role: $this->role,
-            password: $this->password ?: null, // Pass null if empty in edit mode
+            password: $this->password ?: null,
         );
 
         try {
             if ($this->isEditing && $this->user) {
-                // Manually handle company update for super admin if needed
-                if (auth()->user()->is_super_admin) {
-                    $this->user->company_id = $this->company_id;
-                }
+                // Update User
+                $this->user->role_id = $roleModel?->id;
+                $this->user->company_id = $targetCompanyId; // Pastikan terkunci ke company yang benar
                 $service->updateUser($this->user, $data);
                 $message = __('messages.user_updated');
             } else {
-                // For creation, if super admin, we need to pass company_id to service
-                // But the service currently uses Auth::user()->company_id via Trait if not specified.
-                // Better to handle it explicitly in Service or here.
+                // Create User
                 $newUser = $service->createUser($data);
-                if (auth()->user()->is_super_admin) {
-                    $newUser->company_id = $this->company_id;
-                    $newUser->save();
-                }
+                $newUser->role_id = $roleModel?->id;
+                $newUser->company_id = $targetCompanyId;
+                $newUser->save();
                 $message = __('messages.user_created');
             }
 

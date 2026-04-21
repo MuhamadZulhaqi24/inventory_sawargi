@@ -1,8 +1,8 @@
-<x-app-layout :title="__('messages.finance_categories')">
+<x-app-layout :title="'Daftar ' . __('messages.finance_categories')">
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-semibold text-xl text-foreground leading-tight">
-                {{ __('messages.finance_categories') }}
+                Daftar {{ __('messages.finance_categories') }}
             </h2>
             <x-primary-button x-data x-on:click="$dispatch('create-finance-category')">
                 <x-heroicon-o-plus class="w-4 h-4 mr-2" />

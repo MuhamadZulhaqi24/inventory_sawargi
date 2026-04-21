@@ -60,7 +60,9 @@
                 <div class="space-y-2">
                     <x-input-label for="role" value="Role" />
                     <select wire:model="role" id="role" class="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
+                        @if(auth()->user()->is_super_admin)
                         <option value="owner">Owner / Admin</option>
+                        @endif
                         <option value="manager">Manager</option>
                         <option value="staff">Staff / Kasir</option>
                     </select>

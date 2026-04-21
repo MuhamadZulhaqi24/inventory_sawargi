@@ -160,8 +160,12 @@ class FinanceTransactionService
 
     private function getOrCreateCategory(string $name, FinanceCategoryType $type): FinanceCategory
     {
+        // Pastikan pencarian kategori juga terikat ke company user saat ini
         return FinanceCategory::firstOrCreate(
-            ['name' => $name],
+            [
+                'name' => $name,
+                'company_id' => auth()->user()->company_id ?? 1 // Fallback to system for seeds
+            ],
             [
                 'type' => $type,
                 'slug' => Str::slug($name),

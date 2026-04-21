@@ -60,6 +60,26 @@ class User extends Authenticatable
         return $this->belongsTo(Company::class);
     }
 
+    public function roleRel()
+    {
+        return $this->belongsTo(Role::class, 'role_id');
+    }
+
+    public function hasPermission(string $permission): bool
+    {
+        // Super Admin has all permissions
+        if ($this->is_super_admin) {
+            return true;
+        }
+
+        // If no role assigned, no permissions
+        if (!$this->role_id || !$this->roleRel) {
+            return false;
+        }
+
+        return $this->roleRel->hasPermission($permission);
+    }
+
     public function isSuperAdmin(): bool
     {
         return $this->is_super_admin === true;

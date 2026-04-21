@@ -41,11 +41,11 @@ final class UserTable extends PowerGridComponent
     public function datasource(): Builder
     {
         if (auth()->user()->is_super_admin) {
-            // Super Admin can see everyone including other super admins
             return User::query()->withoutGlobalScopes();
         }
 
-        return User::query();
+        // Regular admins only see their own company users
+        return User::query()->where('company_id', auth()->user()->company_id);
     }
 
     public function fields(): PowerGridFields
@@ -59,14 +59,18 @@ final class UserTable extends PowerGridComponent
                 if ($model->is_super_admin) {
                     return '<span class="px-2 py-1 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400">PLATFORM ADMIN</span>';
                 }
+                
+                $roleName = $model->roleRel->name ?? $model->role; // fallback to string if rel missing
                 $colors = [
                     'owner' => 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400',
                     'manager' => 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
                     'staff' => 'bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400',
                 ];
-                $color = $colors[$model->role] ?? $colors['staff'];
-                $roleName = strtoupper($model->role);
-                return '<span class="px-2 py-1 rounded-full text-[10px] font-bold ' . $color . '">' . $roleName . '</span>';
+                
+                $colorKey = strtolower($roleName);
+                $color = $colors[$colorKey] ?? 'bg-gray-100 text-gray-800';
+                
+                return '<span class="px-2 py-1 rounded-full text-[10px] font-bold ' . $color . '">' . strtoupper($roleName) . '</span>';
             })
             ->add('company_name', fn (User $model) => $model->company->name ?? '-')
             ->add('created_at_formatted', fn (User $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i'));

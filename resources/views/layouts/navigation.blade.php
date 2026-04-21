@@ -34,7 +34,7 @@
                         @endif
 
                         <!-- Sales Dropdown -->
-                        @if(!Auth::user()->is_super_admin)
+                        @if(!Auth::user()->is_super_admin && (Auth::user()->hasPermission('access_pos') || Auth::user()->hasPermission('view_reports')))
                         <x-nav-dropdown active="{{ request()->routeIs(['sales.*', 'customers.*']) }}">
                             <x-slot name="icon">
                                 <x-heroicon-o-banknotes class="mr-2 h-4 w-4" />
@@ -43,19 +43,26 @@
                                 {{ t_label('sale') }}
                             </x-slot>
                             <x-slot name="content">
+                                @if(Auth::user()->hasPermission('access_pos'))
                                 <x-dropdown-link :href="route('sales.create')" :active="request()->routeIs('sales.create')">
                                     {{ __('messages.pos') }}
                                 </x-dropdown-link>
+                                @endif
+
+                                @if(Auth::user()->hasPermission('view_reports'))
                                 <x-dropdown-link :href="route('sales.index')" :active="request()->routeIs(['sales.index', 'sales.show'])">
                                     {{ __('messages.sales_list') }}
                                 </x-dropdown-link>
                                 <x-dropdown-link :href="route('customers.index')" :active="request()->routeIs('customers.*')">
                                     {{ t_label('customer') }}
                                 </x-dropdown-link>
+                                @endif
                             </x-slot>
                         </x-nav-dropdown>
+                        @endif
 
                         <!-- Purchases Dropdown -->
+                        @if(!Auth::user()->is_super_admin && Auth::user()->hasPermission('manage_inventory'))
                         <x-nav-dropdown active="{{ request()->routeIs(['purchases.*', 'suppliers.*']) }}">
                             <x-slot name="icon">
                                 <x-heroicon-o-shopping-cart class="mr-2 h-4 w-4" />
@@ -72,8 +79,10 @@
                                 </x-dropdown-link>
                             </x-slot>
                         </x-nav-dropdown>
+                        @endif
 
                         <!-- Finance Dropdown -->
+                        @if(!Auth::user()->is_super_admin && Auth::user()->hasPermission('manage_finance'))
                         <x-nav-dropdown active="{{ request()->routeIs(['finance.*']) }}">
                             <x-slot name="icon">
                                 <x-heroicon-o-currency-dollar class="mr-2 h-4 w-4" />
@@ -90,14 +99,18 @@
                                 </x-dropdown-link>
                             </x-slot>
                         </x-nav-dropdown>
+                        @endif
 
                         <!-- Users Link -->
+                        @if(!Auth::user()->is_super_admin && Auth::user()->hasPermission('manage_users'))
                         <a href="{{ route('users.index') }}" class="group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-primary hover:text-white disabled:pointer-events-none disabled:opacity-50 {{ request()->routeIs('users.*') ? 'bg-transparent text-primary' : 'bg-background text-foreground' }}">
                             <x-heroicon-o-users class="mr-2 h-4 w-4" />
                             {{ __('messages.users') }}
                         </a>
+                        @endif
 
                         <!-- Products Dropdown -->
+                        @if(!Auth::user()->is_super_admin && Auth::user()->hasPermission('manage_inventory'))
                         <x-nav-dropdown active="{{ request()->routeIs(['products.*', 'categories.*', 'units.*']) }}">
                             <x-slot name="icon">
                                 <x-heroicon-o-cube class="mr-2 h-4 w-4" />

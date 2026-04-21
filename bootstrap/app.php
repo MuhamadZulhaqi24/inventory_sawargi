@@ -18,6 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'super_admin' => \App\Http\Middleware\SuperAdminOnly::class,
             'has_company' => \App\Http\Middleware\EnsureUserHasCompany::class,
+            'can_access' => \App\Http\Middleware\CheckPermission::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
