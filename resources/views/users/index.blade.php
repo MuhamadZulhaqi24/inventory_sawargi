@@ -4,7 +4,7 @@
             <h2 class="font-semibold text-xl text-foreground leading-tight">
                 {{ __('messages.users') }}
             </h2>
-            <x-primary-button x-data x-on:click="$dispatch('open-modal', { name: 'user-form-modal' })">
+            <x-primary-button x-data x-on:click="$dispatch('create-user')">
                 <x-heroicon-o-plus class="w-4 h-4 mr-2" />
                 {{ __('messages.add_user') }}
             </x-primary-button>

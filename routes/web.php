@@ -40,7 +40,9 @@ Route::middleware('auth')->group(function () {
     Route::get('finance/transactions/print/{printId}', [FinanceReportController::class, 'print'])->name('finance.transactions.print');
     Route::view('finance/transactions', 'finance-transactions.index')->name('finance.transactions.index');
     Route::view('users', 'users.index')->name('users.index');
-    Route::get('settings', \App\Livewire\Settings\CompanySettings::class)->name('settings.index');
+    Route::get('settings', \App\Livewire\Settings\CompanySettings::class)
+        ->middleware('can_access:manage_settings')
+        ->name('settings.index');
 
     Route::get('/purchases', [PurchaseController::class, 'index'])->name('purchases.index');
     Route::get('/purchases/create', [PurchaseController::class, 'create'])->name('purchases.create');

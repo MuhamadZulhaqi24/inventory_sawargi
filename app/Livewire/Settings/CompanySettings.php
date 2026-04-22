@@ -8,9 +8,11 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Str;
 
+use Livewire\WithPagination;
+
 class CompanySettings extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, WithPagination;
 
     public $activeTab = 'profile';
 
@@ -151,6 +153,15 @@ class CompanySettings extends Component
 
     public function render()
     {
-        return view('livewire.settings.company-settings');
+        $logs = collect();
+        if ($this->activeTab === 'logs') {
+            $logs = \App\Models\ActivityLog::with('user')
+                ->latest()
+                ->paginate(10);
+        }
+
+        return view('livewire.settings.company-settings', [
+            'logs' => $logs
+        ]);
     }
 }

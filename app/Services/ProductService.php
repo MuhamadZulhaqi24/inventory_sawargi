@@ -8,9 +8,12 @@ use Illuminate\Support\Str;
 use App\DTOs\ProductData;
 use App\Exceptions\ProductException;
 use Illuminate\Support\Facades\DB;
+use App\Traits\LogsActivity;
 
 class ProductService
 {
+    use LogsActivity;
+
     /**
      * Create a new product.
      */
@@ -20,7 +23,7 @@ class ProductService
             try {
                 $sku = $data->sku ?? $this->generateUniqueSku();
 
-                return Product::create([
+                $product = Product::create([
                     'category_id' => $data->category_id,
                     'unit_id' => $data->unit_id,
                     'sku' => $sku,
@@ -33,6 +36,10 @@ class ProductService
                     'description' => $data->description,
                     'notes' => $data->notes,
                 ]);
+
+                $this->recordActivity('create', 'products', "Menambahkan produk baru: {$product->name} (SKU: {$product->sku})");
+
+                return $product;
 
             } catch (Exception $e) {
                 throw ProductException::creationFailed($e->getMessage(), [
@@ -64,6 +71,8 @@ class ProductService
                     'notes' => $data->notes,
                 ]);
 
+                $this->recordActivity('update', 'products', "Memperbarui informasi produk: {$product->name}");
+
                 return $product->refresh();
 
             } catch (Exception $e) {
@@ -86,7 +95,10 @@ class ProductService
                     throw new Exception('Cannot delete product because it is associated with purchase or sale records.');
                 }
 
+                $productName = $product->name;
                 $product->delete();
+
+                $this->recordActivity('delete', 'products', "Menghapus produk: {$productName}");
 
             } catch (Exception $e) {
                 throw ProductException::deletionFailed($e->getMessage(), ['id' => $product->id]);

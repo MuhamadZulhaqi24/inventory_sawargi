@@ -70,11 +70,11 @@
                                 </div>
                             </div>
                             <div class="space-y-4">
-                                <p class="text-sm font-semibold text-muted-foreground">Saran Keamanan:</p>
+                                <p class="text-sm font-semibold text-muted-foreground">{{ __('messages.security_tips') ?? 'Saran Keamanan' }}:</p>
                                 <ul class="text-xs space-y-2 text-muted-foreground list-disc pl-4">
-                                    <li>Pastikan backup database dilakukan setiap 24 jam.</li>
-                                    <li>Selalu nonaktifkan akun tenant yang sudah melewati masa berlaku.</li>
-                                    <li>Jangan pernah membagikan password Super Admin kepada siapapun.</li>
+                                    <li>{{ __('messages.tip_backup') ?? 'Pastikan backup database dilakukan setiap 24 jam.' }}</li>
+                                    <li>{{ __('messages.tip_suspend') ?? 'Selalu nonaktifkan akun tenant yang sudah melewati masa berlaku.' }}</li>
+                                    <li>{{ __('messages.tip_password') ?? 'Jangan pernah membagikan password Super Admin kepada siapapun.' }}</li>
                                 </ul>
                             </div>
                         </div>
@@ -97,6 +97,9 @@
                     </button>
                     <button wire:click="$set('activeTab', 'roles')" class="py-4 px-1 text-sm font-medium border-b-2 transition-colors {{ $activeTab === 'roles' ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:text-foreground' }}">
                         {{ __('messages.roles_permissions') }}
+                    </button>
+                    <button wire:click="$set('activeTab', 'logs')" class="py-4 px-1 text-sm font-medium border-b-2 transition-colors {{ $activeTab === 'logs' ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:text-foreground' }}">
+                        {{ __('messages.activity_logs') ?? 'Log Aktivitas' }}
                     </button>
                 </div>
 
@@ -146,7 +149,7 @@
                                 <div class="flex justify-between items-start mb-2">
                                     <h4 class="font-bold text-lg">{{ $role->name }}</h4>
                                     @if($role->is_immutable)
-                                    <span class="bg-primary/10 text-primary text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">System</span>
+                                    <span class="bg-primary/10 text-primary text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">{{ __('messages.system') ?? 'System' }}</span>
                                     @endif
                                 </div>
                                 <p class="text-xs text-muted-foreground mb-4">
@@ -172,6 +175,66 @@
                     </div>
                 </div>
                 @endif
+
+                <!-- Tab Content: Logs -->
+                @if($activeTab === 'logs')
+                <div class="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
+                    <div class="relative w-full overflow-auto">
+                        <table class="w-full caption-bottom text-sm">
+                            <thead class="bg-muted/30 border-b border-border">
+                                <tr>
+                                    <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground">{{ __('messages.date') }}</th>
+                                    <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground">{{ __('messages.user') ?? 'User' }}</th>
+                                    <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground">{{ __('messages.action') }}</th>
+                                    <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground">{{ __('messages.description') ?? 'Keterangan' }}</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-border">
+                                @forelse($logs as $log)
+                                <tr class="hover:bg-muted/50 transition-colors">
+                                    <td class="p-4 align-middle whitespace-nowrap text-muted-foreground text-xs">
+                                        {{ $log->created_at->diffForHumans() }}
+                                        <div class="text-[10px]">{{ $log->created_at->format('d/m/Y H:i') }}</div>
+                                    </td>
+                                    <td class="p-4 align-middle">
+                                        <div class="font-medium text-foreground">{{ $log->user->name ?? 'System' }}</div>
+                                        <div class="text-[10px] text-muted-foreground uppercase tracking-wider">{{ $log->user->roleRel->name ?? $log->user->role }}</div>
+                                    </td>
+                                    <td class="p-4 align-middle">
+                                        @php
+                                            $actionColors = [
+                                                'create' => 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400',
+                                                'update' => 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
+                                                'delete' => 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400',
+                                            ];
+                                            $color = $actionColors[$log->action] ?? 'bg-gray-100 text-gray-800';
+                                        @endphp
+                                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold {{ $color }} uppercase">
+                                            {{ $log->action }}
+                                        </span>
+                                    </td>
+                                    <td class="p-4 align-middle text-muted-foreground">
+                                        {{ $log->description }}
+                                        <div class="text-[10px] mt-1 italic">via {{ $log->ip_address }}</div>
+                                    </td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="4" class="p-8 text-center text-muted-foreground italic">
+                                        Belum ada aktivitas yang tercatat.
+                                    </td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                    @if($logs && $logs instanceof \Illuminate\Pagination\LengthAwarePaginator && $logs->hasPages())
+                    <div class="p-4 border-t border-border bg-muted/20">
+                        {{ $logs->links() }}
+                    </div>
+                    @endif
+                </div>
+                @endif
             </div>
 
             <!-- Role Discord-style Modal -->
@@ -191,7 +254,7 @@
                     <div class="p-6 overflow-y-auto space-y-6">
                         <div class="space-y-2">
                             <x-input-label for="role_name" :value="__('messages.role_name')" />
-                            <x-text-input wire:model="role_name" id="role_name" type="text" class="w-full" placeholder="Misal: Supervisor Gudang" />
+                            <x-text-input wire:model="role_name" id="role_name" type="text" class="w-full" :placeholder="__('messages.example_role_name') ?? 'Misal: Supervisor Gudang'" />
                             <x-input-error :messages="$errors->get('role_name')" />
                         </div>
 
@@ -210,7 +273,7 @@
 
                     <div class="p-6 border-t border-border flex justify-end gap-3 bg-muted/10">
                         <x-secondary-button wire:click="$set('isRoleModalOpen', false)">{{ __('messages.cancel') }}</x-secondary-button>
-                        <x-primary-button wire:click="saveRole">{{ __('messages.save') }}</x-primary-button>
+                        <x-primary-button wire:click="saveRole">{{ __('messages.save_role') ?? __('messages.save') }}</x-primary-button>
                     </div>
                 </div>
             </div>

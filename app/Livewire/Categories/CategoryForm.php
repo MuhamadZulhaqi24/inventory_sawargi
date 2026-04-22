@@ -56,7 +56,7 @@ class CategoryForm extends Component
 
     public function save(CategoryService $service): void
     {
-        $this->validate();
+        $validated = $this->validate();
 
         $slug = \Illuminate\Support\Str::slug(str_replace('&', '', $this->name));
 

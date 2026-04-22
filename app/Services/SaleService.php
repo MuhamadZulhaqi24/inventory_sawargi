@@ -9,9 +9,12 @@ use App\DTOs\SaleData;
 use App\Enums\SaleStatus;
 use App\Exceptions\SaleException;
 use Illuminate\Support\Facades\DB;
+use App\Traits\LogsActivity;
 
 class SaleService
 {
+    use LogsActivity;
+
     public function __construct(
         protected FinanceTransactionService $financeService,
         protected DashboardCacheService $dashboardCacheService
@@ -36,7 +39,7 @@ class SaleService
                 $sale = Sale::create([
                     'invoice_number' => $this->generateInvoiceNumber(),
                     'customer_id' => $data->customer_id,
-                    'created_by' => $data->created_by,
+                    'created_by' => auth()->id(),
                     'sale_date' => $data->sale_date,
                     'status' => $data->status,
                     'payment_method' => $data->payment_method,
@@ -95,6 +98,8 @@ class SaleService
                     'total'          => $totalSubtotal,
                 ]);
 
+                $this->recordActivity('create', 'sales', "Melakukan penjualan baru: {$sale->invoice_number} (Total: Rp " . number_format($sale->total, 0, ',', '.') . ")");
+
                 // Sync Finance if Completed
                 if ($sale->status === SaleStatus::COMPLETED) {
                     $this->financeService->recordIncomeFromSale($sale);
@@ -141,6 +146,8 @@ class SaleService
                 }
 
                 $sale->update($updateData);
+
+                $this->recordActivity('update', 'sales', "Membatalkan penjualan: {$sale->invoice_number}");
 
                 // Void Finance
                 $this->financeService->voidTransaction($sale);
@@ -221,18 +228,12 @@ class SaleService
 
             $this->dashboardCacheService->clearDashboardCache();
 
-            // No Finance Sync needed as it goes to PENDING
-
             return $sale;
         });
     }
 
     /**
      * Permanently delete a cancelled sale.
-     *
-     * @param Sale $sale
-     * @return void
-     * @throws Exception
      */
     public function deleteSale(Sale $sale): void
     {

@@ -7,9 +7,12 @@ use App\Models\Customer;
 use App\DTOs\CustomerData;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\CustomerException;
+use App\Traits\LogsActivity;
 
 class CustomerService
 {
+    use LogsActivity;
+
     /**
      * Create a new customer record.
      */
@@ -17,13 +20,17 @@ class CustomerService
     {
         return DB::transaction(function () use ($data) {
             try {
-                return Customer::create([
+                $customer = Customer::create([
                     'name' => $data->name,
                     'email' => $data->email,
                     'phone' => $data->phone,
                     'address' => $data->address,
                     'notes' => $data->notes,
                 ]);
+
+                $this->recordActivity('create', 'customers', "Menambahkan pelanggan baru: {$customer->name}");
+
+                return $customer;
 
             } catch (Exception $e) {
                 throw CustomerException::creationFailed($e->getMessage(), [
@@ -49,6 +56,8 @@ class CustomerService
                     'notes' => $data->notes,
                 ]);
 
+                $this->recordActivity('update', 'customers', "Memperbarui informasi pelanggan: {$customer->name}");
+
                 return $customer->refresh();
 
             } catch (Exception $e) {
@@ -67,7 +76,10 @@ class CustomerService
     {
         DB::transaction(function () use ($customer) {
             try {
+                $customerName = $customer->name;
                 $customer->delete();
+
+                $this->recordActivity('delete', 'customers', "Menghapus pelanggan: {$customerName}");
 
             } catch (Exception $e) {
                 throw CustomerException::deletionFailed($e->getMessage(), ['id' => $customer->id]);

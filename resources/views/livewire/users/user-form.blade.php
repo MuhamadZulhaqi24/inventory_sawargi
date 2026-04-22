@@ -58,15 +58,14 @@
                 />
 
                 <div class="space-y-2">
-                    <x-input-label for="role" value="Role" />
-                    <select wire:model="role" id="role" class="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
-                        @if(auth()->user()->is_super_admin)
-                        <option value="owner">Owner / Admin</option>
-                        @endif
-                        <option value="manager">Manager</option>
-                        <option value="staff">Staff / Kasir</option>
+                    <x-input-label for="role_id" value="Role" />
+                    <select wire:model="role_id" id="role_id" class="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
+                        <option value="">Pilih Role</option>
+                        @foreach($this->availableRoles as $availableRole)
+                            <option value="{{ $availableRole->id }}">{{ $availableRole->name }}</option>
+                        @endforeach
                     </select>
-                    <x-input-error :messages="$errors->get('role')" />
+                    <x-input-error :messages="$errors->get('role_id')" />
                 </div>
             </div>
 

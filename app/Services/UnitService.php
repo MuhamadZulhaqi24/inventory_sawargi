@@ -7,9 +7,12 @@ use App\DTOs\UnitData;
 use App\Models\Unit;
 use App\Exceptions\UnitException;
 use Illuminate\Support\Facades\DB;
+use App\Traits\LogsActivity;
 
 class UnitService
 {
+    use LogsActivity;
+
     /**
      * Create a new unit record.
      */
@@ -17,10 +20,14 @@ class UnitService
     {
         return DB::transaction(function () use ($data) {
             try {
-                return Unit::create([
+                $unit = Unit::create([
                     'name' => $data->name,
                     'symbol' => $data->symbol,
                 ]);
+
+                $this->recordActivity('create', 'units', "Menambahkan satuan baru: {$unit->name} ({$unit->symbol})");
+
+                return $unit;
 
             } catch (Exception $e) {
                 throw UnitException::creationFailed($e->getMessage(), [
@@ -42,6 +49,8 @@ class UnitService
                     'name' => $data->name,
                     'symbol' => $data->symbol,
                 ]);
+
+                $this->recordActivity('update', 'units', "Memperbarui satuan: {$unit->name}");
 
                 return $unit->refresh();
 
@@ -65,7 +74,10 @@ class UnitService
                     throw new Exception('Cannot delete unit because it is associated with products.');
                 }
 
+                $unitName = $unit->name;
                 $unit->delete();
+
+                $this->recordActivity('delete', 'units', "Menghapus satuan: {$unitName}");
 
             } catch (Exception $e) {
                 throw UnitException::deletionFailed($e->getMessage(), ['id' => $unit->id]);

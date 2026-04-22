@@ -7,9 +7,12 @@ use App\DTOs\SupplierData;
 use App\Models\Supplier;
 use App\Exceptions\SupplierException;
 use Illuminate\Support\Facades\DB;
+use App\Traits\LogsActivity;
 
 class SupplierService
 {
+    use LogsActivity;
+
     /**
      * Create a new supplier record.
      */
@@ -17,7 +20,7 @@ class SupplierService
     {
         return DB::transaction(function () use ($data) {
             try {
-                return Supplier::create([
+                $supplier = Supplier::create([
                     'name' => $data->name,
                     'contact_person' => $data->contact_person,
                     'email' => $data->email,
@@ -25,6 +28,10 @@ class SupplierService
                     'address' => $data->address,
                     'notes' => $data->notes,
                 ]);
+
+                $this->recordActivity('create', 'suppliers', "Menambahkan pemasok baru: {$supplier->name}");
+
+                return $supplier;
 
             } catch (Exception $e) {
                 throw SupplierException::creationFailed($e->getMessage(), [
@@ -51,6 +58,8 @@ class SupplierService
                     'notes' => $data->notes,
                 ]);
 
+                $this->recordActivity('update', 'suppliers', "Memperbarui informasi pemasok: {$supplier->name}");
+
                 return $supplier->refresh();
 
             } catch (Exception $e) {
@@ -73,7 +82,10 @@ class SupplierService
                     throw new Exception('Cannot delete supplier because there are purchases associated with this supplier.');
                 }
 
+                $supplierName = $supplier->name;
                 $supplier->delete();
+
+                $this->recordActivity('delete', 'suppliers', "Menghapus pemasok: {$supplierName}");
 
             } catch (Exception $e) {
                 throw SupplierException::deletionFailed($e->getMessage(), ['id' => $supplier->id]);

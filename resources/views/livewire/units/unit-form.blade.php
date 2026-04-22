@@ -16,9 +16,10 @@
                 name="name"
                 label="Name"
                 type="text"
-                wire:model="name"
+                wire:model.blur="name"
                 placeholder="e.g. Kilogram"
                 required
+                :messages="$errors->get('name')"
             />
 
             <!-- Symbol -->
@@ -26,9 +27,10 @@
                 name="symbol"
                 label="Symbol"
                 type="text"
-                wire:model="symbol"
+                wire:model.blur="symbol"
                 placeholder="e.g. kg"
                 required
+                :messages="$errors->get('symbol')"
             />
 
             <!-- Actions -->

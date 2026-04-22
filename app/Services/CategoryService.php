@@ -7,9 +7,12 @@ use App\Models\Category;
 use App\DTOs\CategoryData;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\CategoryException;
+use App\Traits\LogsActivity;
 
 class CategoryService
 {
+    use LogsActivity;
+
     /**
      * Create a new category.
      */
@@ -17,11 +20,15 @@ class CategoryService
     {
         return DB::transaction(function () use ($data) {
             try {
-                return Category::create([
+                $category = Category::create([
                     'name' => $data->name,
                     'slug' => $data->slug,
                     'description' => $data->description,
                 ]);
+
+                $this->recordActivity('create', 'categories', "Menambahkan kategori baru: {$category->name}");
+
+                return $category;
 
             } catch (Exception $e) {
                 throw CategoryException::creationFailed($e->getMessage(), [
@@ -45,6 +52,8 @@ class CategoryService
                     'description' => $data->description,
                 ]);
 
+                $this->recordActivity('update', 'categories', "Memperbarui kategori: {$category->name}");
+
                 return $category->refresh();
 
             } catch (Exception $e) {
@@ -67,7 +76,10 @@ class CategoryService
                     throw new Exception("Cannot delete category because it is associated with products.");
                 }
 
+                $categoryName = $category->name;
                 $category->delete();
+
+                $this->recordActivity('delete', 'categories', "Menghapus kategori: {$categoryName}");
 
             } catch (Exception $e) {
                 throw CategoryException::deletionFailed($e->getMessage(), ['id' => $category->id]);

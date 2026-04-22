@@ -3,29 +3,49 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>404 - Halaman Tidak Ditemukan</title>
+    <title>{{ __('messages.error_404_title') }} | {{ config('app.name') }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+        .bg-grid { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath d='M10 10H90V90H10V10Z' fill='none' stroke='%23e5e7eb' stroke-width='0.5'/%3E%3C/svg%3E"); }
+        .dark .bg-grid { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath d='M10 10H90V90H10V10Z' fill='none' stroke='%231f2937' stroke-width='0.5'/%3E%3C/svg%3E"); }
+    </style>
 </head>
-<body class="bg-background text-foreground antialiased">
-    <div class="min-h-screen flex flex-col items-center justify-center p-6 text-center">
-        <!-- Icon -->
-        <div class="mb-6 inline-flex items-center justify-center w-24 h-24 rounded-full bg-blue-100 dark:bg-blue-900/20">
-            <x-heroicon-o-magnifying-glass class="w-12 h-12 text-blue-600 dark:text-blue-400" />
-        <title>{{ __('messages.error_404_title') }}</title>
-        ...
-            <!-- Text -->
-            <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl mb-4">404</h1>
-            <h2 class="text-2xl font-bold mb-2">{{ __('messages.error_404_title') }}</h2>
-            <p class="text-muted-foreground max-w-md mb-8">
-                {{ __('messages.error_404_msg') }}
-            </p>
+<body class="bg-background text-foreground antialiased selection:bg-primary/10">
+    <div class="min-h-screen relative flex items-center justify-center p-6 overflow-hidden bg-grid">
+        <!-- Decorative blobs -->
+        <div class="absolute top-0 -left-4 w-72 h-72 bg-primary/10 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+        <div class="absolute top-0 -right-4 w-72 h-72 bg-blue-200/20 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
 
-            <!-- Action -->
-            <div class="flex gap-4">
-                <a href="{{ route('dashboard') }}" class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-10 px-8">
-                    {{ __('messages.back_to_dashboard') }}
-                </a>
+        <div class="relative w-full max-w-lg">
+            <div class="bg-card/50 backdrop-blur-md border border-border rounded-2xl shadow-2xl overflow-hidden p-8 sm:p-12 text-center">
+                <div class="flex justify-center mb-8">
+                    <span class="text-2xl font-black tracking-tighter text-primary">{{ config('app.name') }}</span>
+                </div>
+
+                <div class="relative inline-flex mb-8">
+                    <div class="absolute inset-0 rounded-full bg-blue-500/10 blur-2xl"></div>
+                    <div class="relative bg-blue-500/10 p-5 rounded-full border border-blue-500/20">
+                        <x-heroicon-o-magnifying-glass class="w-12 h-12 text-blue-500" />
+                    </div>
+                </div>
+
+                <div class="space-y-4 mb-10">
+                    <h1 class="text-sm font-bold uppercase tracking-[0.2em] text-blue-500">404 Not Found</h1>
+                    <h2 class="text-3xl font-extrabold tracking-tight sm:text-4xl text-foreground">
+                        {{ __('messages.error_404_title') }}
+                    </h2>
+                    <p class="text-muted-foreground text-sm sm:text-base leading-relaxed">
+                        {{ __('messages.error_404_msg') }}
+                    </p>
+                </div>
+
+                <div class="flex flex-col gap-3">
+                    <a href="{{ route('dashboard') }}" class="inline-flex items-center justify-center rounded-xl bg-primary px-8 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:bg-primary/90 hover:scale-[1.02] active:scale-[0.98]">
+                        {{ __('messages.back_to_dashboard') }}
+                    </a>
+                </div>
             </div>
+        </div>
     </div>
 </body>
 </html>
