@@ -20,12 +20,16 @@ class UnitForm extends Component
 
     public function rules(): array
     {
+        $companyId = auth()->user()->company_id;
+
         return [
             'name' => [
                 'required',
                 'string',
                 'max:50',
-                Rule::unique('units', 'name')->ignore($this->unit?->id),
+                Rule::unique('units', 'name')
+                    ->where('company_id', $companyId) // Batasi pengecekan hanya di perusahaan ini
+                    ->ignore($this->unit?->id),
             ],
             'symbol' => ['required', 'string', 'max:10'],
         ];

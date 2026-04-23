@@ -17,8 +17,8 @@ class UserForm extends Component
     public $name;
     public $username;
     public $email;
-    public $role; // Hilangkan default 'staff'
-    public $role_id; // Tambahkan deklarasi ini
+    public $role; 
+    public $role_id; 
     public $company_id;
     public $password;
     public $password_confirmation;
@@ -42,6 +42,12 @@ class UserForm extends Component
         }
 
         return $roles;
+    }
+
+    public function updatedCompanyId()
+    {
+        // Reset role_id when company changes so user must pick a valid role for that company
+        $this->role_id = null;
     }
 
     public function rules(): array
@@ -73,13 +79,10 @@ class UserForm extends Component
         $this->dispatch('open-modal', name: 'user-form-modal');
     }
 
-    private function clearForm()
+    public function clearForm()
     {
-        $this->reset(['name', 'username', 'email', 'role_id', 'password', 'password_confirmation']);
-        $this->role = null;
-        $this->company_id = auth()->user()->company_id;
-        
-        // JANGAN set default role_id agar muncul "Pilih Role"
+        $this->reset(['name', 'username', 'email', 'role', 'role_id', 'password', 'password_confirmation']);
+        $this->company_id = auth()->user()->is_super_admin ? null : auth()->user()->company_id;
         $this->role_id = null;
     }
 
@@ -108,7 +111,7 @@ class UserForm extends Component
         // 1. Tentukan Company ID
         $targetCompanyId = auth()->user()->is_super_admin ? $this->company_id : auth()->user()->company_id;
         
-        // 2. Keamanan Role: Ambil objek role untuk cek nama
+        // 2. Keamanan Role
         $selectedRole = \App\Models\Role::find($this->role_id);
         if (!auth()->user()->is_super_admin && strtolower($selectedRole?->name) === 'owner') {
              throw new \Exception('Maaf, Anda tidak memiliki izin untuk memberikan role Owner.');
@@ -118,19 +121,17 @@ class UserForm extends Component
             name: $this->name,
             username: $this->username,
             email: $this->email,
-            role: $selectedRole?->name ?? 'staff', // Sync legacy field
+            role: $selectedRole?->name ?? 'staff',
             password: $this->password ?: null,
         );
 
         try {
             if ($this->isEditing && $this->user) {
-                // Update User
                 $this->user->role_id = $this->role_id;
                 $this->user->company_id = $targetCompanyId;
                 $service->updateUser($this->user, $data);
                 $message = __('messages.user_updated');
             } else {
-                // Create User
                 $newUser = $service->createUser($data);
                 $newUser->role_id = $this->role_id;
                 $newUser->company_id = $targetCompanyId;
@@ -142,7 +143,6 @@ class UserForm extends Component
             $this->dispatch('pg:eventRefresh-user-table');
             $this->dispatch('toast', message: $message, type: 'success');
 
-            // Reset after save
             $this->user = null;
             $this->isEditing = false;
             $this->clearForm();

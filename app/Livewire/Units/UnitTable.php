@@ -48,6 +48,10 @@ final class UnitTable extends PowerGridComponent
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
+            ->add('index', function () {
+                static $no = 0;
+                return ++$no;
+            })
             ->add('id')
             ->add('name')
             ->add('symbol')
@@ -57,6 +61,9 @@ final class UnitTable extends PowerGridComponent
     public function columns(): array
     {
         return [
+            Column::make('No.', 'index')
+                ->sortable(),
+
             Column::make('ID', 'id')
                 ->hidden()
                 ->visibleInExport(true),
@@ -69,7 +76,9 @@ final class UnitTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::action(__('messages.action')),
+            Column::action(__('messages.action'))
+                ->headerAttribute('text-center')
+                ->bodyAttribute('text-center'),
         ];
     }
 

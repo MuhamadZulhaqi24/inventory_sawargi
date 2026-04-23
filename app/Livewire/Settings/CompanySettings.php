@@ -79,6 +79,26 @@ class CompanySettings extends Component
         }
     }
 
+    public function updateProfile()
+    {
+        $this->validate([
+            'name' => 'required|min:3',
+            'phone' => 'nullable',
+            'address' => 'nullable',
+        ]);
+
+        $company = auth()->user()->company;
+        $company->update([
+            'name' => $this->name,
+            'settings' => array_merge($company->settings ?? [], [
+                'address' => $this->address,
+                'phone' => $this->phone,
+            ])
+        ]);
+
+        $this->dispatch('toast', message: 'Profil bisnis berhasil diperbarui.', type: 'success');
+    }
+
     public function openRoleModal($id = null)
     {
         $this->resetErrorBag();

@@ -35,7 +35,7 @@
                 @if(auth()->user()->is_super_admin)
                 <div class="space-y-2">
                     <x-input-label for="company_id" value="Company" />
-                    <select wire:model="company_id" id="company_id" class="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
+                    <select wire:model.live="company_id" id="company_id" class="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
                         <option value="">Select Company</option>
                         @foreach(\App\Models\Company::all() as $company)
                             <option value="{{ $company->id }}">{{ $company->name }}</option>

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Faktur #{{ $sale->invoice_number }}</title>
+    <title>{{ __('messages.invoice') }} #{{ $sale->invoice_number }}</title>
     <style>
         @media print {
             @page {
@@ -11,335 +11,267 @@
                 margin: 0;
             }
             body {
-                margin: 5mm 10mm;
+                margin: 0;
+                padding: 10mm;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
             }
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Courier New', Courier, monospace; /* Classic receipt font */
             font-size: 10pt;
-            line-height: normal;
+            line-height: 1.2;
             color: #000;
-            max-width: 210mm;
-            margin: 0 auto;
+            margin: 0;
+            padding: 10mm;
             background: #fff;
-            padding: 10px;
         }
 
-        .container {
-            width: 100%;
-            border: 0px solid #000; /* Optional outer box? Reference doesn't show full box */
+        .receipt-wrapper {
+            border: 1px solid #333;
+            padding: 15px;
+            min-height: 120mm;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* HEADER GRID */
+        /* HEADER */
         .header {
             display: flex;
-            width: 100%;
-            margin-bottom: 2px;
-            border-bottom: 2px solid #000;
-            padding-bottom: 5px;
+            justify-content: space-between;
+            border-bottom: 2px double #000;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
         }
 
-        .header-left {
+        .shop-details {
             width: 60%;
-            display: flex;
-            align-items: center;
         }
 
-        .logo-box {
-            border: 3px double #000;
-            width: 60px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24pt;
-            font-weight: bold;
-            font-family: 'Times New Roman', serif;
-            margin-right: 10px;
-        }
-
-        .company-info {
-            text-align: left;
-        }
-
-        .company-name {
-            font-family: 'Times New Roman', serif;
+        .shop-name {
             font-size: 16pt;
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 2px;
+            margin-bottom: 5px;
         }
 
-        .company-desc {
-            font-size: 8pt;
-            margin-bottom: 2px;
+        .shop-info {
+            font-size: 9pt;
+            line-height: 1.4;
         }
 
-        .company-address {
-            font-size: 8pt;
-        }
-
-        .header-right {
-            width: 40%;
+        .invoice-meta {
+            width: 35%;
             text-align: right;
-            padding-left: 20px;
-            font-size: 9pt;
         }
 
-        .header-row {
-            display: flex;
-            margin-bottom: 5px;
-            align-items: flex-end; /* Align bottom to match dotted line */
-        }
-
-        .header-right .header-row {
-            justify-content: flex-end !important;
-        }
-
-        .header-label {
-            white-space: nowrap;
-            margin-right: 5px;
-        }
-
-        .header-value {
-            border-bottom: 1px dotted #000;
-            flex-grow: 1;
-            padding-left: 5px;
-        }
-
-        .header-right .header-value {
-            flex-grow: 0;
-            min-width: 150px;
-        }
-        /* Remove border for date if desired? User just said align right.
-           But consistent look usually keeps the line.
-           For Date row, I removed the label earlier.
-         */
-
-        /* INVOICE NO ROW */
-        .invoice-row {
-            margin-top: 2px;
-            margin-bottom: 5px;
+        .invoice-title {
+            font-size: 14pt;
             font-weight: bold;
-            font-size: 9pt;
+            text-decoration: underline;
+            margin-bottom: 10px;
+        }
+
+        /* CUSTOMER SECTION */
+        .customer-section {
             display: flex;
-            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 9pt;
         }
 
-        .invoice-label {
-            margin-right: 5px;
-            font-style: italic;
-        }
-
-        .invoice-value {
-             border-bottom: 1px dotted #000;
-             min-width: 100px;
-             display: inline-block;
+        .dotted-line {
+            border-bottom: 1px dotted #000;
+            display: inline-block;
+            min-width: 150px;
         }
 
         /* TABLE */
         table {
             width: 100%;
             border-collapse: collapse;
-            border: 1px solid #000;
-            margin-bottom: 5px;
+            margin-bottom: 20px;
         }
 
         th {
-            border: 1px solid #000;
-            padding: 5px;
-            text-align: center;
-            font-weight: bold;
-            background: #f0f0f0; /* Slight gray background like reference */
-            font-size: 8pt; /* Slightly smaller to fit 7 cols */
-            white-space: nowrap;
-        }
-
-        td {
-            border-left: 1px solid #000;
-            border-right: 1px solid #000;
+            border-top: 1px solid #000;
             border-bottom: 1px solid #000;
-            padding: 4px 5px;
-            font-size: 8pt;
-            vertical-align: middle;
-            height: 20px; /* Minimum height for lines */
-        }
-
-        .col-name { width: 43%; text-align: left; }
-        /* .col-unit removed */
-        .col-qty { width: 8%; text-align: center; }
-        .col-price { width: 16%; text-align: right; }
-        .col-disc { width: 15%; text-align: right; }
-        .col-total { width: 18%; text-align: right; }
-
-        /* FOOTER GRID */
-        .footer {
-            display: flex;
-            margin-top: 5px;
-            align-items: flex-start;
-        }
-
-        .footer-left {
-            width: 25%;
-            text-align: center;
+            padding: 8px 5px;
+            text-align: left;
+            font-weight: bold;
+            text-transform: uppercase;
             font-size: 9pt;
         }
 
-        .footer-center {
-            width: 45%;
-            padding: 0 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        td {
+            padding: 6px 5px;
+            font-size: 9pt;
+            vertical-align: top;
         }
 
-        .disclaimer-box {
-            border: 1px solid #000;
-            border-radius: 5px;
-            padding: 8px;
-            font-size: 8pt;
-            text-align: center;
-            background: #f5f5f5;
-            width: 100%;
+        .border-bottom {
+            border-bottom: 1px solid #eee;
         }
 
-        .footer-right {
-            width: 30%;
+        .text-right { text-align: right; }
+        .text-center { text-align: center; }
+
+        /* TOTALS */
+        .totals-section {
+            margin-left: auto;
+            width: 40%;
+            border-top: 2px solid #000;
+            padding-top: 10px;
         }
 
-        .amount-row {
+        .total-row {
             display: flex;
             justify-content: space-between;
             margin-bottom: 5px;
-            font-size: 10pt;
-            font-weight: bold;
         }
 
-        .amount-label {
-            text-align: left;
+        .total-label { font-weight: bold; }
+        .grand-total {
+            font-size: 12pt;
+            border-top: 1px solid #000;
+            margin-top: 5px;
+            padding-top: 5px;
         }
 
-        .amount-value {
-            text-align: right;
-            border-bottom: 1px solid #ccc;
-            min-width: 80px;
+        /* FOOTER */
+        .footer {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            font-size: 9pt;
+        }
+
+        .signature-box {
+            text-align: center;
+            width: 150px;
         }
 
         .signature-space {
-            height: 40px;
-            margin-top: 5px;
+            height: 50px;
         }
 
+        .disclaimer {
+            width: 50%;
+            text-align: center;
+            font-style: italic;
+            font-size: 8pt;
+            border: 1px dashed #ccc;
+            padding: 10px;
+            align-self: center;
+        }
     </style>
 </head>
 <body>
+    @php
+        $company = $sale->company;
+        $settings = $company->settings ?? [];
+        $companyName = $company->name ?? config('app.name');
+    @endphp
 
-    <div class="container">
+    <div class="receipt-wrapper">
         <!-- Header -->
         <div class="header">
-            <div class="header-left">
-                <div class="logo-box">TB</div>
-                <div class="company-info">
-                    <div class="company-name">{{ \App\Models\Setting::get('store_name', config('app.name')) }}</div>
-                    <div class="company-desc">Menjual: Bahan Bangunan, Alat Teknik, Cat, Dll.</div>
-                    <div class="company-address">
-                        {{ \App\Models\Setting::get('store_address', 'Jl. Default No. 1') }}<br>
-                        HP. {{ \App\Models\Setting::get('store_phone', '-') }}
-                    </div>
+            <div class="shop-details">
+                <div class="shop-name">{{ $companyName }}</div>
+                <div class="shop-info">
+                    {{ $settings['address'] ?? '' }}<br>
+                    @if(!empty($settings['phone'])) Telp/WA: {{ $settings['phone'] }} @endif
                 </div>
             </div>
-            <div class="header-right">
-                <div class="header-row">
-                    <span>{{ $sale->sale_date->locale('id')->isoFormat('dddd, D MMMM Y') }}</span>
-                </div>
-                <div class="header-row">
-                    <span class="header-label">Kepada Yth,</span>
-                    <span class="header-value">{{ $sale->customer->name ?? 'Tamu' }}</span>
-                </div>
+            <div class="invoice-meta">
+                <div class="invoice-title">{{ t_label('sale') }}</div>
+                <div>No: <strong>{{ $sale->invoice_number }}</strong></div>
+                <div>{{ $sale->sale_date->locale(app()->getLocale())->isoFormat('DD/MM/YYYY') }}</div>
             </div>
         </div>
 
-        <!-- Invoice No Line -->
-        <div class="invoice-row">
-            <span class="invoice-label">FAKTUR / BON / KONTAN No.</span>
-            <span class="invoice-value">{{ $sale->invoice_number }}</span>
+        <!-- Customer -->
+        <div class="customer-section">
+            <div>
+                {{ __('messages.to_yth') }} <span class="dotted-line">{{ $sale->customer->name ?? __('messages.guest') }}</span>
+            </div>
+            <div>
+                {{ __('messages.created_by') }}: {{ $sale->creator->name ?? '-' }}
+            </div>
         </div>
 
-        <!-- Table -->
+        <!-- Items Table -->
         <table>
             <thead>
                 <tr>
-                    <th class="col-name">Nama Barang</th>
-                    <!-- <th class="col-unit">Satuan</th> -->
-                    <th class="col-qty">Qty</th>
-                    <th class="col-price">Harga</th>
-                    <th class="col-disc">Diskon</th>
-                    <th class="col-total">Jumlah</th>
+                    <th style="width: 50%">{{ t_label('product') }}</th>
+                    <th class="text-center">Qty</th>
+                    <th class="text-right">{{ __('messages.price') }}</th>
+                    <th class="text-right">{{ __('messages.total') }}</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($sale->items as $item)
-                @php
-                    $finalPrice = $item->unit_price - $item->discount;
-                @endphp
-                <tr>
-                    <td class="col-name">{{ $item->product->name }}</td>
-                    <!-- <td class="col-unit">{{ $item->product->unit->symbol ?? '-' }}</td> -->
-                    <td class="col-qty">{{ $item->quantity }}</td>
-                    <td class="col-price">{{ number_format($item->unit_price, 0, ',', '.') }}</td>
-                    <td class="col-disc">{{ $item->discount > 0 ? number_format($item->discount, 0, ',', '.') : '-' }}</td>
-                    <td class="col-total">{{ number_format($item->subtotal, 0, ',', '.') }}</td>
+                <tr class="border-bottom">
+                    <td>
+                        {{ $item->product->name }}
+                        @if($item->discount > 0)
+                            <div style="font-size: 8pt; color: #666">Disc: -{{ number_format($item->discount, 0, ',', '.') }}</div>
+                        @endif
+                    </td>
+                    <td class="text-center">{{ $item->quantity }}</td>
+                    <td class="text-right">{{ number_format($item->unit_price, 0, ',', '.') }}</td>
+                    <td class="text-right">{{ number_format($item->subtotal, 0, ',', '.') }}</td>
                 </tr>
                 @endforeach
-
-                {{-- Fill empty rows to maintain size --}}
-                @for($i = 0; $i < max(0, 8 - count($sale->items)); $i++)
-                <tr>
-                    <td>&nbsp;</td>
-                    <!-- <td></td> -->
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                @endfor
             </tbody>
         </table>
 
+        <!-- Summary & Totals -->
+        <div class="totals-section">
+            <div class="total-row">
+                <span>Subtotal</span>
+                <span>{{ number_format($sale->subtotal, 0, ',', '.') }}</span>
+            </div>
+            @if($sale->total_discount > 0)
+            <div class="total-row">
+                <span>{{ __('messages.total_discount') }}</span>
+                <span>-{{ number_format($sale->total_discount, 0, ',', '.') }}</span>
+            </div>
+            @endif
+            <div class="total-row grand-total">
+                <span class="total-label">TOTAL</span>
+                <span class="total-label">Rp {{ number_format($sale->total, 0, ',', '.') }}</span>
+            </div>
+            <div class="total-row" style="font-weight: normal; font-size: 9pt; margin-top: 5px;">
+                <span>{{ __('messages.cash_received') }}</span>
+                <span>{{ number_format($sale->cash_received, 0, ',', '.') }}</span>
+            </div>
+            <div class="total-row" style="font-weight: normal; font-size: 9pt;">
+                <span>{{ __('messages.change') }}</span>
+                <span>{{ number_format($sale->change, 0, ',', '.') }}</span>
+            </div>
+        </div>
+
         <!-- Footer -->
         <div class="footer">
-            <div class="footer-left">
-                <div>Tanda Terima</div>
+            <div class="signature-box">
+                <div>{{ __('messages.received_by') }}</div>
                 <div class="signature-space"></div>
-                <div>( .................................... )</div>
+                <div>( ............ )</div>
             </div>
 
-            <div class="footer-center">
-                <div class="disclaimer-box">
-                    Mohon diperiksa bahwa barang dalam keadaan baik pada waktu diterima, barang yang sudah dibeli tidak dapat dikembalikan
-                </div>
+            <div class="disclaimer">
+                {{ __('messages.invoice_disclaimer') }}
             </div>
 
-            <div class="footer-right">
-                <div class="amount-row">
-                    <span class="amount-label">Total</span>
-                    <span class="amount-value">Rp. {{ number_format($sale->total, 0, ',', '.') }}</span>
-                </div>
-                <div class="amount-row">
-                    <span class="amount-label">Uang Diterima</span>
-                    <span class="amount-value">Rp. {{ number_format($sale->cash_received, 0, ',', '.') }}</span>
-                </div>
-                <div class="amount-row">
-                    <span class="amount-label">Kembalian</span>
-                    <span class="amount-value">Rp. {{ number_format($sale->change, 0, ',', '.') }}</span>
-                </div>
+            <div class="signature-box">
+                <div>Hormat Kami,</div>
+                <div class="signature-space"></div>
+                <div> {{ $companyName }} </div>
             </div>
         </div>
     </div>
-
 </body>
 </html>

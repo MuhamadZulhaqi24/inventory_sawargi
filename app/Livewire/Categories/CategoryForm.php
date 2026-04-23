@@ -21,12 +21,16 @@ class CategoryForm extends Component
 
     public function rules(): array
     {
+        $companyId = auth()->user()->company_id;
+
         return [
             'name' => [
                 'required',
                 'string',
                 'max:100',
-                Rule::unique('categories', 'name')->ignore($this->category?->id),
+                Rule::unique('categories', 'name')
+                    ->where('company_id', $companyId) // Batasi pengecekan hanya di perusahaan ini
+                    ->ignore($this->category?->id),
             ],
             'description' => ['nullable', 'string'],
         ];

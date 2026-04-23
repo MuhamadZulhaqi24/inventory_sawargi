@@ -447,7 +447,10 @@ return [
     'activity_logs' => 'Activity Logs',
     'user' => 'User',
     'description' => 'Description',
-    'system_info' => 'System Information',
+    'received_by' => 'Received By',
+    'invoice_disclaimer' => 'Please check the goods upon receipt, purchased items cannot be returned',
+    'to_yth' => 'To,',
+    'guest' => 'Guest',
 
     // Error Pages
     'error_403_title' => 'Access Denied',
