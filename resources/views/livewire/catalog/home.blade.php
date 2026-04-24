@@ -12,7 +12,7 @@
             <div class="lg:grid lg:grid-cols-12 lg:gap-8">
                 <div class="sm:text-center md:mx-auto md:max-w-2xl lg:col-span-8 lg:text-left">
                     <h1>
-                        <span class="block text-base font-black text-primary uppercase tracking-[0.3em] mb-4">{{ \App\Models\Setting::get('store_name') }}</span>
+                        <span class="block text-base font-black text-primary font-goldman uppercase tracking-[0.3em] mb-4">{{ \App\Models\Setting::get('store_name') }}</span>
                         <span class="mt-1 block text-4xl font-black tracking-tight text-white sm:text-6xl xl:text-7xl leading-[1.1]">
                             {{ __('messages.hero_title') }}
                         </span>
@@ -65,7 +65,7 @@
                                 <!-- Overlay -->
                                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                             </div>
-                            
+
                             <!-- Category Info (Positioned over image) -->
                             <div class="absolute bottom-0 left-0 right-0 p-6">
                                 <h3 class="text-lg font-black text-white uppercase tracking-tight">{{ $category->name }}</h3>

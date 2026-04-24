@@ -32,8 +32,8 @@
                     <div class="flex items-center justify-between">
                         <!-- Logo -->
                         <a href="{{ route('home') }}" class="flex items-center gap-2">
-                            <x-application-logo class="w-8 h-8 fill-current text-primary" />
-                            <span class="text-xl font-black tracking-tighter text-foreground">
+                            <x-application-logo class="w-8 h-8 fill-current text-foreground" />
+                            <span class="text-xl font-black tracking-tighter text-foreground font-goldman">
                                 {{ \App\Models\Setting::get('store_name', config('app.name')) }}
                             </span>
                         </a>
@@ -133,8 +133,8 @@
                         <!-- Store Identity -->
                         <div class="space-y-6 lg:col-span-1">
                             <div class="flex items-center gap-2">
-                                <x-application-logo class="w-8 h-8 fill-current text-primary" />
-                                <span class="text-xl font-black tracking-tighter">{{ \App\Models\Setting::get('store_name', config('app.name')) }}</span>
+                                <x-application-logo class="w-8 h-8 fill-current text-foreground" />
+                                <span class="text-xl font-black tracking-tighter font-goldman">{{ \App\Models\Setting::get('store_name', config('app.name')) }}</span>
                             </div>
                             <p class="text-sm text-muted-foreground leading-relaxed">
                                 {{ __('Menyediakan bahan bangunan berkualitas tinggi dengan harga yang jujur, memberikan kemudahan dalam mencari bahan bangunan yang Anda butuhkan.') }}

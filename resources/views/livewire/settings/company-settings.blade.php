@@ -48,6 +48,39 @@
                     </div>
                 </div>
 
+                <!-- Maintenance Mode Section -->
+                <div class="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
+                    <div class="p-4 bg-orange-500/10 border-b border-orange-500/20 flex items-center gap-2 text-orange-700 dark:text-orange-400">
+                        <x-heroicon-o-wrench-screwdriver class="w-5 h-5" />
+                        <h3 class="font-bold">Maintenance Mode</h3>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="flex items-center justify-between p-4 bg-muted/20 rounded-lg">
+                            <div>
+                                <p class="font-semibold">Status Pemeliharaan Platform</p>
+                                <p class="text-xs text-muted-foreground">Aktifkan untuk membatasi akses semua tenant sementara.</p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" wire:model.live="maintenance_mode" class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange-300 dark:peer-focus:ring-orange-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-orange-500"></div>
+                            </label>
+                        </div>
+
+                        @if($maintenance_mode)
+                        <div class="space-y-2">
+                            <x-input-label value="Pesan Peringatan untuk User" />
+                            <textarea wire:model="maintenance_message" class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring" rows="2" placeholder="Contoh: Kami sedang mengupdate modul Keuangan..."></textarea>
+                        </div>
+                        @endif
+
+                        <div class="pt-2">
+                            <x-primary-button wire:click="saveMaintenance">
+                                {{ __('messages.save') }}
+                            </x-primary-button>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- System Info Card -->
                 <div class="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
                     <div class="p-4 bg-muted/30 border-b border-border">

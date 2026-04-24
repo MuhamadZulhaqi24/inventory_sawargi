@@ -7,7 +7,6 @@ use App\Models\Role;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Str;
-
 use Livewire\WithPagination;
 
 class CompanySettings extends Component
@@ -22,7 +21,7 @@ class CompanySettings extends Component
     // Roles Management Fields
     public $roles;
     public $role_id, $role_name;
-    public $selected_permissions = []; // Ensure this is always an array
+    public $selected_permissions = [];
     public $isRoleModalOpen = false;
 
     // Available Permissions List
@@ -37,6 +36,7 @@ class CompanySettings extends Component
 
     // Platform Stats (For Super Admin)
     public $total_companies, $total_users, $total_revenue;
+    public $maintenance_mode, $maintenance_message;
 
     public function mount()
     {
@@ -45,6 +45,8 @@ class CompanySettings extends Component
             $this->total_companies = \App\Models\Company::count();
             $this->total_users = \App\Models\User::count();
             $this->total_revenue = \App\Models\Sale::withoutGlobalScopes()->sum('total');
+            $this->maintenance_mode = \App\Models\Setting::getGlobal('maintenance_mode') === '1';
+            $this->maintenance_message = \App\Models\Setting::getGlobal('maintenance_message', 'Sistem sedang dalam pemeliharaan rutin.');
             return;
         }
 
@@ -71,9 +73,18 @@ class CompanySettings extends Component
         }
     }
 
+    public function saveMaintenance()
+    {
+        if (!auth()->user()->is_super_admin) return;
+
+        \App\Models\Setting::setGlobal('maintenance_mode', $this->maintenance_mode ? '1' : '0');
+        \App\Models\Setting::setGlobal('maintenance_message', $this->maintenance_message);
+
+        $this->dispatch('toast', message: 'Maintenance mode updated.', type: 'success');
+    }
+
     public function refreshRoles()
     {
-        // STRICT ISOLATION: Only fetch roles for THIS company
         if (auth()->user()->company_id) {
             $this->roles = Role::where('company_id', auth()->user()->company_id)->get();
         }
@@ -108,10 +119,7 @@ class CompanySettings extends Component
             $this->role_name = $role->name;
             
             $perms = $role->permissions ?? [];
-            
-            // Konversi paksa ke flat array (Hanya Key-nya saja)
             if (!empty($perms) && !isset($perms[0])) {
-                // Jika formatnya {"pos": true}, ambil "pos"
                 $this->selected_permissions = array_keys(array_filter($perms));
             } else {
                 $this->selected_permissions = (array) $perms;
@@ -130,18 +138,13 @@ class CompanySettings extends Component
             'role_name' => 'required|min:2',
         ]);
 
-        // Bersihkan data sebelum simpan
-        // Pastikan hanya value yang unik dan tidak ada data sampah
         $cleanPermissions = array_values(array_intersect(
             (array) $this->selected_permissions, 
             array_keys($this->availablePermissions)
         ));
 
         Role::updateOrCreate(
-            [
-                'id' => $this->role_id,
-                'company_id' => auth()->user()->company_id
-            ],
+            ['id' => $this->role_id, 'company_id' => auth()->user()->company_id],
             [
                 'company_id' => auth()->user()->company_id,
                 'name' => $this->role_name,

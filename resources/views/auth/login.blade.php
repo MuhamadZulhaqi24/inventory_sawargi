@@ -7,7 +7,7 @@
         <div class="w-full max-w-[420px] bg-white rounded-[16px] shadow-[0_20px_40px_rgba(0,0,0,0.08)] p-10 relative z-10 border border-white">
             <div class="mb-10 text-center">
                 <div class="flex items-center justify-center gap-2 mb-4">
-                    <x-application-logo class="w-10 h-10 fill-current text-primary" />
+                    <x-application-logo class="w-10 h-10 fill-current text-foreground" />
                     <span class="text-xs font-black uppercase tracking-[0.3em] text-muted-foreground">{{ config('app.name') }}</span>
                 </div>
                 <h1 class="text-3xl font-black text-foreground uppercase tracking-tight">Login</h1>

@@ -21,6 +21,7 @@ export default {
         extend: {
             fontFamily: {
                 sans: ["Inter", ...defaultTheme.fontFamily.sans],
+                goldman: ["Goldman", "sans-serif"],
             },
             colors: {
                 border: "hsl(var(--border))",

@@ -6,8 +6,8 @@
                 <!-- Logo -->
                 <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
                     <x-application-logo class="w-8 h-8 fill-current text-foreground" />
-                    <span class="text-md font-semibold tracking-tighter text-foreground">
-                        {{ config('app.name', 'Laravel') }}
+                    <span class="text-xl font-black tracking-tighter text-foreground font-goldman">
+                        {{ \App\Models\Setting::get('store_name', config('app.name')) }}
                     </span>
                 </a>
 
@@ -194,9 +194,11 @@
                             {{ __('messages.profile') }}
                         </x-dropdown-link>
 
+                        @if(Auth::user()->hasPermission('manage_settings'))
                         <x-dropdown-link :href="route('settings.index')" :active="request()->routeIs('settings.*')">
                             {{ __('messages.settings') }}
                         </x-dropdown-link>
+                        @endif
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
@@ -221,9 +223,22 @@
                     <x-application-logo class="w-8 h-8 fill-current text-foreground" />
                 </a>
 
-                <button @click="mobileMenuOpen = true" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 w-10">
-                    <x-heroicon-o-bars-3 class="h-4 w-4" />
-                </button>
+                <div class="flex items-center gap-2">
+                    <!-- Language Switcher Mobile Moved to Top Bar -->
+                    @if(app()->getLocale() == 'en')
+                        <a href="{{ route('language.switch', 'id') }}" class="text-[10px] font-bold px-2 py-1 rounded-md bg-muted text-muted-foreground">
+                            <span class="text-foreground">EN</span>/<span class="opacity-50">ID</span>
+                        </a>
+                    @else
+                        <a href="{{ route('language.switch', 'en') }}" class="text-[10px] font-bold px-2 py-1 rounded-md bg-muted text-muted-foreground">
+                            <span class="opacity-50">EN</span>/<span class="text-foreground">ID</span>
+                        </a>
+                    @endif
+
+                    <button @click="mobileMenuOpen = true" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 w-10">
+                        <x-heroicon-o-bars-3 class="h-4 w-4" />
+                    </button>
+                </div>
             </div>
 
             <!-- Mobile Sheet/Drawer -->
@@ -246,122 +261,133 @@
                 x-transition:leave="duration-500 ease-in-out"
                 x-transition:leave-start="translate-x-0"
                 x-transition:leave-end="translate-x-full"
-                class="fixed inset-y-0 right-0 z-50 h-full w-3/4 gap-4 border-l bg-background p-6 shadow-lg sm:max-w-sm"
+                class="fixed inset-y-0 right-0 z-50 h-full w-3/4 flex flex-col border-l bg-background shadow-lg sm:max-w-sm"
                 style="display: none;"
                 @click.stop>
 
-                <div class="flex flex-col gap-6">
-                    <div class="flex items-center justify-between">
-                        <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
-                            <x-application-logo class="w-8 h-8 fill-current text-foreground" />
-                            <span class="text-lg font-semibold">{{ config('app.name') }}</span>
-                        </a>
+                <!-- Mobile Header -->
+                <div class="p-6 border-b border-border flex items-center justify-between">
+                    <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
+                        <x-application-logo class="w-8 h-8 fill-current text-foreground" />
+                        <span class="text-xl font-bold tracking-tighter font-goldman">
+                            {{ \App\Models\Setting::get('store_name', config('app.name')) }}
+                        </span>
+                    </a>
+                    <button @click="mobileMenuOpen = false" class="rounded-sm opacity-70 transition-opacity hover:opacity-100">
+                        <x-heroicon-o-x-mark class="h-5 w-5" />
+                    </button>
+                </div>
 
-                        <div class="flex items-center gap-2 mr-2">
-                            <!-- Language Switcher Mobile -->
-                             @if(app()->getLocale() == 'en')
-                                <a href="{{ route('language.switch', 'id') }}" class="text-xs font-bold px-2 py-1 rounded-md bg-muted text-muted-foreground">
-                                    <span class="text-foreground">EN</span> / <span class="opacity-50">ID</span>
-                                </a>
-                            @else
-                                <a href="{{ route('language.switch', 'en') }}" class="text-xs font-bold px-2 py-1 rounded-md bg-muted text-muted-foreground">
-                                    <span class="opacity-50">EN</span> / <span class="text-foreground">ID</span>
-                                </a>
-                            @endif
-                        </div>
-
-                        <button @click="mobileMenuOpen = false" class="rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
-                            <span class="sr-only">Close</span>
-                            <x-heroicon-o-x-mark class="h-4 w-4" />
-                        </button>
-                    </div>
-
-                    <div class="flex w-full flex-col gap-4">
+                <!-- Scrollable Navigation Area -->
+                <div class="flex-1 overflow-y-auto p-6">
+                    <nav class="flex flex-col gap-4">
                         <a href="{{ route('dashboard') }}" class="text-md font-semibold hover:text-primary {{ request()->routeIs('dashboard') ? 'text-primary' : '' }}">{{ __('messages.dashboard') }}</a>
 
-                        <!-- Mobile Sales Accordion -->
-                        <div x-data="{ expanded: {{ request()->routeIs(['sales.*', 'customers.*']) ? 'true' : 'false' }} }" class="border-b-0">
-                            <button @click="expanded = !expanded" class="flex flex-1 items-center justify-between py-0 font-semibold transition-all hover:underline [&[data-state=open]>svg]:rotate-180 w-full text-left text-md {{ request()->routeIs(['sales.*', 'customers.*']) ? 'text-primary' : '' }}">
-                                {{ __('messages.sales') }}
-                                <x-heroicon-o-chevron-down :class="{'rotate-180': expanded}" class="h-4 w-4 shrink-0 transition-transform duration-200" />
-                            </button>
-                            <div x-show="expanded" x-collapse>
-                                <div class="mt-2 flex flex-col gap-2 pl-4 border-l border-border ml-2">
-                                    <a class="text-sm font-medium hover:underline py-1 {{ request()->routeIs(['sales.index', 'sales.show']) ? 'text-primary' : '' }}" href="{{ route('sales.index') }}">{{ __('messages.sales_list') }}</a>
-                                    <a class="text-sm font-medium hover:underline py-1 {{ request()->routeIs('sales.create') ? 'text-primary' : '' }}" href="{{ route('sales.create') }}">{{ __('messages.pos') }}</a>
-                                    <a class="text-sm font-medium hover:underline py-1 {{ request()->routeIs('customers.index') ? 'text-primary' : '' }}" href="{{ route('customers.index') }}">{{ __('messages.customers') }}</a>
+                        <!-- Super Admin Mobile Links -->
+                        @if(Auth::user()->is_super_admin)
+                        <a href="{{ route('companies.index') }}" class="text-md font-semibold hover:text-primary {{ request()->routeIs('companies.*') ? 'text-primary' : '' }}">Tenants</a>
+                        <a href="{{ route('users.index') }}" class="text-md font-semibold hover:text-primary {{ request()->routeIs('users.*') ? 'text-primary' : '' }}">{{ __('messages.users') }}</a>
+                        @endif
+
+                        @if(!Auth::user()->is_super_admin)
+                            <!-- Mobile Sales Accordion -->
+                            @if(Auth::user()->hasPermission('access_pos') || Auth::user()->hasPermission('view_reports'))
+                            <div x-data="{ expanded: {{ request()->routeIs(['sales.*', 'customers.*']) ? 'true' : 'false' }} }">
+                                <button @click="expanded = !expanded" class="flex items-center justify-between w-full text-left text-md font-semibold {{ request()->routeIs(['sales.*', 'customers.*']) ? 'text-primary' : '' }}">
+                                    {{ t_label('sale') }}
+                                    <x-heroicon-o-chevron-down :class="{'rotate-180': expanded}" class="h-4 w-4 transition-transform duration-200" />
+                                </button>
+                                <div x-show="expanded" x-collapse class="mt-2 pl-4 border-l border-border ml-2 flex flex-col gap-2 text-sm font-medium">
+                                    @if(Auth::user()->hasPermission('access_pos'))
+                                    <a class="py-1 {{ request()->routeIs('sales.create') ? 'text-primary' : '' }}" href="{{ route('sales.create') }}">{{ __('messages.pos') }}</a>
+                                    @endif
+                                    @if(Auth::user()->hasPermission('view_reports'))
+                                    <a class="py-1 {{ request()->routeIs(['sales.index', 'sales.show']) ? 'text-primary' : '' }}" href="{{ route('sales.index') }}">{{ __('messages.sales_list') }}</a>
+                                    <a class="py-1 {{ request()->routeIs('customers.index') ? 'text-primary' : '' }}" href="{{ route('customers.index') }}">{{ t_label('customer') }}</a>
+                                    @endif
                                 </div>
                             </div>
-                        </div>
+                            @endif
 
-                        <!-- Mobile Purchases Accordion -->
-                        <div x-data="{ expanded: {{ request()->routeIs(['purchases.*', 'suppliers.*']) ? 'true' : 'false' }} }" class="border-b-0">
-                            <button @click="expanded = !expanded" class="flex flex-1 items-center justify-between py-0 font-semibold transition-all hover:underline [&[data-state=open]>svg]:rotate-180 w-full text-left text-md {{ request()->routeIs(['purchases.*', 'suppliers.*']) ? 'text-primary' : '' }}">
-                                {{ __('messages.purchases') }}
-                                <x-heroicon-o-chevron-down :class="{'rotate-180': expanded}" class="h-4 w-4 shrink-0 transition-transform duration-200" />
-                            </button>
-                            <div x-show="expanded" x-collapse>
-                                <div class="mt-2 flex flex-col gap-2 pl-4 border-l border-border ml-2">
-                                    <a class="text-sm font-medium hover:underline py-1 {{ request()->routeIs('purchases.index') ? 'text-primary' : '' }}" href="{{ route('purchases.index') }}">{{ __('messages.purchase_list') }}</a>
-                                    <a class="text-sm font-medium hover:underline py-1 {{ request()->routeIs('suppliers.index') ? 'text-primary' : '' }}" href="{{ route('suppliers.index') }}">{{ __('messages.suppliers') }}</a>
+                            <!-- Mobile Purchases Accordion -->
+                            @if(Auth::user()->hasPermission('manage_inventory'))
+                            <div x-data="{ expanded: {{ request()->routeIs(['purchases.*', 'suppliers.*']) ? 'true' : 'false' }} }">
+                                <button @click="expanded = !expanded" class="flex items-center justify-between w-full text-left text-md font-semibold {{ request()->routeIs(['purchases.*', 'suppliers.*']) ? 'text-primary' : '' }}">
+                                    {{ __('messages.purchases') }}
+                                    <x-heroicon-o-chevron-down :class="{'rotate-180': expanded}" class="h-4 w-4 transition-transform duration-200" />
+                                </button>
+                                <div x-show="expanded" x-collapse class="mt-2 pl-4 border-l border-border ml-2 flex flex-col gap-2 text-sm font-medium">
+                                    <a class="py-1 {{ request()->routeIs('purchases.index') ? 'text-primary' : '' }}" href="{{ route('purchases.index') }}">{{ __('messages.purchase_list') }}</a>
+                                    <a class="py-1 {{ request()->routeIs('suppliers.index') ? 'text-primary' : '' }}" href="{{ route('suppliers.index') }}">{{ t_label('supplier') }}</a>
                                 </div>
                             </div>
-                        </div>
+                            @endif
 
-                        <!-- Mobile Finance Accordion -->
-                        <div x-data="{ expanded: {{ request()->routeIs(['finance.*']) ? 'true' : 'false' }} }" class="border-b-0">
-                            <button @click="expanded = !expanded" class="flex flex-1 items-center justify-between py-0 font-semibold transition-all hover:underline [&[data-state=open]>svg]:rotate-180 w-full text-left text-md {{ request()->routeIs(['finance.*']) ? 'text-primary' : '' }}">
-                                {{ __('messages.finance') }}
-                                <x-heroicon-o-chevron-down :class="{'rotate-180': expanded}" class="h-4 w-4 shrink-0 transition-transform duration-200" />
-                            </button>
-                            <div x-show="expanded" x-collapse>
-                                <div class="mt-2 flex flex-col gap-2 pl-4 border-l border-border ml-2">
-                                    <a class="text-sm font-medium hover:underline py-1 {{ request()->routeIs('finance.transactions.index') ? 'text-primary' : '' }}" href="{{ route('finance.transactions.index') }}">{{ __('messages.transactions') }}</a>
-                                    <a class="text-sm font-medium hover:underline py-1 {{ request()->routeIs('finance.categories.index') ? 'text-primary' : '' }}" href="{{ route('finance.categories.index') }}">{{ __('messages.categories') }}</a>
+                            <!-- Mobile Finance Accordion -->
+                            @if(Auth::user()->hasPermission('manage_finance'))
+                            <div x-data="{ expanded: {{ request()->routeIs(['finance.*']) ? 'true' : 'false' }} }">
+                                <button @click="expanded = !expanded" class="flex items-center justify-between w-full text-left text-md font-semibold {{ request()->routeIs(['finance.*']) ? 'text-primary' : '' }}">
+                                    {{ __('messages.finance') }}
+                                    <x-heroicon-o-chevron-down :class="{'rotate-180': expanded}" class="h-4 w-4 transition-transform duration-200" />
+                                </button>
+                                <div x-show="expanded" x-collapse class="mt-2 pl-4 border-l border-border ml-2 flex flex-col gap-2 text-sm font-medium">
+                                    <a class="py-1 {{ request()->routeIs('finance.transactions.index') ? 'text-primary' : '' }}" href="{{ route('finance.transactions.index') }}">{{ __('messages.transactions') }}</a>
+                                    <a class="py-1 {{ request()->routeIs('finance.categories.index') ? 'text-primary' : '' }}" href="{{ route('finance.categories.index') }}">{{ __('messages.categories') }}</a>
                                 </div>
                             </div>
-                        </div>
+                            @endif
 
-                        <!-- Mobile Users Link -->
-                        <a href="{{ route('users.index') }}" class="text-md font-semibold hover:text-primary border-b pb-4 {{ request()->routeIs('users.*') ? 'text-primary' : '' }}">{{ __('messages.users') }}</a>
-
-                        <!-- Mobile Products Accordion -->
-                        <div x-data="{ expanded: {{ request()->routeIs(['products.*', 'categories.*', 'units.*']) ? 'true' : 'false' }} }" class="border-b-0">
-                            <button @click="expanded = !expanded" class="flex flex-1 items-center justify-between py-0 font-semibold transition-all hover:underline [&[data-state=open]>svg]:rotate-180 w-full text-left text-md {{ request()->routeIs(['products.*', 'categories.*', 'units.*']) ? 'text-primary' : '' }}">
-                                {{ __('messages.products') }}
-                                <x-heroicon-o-chevron-down :class="{'rotate-180': expanded}" class="h-4 w-4 shrink-0 transition-transform duration-200" />
-                            </button>
-                            <div x-show="expanded" x-collapse>
-                                <div class="mt-2 flex flex-col gap-2 pl-4 border-l border-border ml-2">
-                                    <a class="text-sm font-medium hover:underline py-1 {{ request()->routeIs('products.index') ? 'text-primary' : '' }}" href="{{ route('products.index') }}">{{ __('messages.product_list') }}</a>
-                                    <a class="text-sm font-medium hover:underline py-1 {{ request()->routeIs('categories.index') ? 'text-primary' : '' }}" href="{{ route('categories.index') }}">{{ __('messages.categories') }}</a>
-                                    <a class="text-sm font-medium hover:underline py-1 {{ request()->routeIs('units.index') ? 'text-primary' : '' }}" href="{{ route('units.index') }}">{{ __('messages.units') }}</a>
+                            <!-- Mobile Products Accordion -->
+                            @if(Auth::user()->hasPermission('manage_inventory'))
+                            <div x-data="{ expanded: {{ request()->routeIs(['products.*', 'categories.*', 'units.*']) ? 'true' : 'false' }} }">
+                                <button @click="expanded = !expanded" class="flex items-center justify-between w-full text-left text-md font-semibold {{ request()->routeIs(['products.*', 'categories.*', 'units.*']) ? 'text-primary' : '' }}">
+                                    {{ t_label('product') }}
+                                    <x-heroicon-o-chevron-down :class="{'rotate-180': expanded}" class="h-4 w-4 transition-transform duration-200" />
+                                </button>
+                                <div x-show="expanded" x-collapse class="mt-2 pl-4 border-l border-border ml-2 flex flex-col gap-2 text-sm font-medium">
+                                    <a class="py-1 {{ request()->routeIs('products.index') ? 'text-primary' : '' }}" href="{{ route('products.index') }}">{{ __('messages.product_list') }}</a>
+                                    <a class="py-1 {{ request()->routeIs('categories.index') ? 'text-primary' : '' }}" href="{{ route('categories.index') }}">{{ __('messages.categories') }}</a>
+                                    <a class="py-1 {{ request()->routeIs('units.index') ? 'text-primary' : '' }}" href="{{ route('units.index') }}">{{ __('messages.units') }}</a>
                                 </div>
                             </div>
-                        </div>
+                            @endif
 
+                            <!-- Mobile Users Link -->
+                            @if(Auth::user()->hasPermission('manage_users'))
+                            <a href="{{ route('users.index') }}" class="text-md font-semibold hover:text-primary {{ request()->routeIs('users.*') ? 'text-primary' : '' }}">{{ __('messages.users') }}</a>
+                            @endif
+                        @endif
+                    </nav>
+                </div>
 
-                    <!-- Mobile User Menu -->
-                        <div class="pt-4 mt-4 border-t border-border">
-                            <div class="font-medium text-base text-foreground mb-2">{{ Auth::user()->name }}</div>
-                            <div class="flex flex-col gap-3">
-                                <a href="{{ route('profile.index') }}" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input h-9 px-4 py-2 w-full {{ request()->routeIs('profile.*') ? 'bg-accent text-accent-foreground' : 'bg-background hover:bg-accent hover:text-accent-foreground' }}">
-                                    {{ __('messages.profile') }}
-                                </a>
-                                @if(Auth::user()->hasPermission('manage_settings'))
-                                <a href="{{ route('settings.index') }}" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input h-9 px-4 py-2 w-full {{ request()->routeIs('settings.*') ? 'bg-accent text-accent-foreground' : 'bg-background hover:bg-accent hover:text-accent-foreground' }}">
-                                    {{ __('messages.settings') }}
-                                </a>
-                                @endif
-                                <form method="POST" action="{{ route('logout') }}" class="w-full">
-                                    @csrf
-                                    <button type="submit" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 w-full">
-                                        {{ __('messages.logout') }}
-                                    </button>
-                                </form>
-                            </div>
+                <!-- Fixed Bottom User Area -->
+                <div class="p-6 border-t border-border bg-muted/20">
+                    <div class="flex items-center gap-3 mb-4">
+                        <x-avatar :name="Auth::user()->name" class="w-10 h-10" />
+                        <div class="overflow-hidden">
+                            <p class="text-sm font-bold text-foreground truncate">{{ Auth::user()->name }}</p>
+                            <p class="text-[10px] text-muted-foreground truncate uppercase tracking-widest">{{ Auth::user()->is_super_admin ? 'Platform Admin' : Auth::user()->company->name }}</p>
                         </div>
                     </div>
+                    
+                    <div class="grid grid-cols-2 gap-2 mb-3">
+                        <a href="{{ route('profile.index') }}" class="flex items-center justify-center h-9 rounded-md border border-border bg-background text-xs font-semibold hover:bg-muted transition-colors">
+                            {{ __('messages.profile') }}
+                        </a>
+                        @if(Auth::user()->hasPermission('manage_settings'))
+                        <a href="{{ route('settings.index') }}" class="flex items-center justify-center h-9 rounded-md border border-border bg-background text-xs font-semibold hover:bg-muted transition-colors">
+                            {{ __('messages.settings') }}
+                        </a>
+                        @endif
+                    </div>
+
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="w-full flex items-center justify-center h-10 rounded-md bg-primary text-primary-foreground text-sm font-bold hover:bg-primary/90 transition-all active:scale-[0.98]">
+                            <x-heroicon-o-arrow-left-on-rectangle class="w-4 h-4 mr-2" />
+                            {{ __('messages.logout') }}
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
