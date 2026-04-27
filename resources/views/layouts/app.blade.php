@@ -8,6 +8,8 @@
 
         <title>{{ config('app.name', 'Laravel') }}{{ !empty($title) ? ' | ' . $title : '' }}</title>
 
+        <link rel="icon" type="image/svg+xml" href="{{ asset('images/logo.svg') }}">
+
         <script>
             if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                 document.documentElement.classList.add('dark')

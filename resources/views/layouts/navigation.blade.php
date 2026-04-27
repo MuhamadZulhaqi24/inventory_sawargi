@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
                     <x-application-logo class="w-8 h-8 fill-current text-foreground" />
-                    <span class="text-xl font-black tracking-tighter text-foreground font-goldman">
+                    <span class="text-xl font-black tracking-normal text-foreground font-goldman">
                         {{ \App\Models\Setting::get('store_name', config('app.name')) }}
                     </span>
                 </a>
@@ -369,7 +369,7 @@
                             <p class="text-[10px] text-muted-foreground truncate uppercase tracking-widest">{{ Auth::user()->is_super_admin ? 'Platform Admin' : Auth::user()->company->name }}</p>
                         </div>
                     </div>
-                    
+
                     <div class="grid grid-cols-2 gap-2 mb-3">
                         <a href="{{ route('profile.index') }}" class="flex items-center justify-center h-9 rounded-md border border-border bg-background text-xs font-semibold hover:bg-muted transition-colors">
                             {{ __('messages.profile') }}

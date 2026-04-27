@@ -45,6 +45,24 @@
                     </p>
                 </div>
 
+                <!-- Actions -->
+                <div class="flex flex-col gap-3">
+                    @if(Auth::check())
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="w-full inline-flex items-center justify-center rounded-xl bg-primary px-8 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:bg-primary/90">
+                                <x-heroicon-o-arrow-left-on-rectangle class="w-4 h-4 mr-2" />
+                                {{ __('messages.logout') }}
+                            </button>
+                        </form>
+                    @else
+                        <a href="{{ route('login') }}" class="inline-flex items-center justify-center rounded-xl bg-primary px-8 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:bg-primary/90">
+                            <x-heroicon-o-user-circle class="w-4 h-4 mr-2" />
+                            Masuk sebagai Admin Platform
+                        </a>
+                    @endif
+                </div>
+
                 <!-- Footer Info -->
                 <div class="mt-10 pt-10 border-t border-border/50 text-[10px] text-muted-foreground uppercase tracking-widest flex items-center justify-center gap-2">
                     <span class="w-1 h-1 rounded-full bg-blue-500"></span>
