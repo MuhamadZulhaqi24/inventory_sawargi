@@ -75,16 +75,34 @@
                                         {{ strtoupper($company->status) }}
                                     </button>
                                 </td>
-                                <td class="p-4 align-middle text-muted-foreground">
-                                    {{ $company->expired_at ? $company->expired_at->format('d M Y') : '-' }}
+                                <td class="p-4 align-middle">
+                                    @php
+                                        $isExpired = $company->expired_at && $company->expired_at->isPast();
+                                        $isNear = $company->expired_at && !$isExpired && $company->expired_at->diffInDays(now()) <= 7;
+                                    @endphp
+                                    <div class="flex flex-col">
+                                        <span class="text-sm {{ $isExpired ? 'text-red-600 font-bold' : ($isNear ? 'text-orange-500 font-semibold' : 'text-muted-foreground') }}">
+                                            {{ $company->expired_at ? $company->expired_at->format('d M Y') : '-' }}
+                                        </span>
+                                        @if($company->expired_at)
+                                            <span class="text-[10px] uppercase">
+                                                @if($isExpired)
+                                                    (Expired {{ $company->expired_at->diffForHumans() }})
+                                                @else
+                                                    ({{ (int) now()->diffInDays($company->expired_at) }} hari lagi)
+                                                @endif
+                                            </span>
+                                        @endif
+                                    </div>
                                 </td>
                                 <td class="p-4 align-middle text-right">
                                     <div class="flex justify-end gap-2">
+                                        <button wire:click="extendSubscription({{ $company->id }}, 30)" class="inline-flex items-center justify-center rounded-md text-xs font-bold transition-colors bg-blue-100 text-blue-700 hover:bg-blue-200 h-8 px-3" title="Tambah 30 Hari">
+                                            <x-heroicon-o-calendar-days class="w-4 h-4 mr-1" />
+                                            Extend
+                                        </button>
                                         <button class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors hover:bg-muted h-8 w-8">
                                             <x-heroicon-o-pencil-square class="h-4 w-4 text-muted-foreground" />
-                                        </button>
-                                        <button class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors hover:bg-destructive/10 h-8 w-8">
-                                            <x-heroicon-o-trash class="h-4 w-4 text-destructive" />
                                         </button>
                                     </div>
                                 </td>

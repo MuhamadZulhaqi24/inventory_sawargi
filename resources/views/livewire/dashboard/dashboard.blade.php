@@ -47,7 +47,7 @@
     <!-- Stats Grid -->
     <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <!-- Total Sales -->
-        <div class="rounded-xl border bg-card text-card-foreground shadow-sm">
+        <div class="rounded-xl border border-input bg-card text-card-foreground shadow-sm">
             <div class="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
                 <h3 class="tracking-tight text-sm font-medium">Total {{ t_label('sale') }}</h3>
                 <x-heroicon-o-banknotes class="h-4 w-4 text-muted-foreground" />
@@ -63,7 +63,7 @@
         </div>
 
         <!-- Gross Profit -->
-        <div class="rounded-xl border bg-card text-card-foreground shadow-sm">
+        <div class="rounded-xl border border-input bg-card text-card-foreground shadow-sm">
             <div class="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
                 <h3 class="tracking-tight text-sm font-medium">{{ __('messages.gross_profit') }}</h3>
                 <x-heroicon-o-arrow-trending-up class="h-4 w-4 text-muted-foreground" />
@@ -79,7 +79,7 @@
         </div>
 
         <!-- Net Cash Flow -->
-        <div class="rounded-xl border bg-card text-card-foreground shadow-sm">
+        <div class="rounded-xl border border-input bg-card text-card-foreground shadow-sm">
             <div class="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
                 <h3 class="tracking-tight text-sm font-medium">{{ __('messages.net_cash_flow') }}</h3>
                  <x-heroicon-o-currency-dollar class="h-4 w-4 text-muted-foreground" />
@@ -100,7 +100,7 @@
         </div>
 
          <!-- Low Stock Alert -->
-         <div class="rounded-xl border bg-card text-card-foreground shadow-sm">
+         <div class="rounded-xl border border-input bg-card text-card-foreground shadow-sm">
             <div class="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
                 <h3 class="tracking-tight text-sm font-medium">{{ __('messages.low_stock_alert') }}</h3>
                 <x-heroicon-o-exclamation-triangle class="h-4 w-4 text-orange-500" />
@@ -119,7 +119,7 @@
     <!-- Charts Section -->
     <div class="grid gap-4 grid-cols-1 lg:grid-cols-3">
         <!-- Sales Trend -->
-        <div class="lg:col-span-2 rounded-xl border bg-card text-card-foreground shadow-sm">
+        <div class="lg:col-span-2 rounded-xl border border-input bg-card text-card-foreground shadow-sm">
             <div class="p-6 flex flex-col space-y-1.5 pb-2">
                 <h3 class="font-semibold leading-none tracking-tight">Tren {{ t_label('sale') }}</h3>
                 <p class="text-sm text-muted-foreground">{{ __('messages.sales_trend_subtitle') }}</p>
@@ -130,7 +130,7 @@
         </div>
 
         <!-- Cash Flow -->
-        <div class="rounded-xl border bg-card text-card-foreground shadow-sm">
+        <div class="rounded-xl border border-input bg-card text-card-foreground shadow-sm">
             <div class="p-6 flex flex-col space-y-1.5 pb-2">
                 <h3 class="font-semibold leading-none tracking-tight">{{ __('messages.income_vs_expense') }}</h3>
                 <p class="text-sm text-muted-foreground">{{ __('messages.financial_overview') }}</p>
@@ -143,7 +143,7 @@
 
     <div class="grid gap-4 grid-cols-1 lg:grid-cols-7">
         <!-- Recent Sales -->
-        <div class="lg:col-span-4 rounded-xl border bg-card text-card-foreground shadow-sm">
+        <div class="lg:col-span-4 rounded-xl border border-input bg-card text-card-foreground shadow-sm">
             <div class="p-6 flex flex-col space-y-1.5">
                 <h3 class="font-semibold leading-none tracking-tight">{{ __('messages.recent_sales') }}</h3>
                 <p class="text-sm text-muted-foreground">{{ __('messages.latest_transactions') }}</p>
@@ -177,7 +177,7 @@
         </div>
 
         <!-- Top Selling Products -->
-        <div class="lg:col-span-3 rounded-xl border bg-card text-card-foreground shadow-sm">
+        <div class="lg:col-span-3 rounded-xl border border-input bg-card text-card-foreground shadow-sm">
             <div class="p-6 flex flex-col space-y-1.5">
                 <h3 class="font-semibold leading-none tracking-tight">{{ t_label('product') }} Terlaris</h3>
                 <p class="text-sm text-muted-foreground">{{ __('messages.best_selling_items') }}</p>
